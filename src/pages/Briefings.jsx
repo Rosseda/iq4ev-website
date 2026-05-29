@@ -1,220 +1,185 @@
-import {
-  AlertTriangle,
-  BriefcaseBusiness,
-  FileBarChart,
-  Globe2,
-  Landmark,
-  LineChart,
-} from "lucide-react";
-
-import Button from "../components/Button.jsx";
-import PageHeader from "../components/PageHeader.jsx";
-import SectionHeader from "../components/SectionHeader.jsx";
-import FeatureGrid from "../components/FeatureGrid.jsx";
-import UseCaseCard from "../components/UseCaseCard.jsx";
-import ProcessStep from "../components/ProcessStep.jsx";
-import CTASection from "../components/CTASection.jsx";
-
-const briefingAreas = [
-  {
-    icon: Globe2,
-    title: "Market movement",
-    description:
-      "Track EV infrastructure developments, sector activity, public announcements and commercial signals.",
-  },
-  {
-    icon: Landmark,
-    title: "Policy and regulation",
-    description:
-      "Interpret regulatory shifts, municipal activity, public-sector decisions and policy developments affecting EV transition.",
-  },
-  {
-    icon: AlertTriangle,
-    title: "Risk signals",
-    description:
-      "Identify operational, infrastructure, grid, property and market risks that may affect EV planning.",
-  },
-  {
-    icon: LineChart,
-    title: "Commercial implications",
-    description:
-      "Translate market activity into strategic implications for operators, OEMs, fleets, properties and investors.",
-  },
-  {
-    icon: FileBarChart,
-    title: "Infrastructure intelligence",
-    description:
-      "Analyse charger deployment, network expansion, corridor coverage and infrastructure readiness signals.",
-  },
-  {
-    icon: BriefcaseBusiness,
-    title: "Executive summaries",
-    description:
-      "Deliver concise, decision-ready briefing notes that help leadership understand what matters and why.",
-  },
-];
-
-const audiences = [
-  {
-    title: "Executives and decision-makers",
-    description:
-      "For leaders who need the commercial meaning behind EV infrastructure developments, not just news headlines.",
-  },
-  {
-    title: "Operators and infrastructure teams",
-    description:
-      "For teams monitoring rollout, site strategy, charger performance and sector movements.",
-  },
-  {
-    title: "Property and fleet stakeholders",
-    description:
-      "For organizations evaluating how EV transition affects property value, fleet operations and infrastructure participation.",
-  },
-];
-
-const process = [
-  {
-    number: "01",
-    title: "Monitor signals",
-    description:
-      "IQ4EV tracks EV infrastructure, policy, market, operator, fleet and property-related developments.",
-  },
-  {
-    number: "02",
-    title: "Interpret impact",
-    description:
-      "The briefing layer explains what changed, why it matters and who may be affected.",
-  },
-  {
-    number: "03",
-    title: "Deliver decision intelligence",
-    description:
-      "Insights are presented in a concise format for commercial, operational and strategic decision-making.",
-  },
-];
+import { useState } from "react";
+import AccessModal from "../components/AccessModal.jsx";
 
 export default function Briefings() {
+  const [showAccessModal, setShowAccessModal] = useState(false);
+
   return (
-    <div>
-      <PageHeader
-        eyebrow="Enterprise Briefings"
-        title="Weekly EV intelligence for decision-makers."
-        description="IQ4EV briefings translate EV sector movement, infrastructure signals, policy changes and operational risks into clear strategic intelligence."
-      />
+    <main className="ti-page briefings-page">
+      <section className="brief-hero">
+        <div className="brief-copy">
+          <p className="pulse-kicker">Enterprise Briefings</p>
 
-      <section className="mx-auto max-w-7xl px-6 py-20">
-        <div className="grid gap-10 lg:grid-cols-[0.95fr_1.05fr] lg:items-center">
-          <div>
-            <SectionHeader
-              eyebrow="What briefings do"
-              title="They explain what EV developments mean for business, infrastructure and operations."
-              description="Public news tells you what happened. IQ4EV briefings focus on what it means, who it affects and what decisions may need to follow."
-            />
+          <h1>
+            Strategic EV intelligence interpreted for decisions, not inbox
+            clutter.
+          </h1>
 
-            <div className="mt-8 flex flex-wrap gap-4">
-              <Button to="/contact">Request briefing access</Button>
+          <p className="pulse-lead">
+            IQ4EV briefings help organisations understand what EV infrastructure
+            signals, policy changes, market movement and operational risks mean
+            for investment, planning and strategy in South Africa.
+          </p>
 
-              <Button to="/insights" variant="outline">
-                View public insights
-              </Button>
-            </div>
+          <div className="pulse-actions">
+            <button type="button" onClick={() => setShowAccessModal(true)}>
+              Request briefing access
+            </button>
+            <a href="#briefing-types">View briefing types</a>
           </div>
+        </div>
 
-          <div className="rounded-[2rem] border border-slate-200 bg-slate-50 p-8">
-            <p className="text-xs font-black uppercase tracking-[0.25em] text-orange-600">
-              Briefing structure
+        <div className="brief-visual">
+          <div className="brief-document main">
+            <span>Weekly Intelligence</span>
+            <strong>Infrastructure signals</strong>
+            <p>
+              Corridor shifts, public charging activity, policy movement and
+              commercial implications.
             </p>
-
-            <div className="mt-6 grid gap-4">
-              <div className="rounded-2xl bg-white p-5 shadow-sm">
-                <p className="text-lg font-black text-slate-950">
-                  1. What happened
-                </p>
-                <p className="mt-2 text-sm leading-6 text-slate-600">
-                  Key EV infrastructure, market and policy developments.
-                </p>
-              </div>
-
-              <div className="rounded-2xl bg-white p-5 shadow-sm">
-                <p className="text-lg font-black text-slate-950">
-                  2. Why it matters
-                </p>
-                <p className="mt-2 text-sm leading-6 text-slate-600">
-                  Strategic interpretation for stakeholders.
-                </p>
-              </div>
-
-              <div className="rounded-2xl bg-white p-5 shadow-sm">
-                <p className="text-lg font-black text-slate-950">
-                  3. What to watch
-                </p>
-                <p className="mt-2 text-sm leading-6 text-slate-600">
-                  Risks, opportunities and next signals to monitor.
-                </p>
-              </div>
-            </div>
           </div>
-        </div>
-      </section>
 
-      <section className="border-y border-slate-200 bg-slate-50">
-        <div className="mx-auto max-w-7xl px-6 py-20">
-          <SectionHeader
-            eyebrow="Briefing coverage"
-            title="From public developments to enterprise-level interpretation."
-            description="The briefing layer is designed for stakeholders who need concise intelligence rather than scattered information."
-          />
-
-          <div className="mt-10">
-            <FeatureGrid items={briefingAreas} />
+          <div className="brief-document small one">
+            <span>Risk note</span>
+            <strong>Grid readiness</strong>
           </div>
-        </div>
-      </section>
 
-      <section className="mx-auto max-w-7xl px-6 py-20">
-        <SectionHeader
-          eyebrow="Audience"
-          title="Who the briefings are for."
-          description="IQ4EV briefings are designed for organizations that need to understand EV sector movement without building an internal research unit."
-        />
-
-        <div className="mt-10 grid gap-6 md:grid-cols-3">
-          {audiences.map((item) => (
-            <UseCaseCard
-              key={item.title}
-              title={item.title}
-              description={item.description}
-            />
-          ))}
-        </div>
-      </section>
-
-      <section className="border-y border-slate-200 bg-slate-50">
-        <div className="mx-auto max-w-7xl px-6 py-20">
-          <SectionHeader
-            eyebrow="How it works"
-            title="From signal monitoring to decision intelligence."
-            description="The enterprise briefing layer is designed to help organizations understand not just the news, but the implication of the news."
-          />
-
-          <div className="mt-10 grid gap-6 md:grid-cols-3">
-            {process.map((step) => (
-              <ProcessStep
-                key={step.number}
-                number={step.number}
-                title={step.title}
-                description={step.description}
-              />
-            ))}
+          <div className="brief-document small two">
+            <span>Opportunity</span>
+            <strong>Property hosts</strong>
           </div>
+
+          <div className="brief-line" />
+          <div className="brief-dot dot-a" />
+          <div className="brief-dot dot-b" />
         </div>
       </section>
 
-      <CTASection
-        eyebrow="Enterprise intelligence"
-        title="Move from EV news to EV decision intelligence."
-        description="Request access to IQ4EV enterprise briefings for structured EV market, infrastructure, risk and policy intelligence."
+      <section id="briefing-types" className="ti-metrics">
+        <article>
+          <span>01</span>
+          <strong>Infrastructure briefings</strong>
+          <p>
+            Interpretation of charging infrastructure, corridors, regions,
+            deployment signals and operational readiness.
+          </p>
+        </article>
+
+        <article>
+          <span>02</span>
+          <strong>Market intelligence</strong>
+          <p>
+            Strategic commentary on OEM activity, fleet movement, policy
+            changes, investment signals and sector direction.
+          </p>
+        </article>
+
+        <article>
+          <span>03</span>
+          <strong>Executive interpretation</strong>
+          <p>
+            Concise decision-focused summaries that explain what developments
+            mean for your organisation.
+          </p>
+        </article>
+      </section>
+
+      <section className="ti-decision-layer">
+        <div>
+          <p className="ti-kicker">Not a newsletter</p>
+          <h2>
+            Briefings are designed to help leadership understand what matters,
+            why it matters and what to watch next.
+          </h2>
+        </div>
+
+        <div className="ti-stack">
+          <article>
+            <span>Commercial meaning</span>
+            <p>
+              Translate public EV sector activity into implications for
+              investment, infrastructure, partnerships and positioning.
+            </p>
+          </article>
+
+          <article>
+            <span>Risk interpretation</span>
+            <p>
+              Understand where policy, infrastructure, grid, uptime or adoption
+              risk may affect planning decisions.
+            </p>
+          </article>
+
+          <article>
+            <span>Strategic timing</span>
+            <p>
+              Identify when a development is simply news and when it signals a
+              shift your organisation should prepare for.
+            </p>
+          </article>
+        </div>
+      </section>
+
+      <section className="ti-use-cases">
+        <p className="ti-kicker">Briefing audiences</p>
+
+        <div className="ti-use-grid">
+          <article>
+            <h3>Executives</h3>
+            <p>
+              Decision-ready summaries for leadership teams and strategic
+              planning discussions.
+            </p>
+          </article>
+
+          <article>
+            <h3>OEM teams</h3>
+            <p>
+              Infrastructure, adoption and customer-readiness signals for EV
+              market positioning.
+            </p>
+          </article>
+
+          <article>
+            <h3>Municipalities</h3>
+            <p>
+              Interpretation of infrastructure readiness, corridors and local EV
+              development signals.
+            </p>
+          </article>
+
+          <article>
+            <h3>Operators</h3>
+            <p>
+              Commentary on charger networks, uptime, deployment opportunity and
+              infrastructure risk.
+            </p>
+          </article>
+        </div>
+      </section>
+
+      <section className="ti-cta">
+        <div>
+          <p className="ti-kicker">Request briefing access</p>
+          <h2>Need EV intelligence interpreted for your organisation?</h2>
+          <p>
+            Submit a briefing request and IQ4EV will follow up manually to
+            understand your intelligence needs, audience and subscription or
+            consultation pathway.
+          </p>
+        </div>
+
+        <button type="button" onClick={() => setShowAccessModal(true)}>
+          Request briefing
+        </button>
+      </section>
+
+      <AccessModal
+        open={showAccessModal}
+        onClose={() => setShowAccessModal(false)}
+        defaultPlatform="Enterprise Briefings"
+        defaultRequestType="Request Enterprise Briefing Access"
       />
-    </div>
+    </main>
   );
 }

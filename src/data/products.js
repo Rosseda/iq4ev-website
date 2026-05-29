@@ -1,4 +1,10 @@
-import { Activity, Map, BarChart3, BriefcaseBusiness } from "lucide-react";
+import {
+  Activity,
+  Map,
+  BarChart3,
+  BriefcaseBusiness,
+  Newspaper,
+} from "lucide-react";
 
 export const products = [
   {
@@ -7,7 +13,7 @@ export const products = [
     path: "/pulse360",
     icon: Activity,
     description:
-      "Charger and property intelligence for uptime, risk, visibility and infrastructure condition reporting.",
+      "Charger and property intelligence for uptime, infrastructure condition, risk visibility and site-level reporting.",
   },
   {
     title: "TerrainIntel",
@@ -15,7 +21,7 @@ export const products = [
     path: "/terrainintel",
     icon: Map,
     description:
-      "Spatial planning intelligence for charger placement, corridors, grid context and scenario comparison.",
+      "Spatial EV infrastructure intelligence for charger placement, corridors, grid context and scenario comparison.",
   },
   {
     title: "EVSS",
@@ -23,7 +29,15 @@ export const products = [
     path: "/evss",
     icon: BarChart3,
     description:
-      "EV fleet simulation based on route, terrain, environmental conditions, charging assumptions and duty-cycle realities.",
+      "EV fleet simulation using route, terrain, environment, charging assumptions and operational duty-cycle realities.",
+  },
+  {
+    title: "Enterprise Briefings",
+    status: "Intelligence",
+    path: "/briefings",
+    icon: Newspaper,
+    description:
+      "Commercial EV intelligence briefings covering infrastructure trends, risk signals, regulation and strategic market movement.",
   },
   {
     title: "Consulting",

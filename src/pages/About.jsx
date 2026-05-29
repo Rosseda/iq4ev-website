@@ -1,86 +1,183 @@
-import {
-  BarChart3,
-  Building2,
-  Map,
-  ShieldCheck,
-} from "lucide-react";
-
-import PageHeader from "../components/PageHeader.jsx";
-import SectionHeader from "../components/SectionHeader.jsx";
-import FeatureGrid from "../components/FeatureGrid.jsx";
-import CTASection from "../components/CTASection.jsx";
-
-const pillars = [
-  {
-    icon: BarChart3,
-    title: "Operational intelligence",
-    description:
-      "Understanding charger infrastructure, fleet transition and operational realities through evidence-led analysis.",
-  },
-  {
-    icon: Map,
-    title: "Spatial infrastructure thinking",
-    description:
-      "Viewing EV transition through location, route, corridor and infrastructure context.",
-  },
-  {
-    icon: Building2,
-    title: "Infrastructure participation",
-    description:
-      "Recognising the role property hosts, operators, municipalities and stakeholders play in EV ecosystems.",
-  },
-  {
-    icon: ShieldCheck,
-    title: "Confidential decision support",
-    description:
-      "Supporting sensitive infrastructure conversations through neutral intelligence positioning.",
-  },
-];
+import { useState } from "react";
+import AccessModal from "../components/AccessModal.jsx";
 
 export default function About() {
+  const [showAccessModal, setShowAccessModal] = useState(false);
+
   return (
-    <div>
-      <PageHeader
-        eyebrow="About IQ4EV"
-        title="An intelligence quality company for the EV sector."
-        description="IQ4EV exists to help South Africa’s EV ecosystem move from assumptions toward evidence-led infrastructure and operational understanding."
-      />
+    <main className="ti-page about-page">
+      <section className="about-hero">
+        <div className="about-copy">
+          <p className="pulse-kicker">About IQ4EV</p>
 
-      <section className="mx-auto max-w-7xl px-6 py-20">
-        <SectionHeader
-          eyebrow="Why IQ4EV exists"
-          title="EV transition is bigger than vehicles."
-          description="The EV sector is not only about cars and chargers. It is also about property, operations, grid realities, infrastructure visibility, route behaviour and strategic coordination."
-        />
+          <h1>
+            EV intelligence infrastructure for South Africa’s transition era.
+          </h1>
 
-        <div className="mt-10 rounded-[2rem] border border-slate-200 bg-slate-50 p-8">
-          <p className="max-w-4xl text-lg leading-8 text-slate-700">
-            IQ4EV was created to help organizations understand those
-            relationships through operational intelligence, spatial analysis,
-            fleet simulation and strategic EV insight.
+          <p className="pulse-lead">
+            IQ4EV is an EV intelligence and infrastructure consulting ecosystem
+            focused on helping organisations move from assumptions to
+            evidence-led EV infrastructure and operational decisions.
           </p>
+
+          <div className="pulse-actions">
+            <button type="button" onClick={() => setShowAccessModal(true)}>
+              Request consultation
+            </button>
+
+            <a href="/">Open public intelligence map</a>
+          </div>
         </div>
-      </section>
 
-      <section className="border-y border-slate-200 bg-slate-50">
-        <div className="mx-auto max-w-7xl px-6 py-20">
-          <SectionHeader
-            eyebrow="Core pillars"
-            title="Built around intelligence, not hype."
-            description="IQ4EV focuses on practical EV infrastructure understanding rather than trend-driven positioning."
-          />
+        <div className="about-visual">
+          <div className="about-layer terrain">
+            <span>TerrainIntel</span>
+            <strong>Spatial intelligence</strong>
+          </div>
 
-          <div className="mt-10">
-            <FeatureGrid items={pillars} />
+          <div className="about-layer pulse">
+            <span>Pulse360</span>
+            <strong>Operational visibility</strong>
+          </div>
+
+          <div className="about-layer evss">
+            <span>EVSS</span>
+            <strong>Fleet simulation</strong>
+          </div>
+
+          <div className="about-core">
+            <small>IQ4EV</small>
+            <strong>Infrastructure intelligence ecosystem</strong>
           </div>
         </div>
       </section>
 
-      <CTASection
-        eyebrow="About IQ4EV"
-        title="Support EV transition with evidence-led infrastructure thinking."
-        description="Connect with IQ4EV to explore infrastructure intelligence, fleet transition understanding and strategic EV analysis."
+      <section className="ti-metrics">
+        <article>
+          <span>01</span>
+          <strong>Infrastructure intelligence</strong>
+          <p>
+            Understand charging infrastructure, deployment readiness, corridors
+            and operational infrastructure conditions.
+          </p>
+        </article>
+
+        <article>
+          <span>02</span>
+          <strong>Operational interpretation</strong>
+          <p>
+            Translate infrastructure signals into strategic, operational and
+            commercial meaning for organisations.
+          </p>
+        </article>
+
+        <article>
+          <span>03</span>
+          <strong>Consultation-led access</strong>
+          <p>
+            IQ4EV follows an enterprise onboarding approach rather than instant
+            self-service platform access.
+          </p>
+        </article>
+      </section>
+
+      <section className="ti-decision-layer">
+        <div>
+          <p className="ti-kicker">The IQ4EV approach</p>
+
+          <h2>
+            EV transition is not only about vehicles. It is about systems,
+            infrastructure, operations and readiness.
+          </h2>
+        </div>
+
+        <div className="ti-stack">
+          <article>
+            <span>TerrainIntel</span>
+            <p>
+              Spatial deployment intelligence focused on corridors, readiness,
+              zoning and regional infrastructure interpretation.
+            </p>
+          </article>
+
+          <article>
+            <span>Pulse360</span>
+            <p>
+              Charger and property intelligence focused on operational
+              visibility, uptime awareness and infrastructure reporting.
+            </p>
+          </article>
+
+          <article>
+            <span>EVSS</span>
+            <p>
+              Fleet simulation and operational readiness focused on terrain,
+              charging assumptions, routes and stress testing.
+            </p>
+          </article>
+        </div>
+      </section>
+
+      <section className="ti-use-cases">
+        <p className="ti-kicker">Who IQ4EV supports</p>
+
+        <div className="ti-use-grid">
+          <article>
+            <h3>OEMs</h3>
+            <p>
+              EV infrastructure intelligence, readiness interpretation and
+              strategic market insight.
+            </p>
+          </article>
+
+          <article>
+            <h3>Municipalities</h3>
+            <p>
+              EV readiness, infrastructure planning and strategic transition
+              support.
+            </p>
+          </article>
+
+          <article>
+            <h3>Operators</h3>
+            <p>
+              Charging infrastructure visibility, operational interpretation and
+              deployment intelligence.
+            </p>
+          </article>
+
+          <article>
+            <h3>Fleet stakeholders</h3>
+            <p>
+              Electrification readiness, simulation support and operational
+              planning intelligence.
+            </p>
+          </article>
+        </div>
+      </section>
+
+      <section className="ti-cta">
+        <div>
+          <p className="ti-kicker">Strategic support</p>
+
+          <h2>Need EV infrastructure intelligence or consulting support?</h2>
+
+          <p>
+            Submit a consultation request and IQ4EV will follow up manually to
+            understand your infrastructure, operational or strategic needs.
+          </p>
+        </div>
+
+        <button type="button" onClick={() => setShowAccessModal(true)}>
+          Request consultation
+        </button>
+      </section>
+
+      <AccessModal
+        open={showAccessModal}
+        onClose={() => setShowAccessModal(false)}
+        defaultRequestType="Request IQ4EV Consultation"
       />
-    </div>
+    </main>
   );
 }

@@ -1,13 +1,135 @@
 :root {
-  --iq-orange: #ff6600;
-  --iq-pink: #ff2d55;
-  --iq-dark: #020617;
-  --iq-muted: #64748b;
-  --iq-line: #e2e8f0;
-  --iq-soft: #f8fafc;
+  --iq-bg: #f5f7fb;
+  --iq-panel: #ffffff;
+  --iq-border: #d9e2ec;
+  --iq-text: #14213d;
+  --iq-muted: #5c677d;
+
+  --iq-green: #3ba55d;
+  --iq-yellow: #f0b429;
+  --iq-red: #d64545;
+
+  --iq-accent: #ff6b6b;
+  --iq-accent-soft: #ff9f9f;
+
+  --iq-shadow:
+    0 4px 18px rgba(15, 23, 42, 0.08);
+
+  --iq-radius: 16px;
 }
 
-::selection {
-  background: rgba(255, 102, 0, 0.18);
-  color: #020617;
+body {
+  margin: 0;
+  padding: 0;
+  background: var(--iq-bg);
+  color: var(--iq-text);
+  font-family:
+    Inter,
+    system-ui,
+    sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.iq-navbar {
+  width: 100%;
+  height: 76px;
+  background: rgba(255,255,255,0.92);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--iq-border);
+  position: sticky;
+  top: 0;
+  z-index: 9999;
+}
+
+.iq-navbar-inner {
+  width: 100%;
+  max-width: 1500px;
+  margin: auto;
+  height: 100%;
+  padding: 0 32px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.iq-logo {
+  height: 40px;
+}
+
+.iq-nav-links {
+  display: flex;
+  gap: 28px;
+  font-size: 14px;
+  color: var(--iq-muted);
+}
+
+.iq-nav-links a:hover {
+  color: var(--iq-text);
+}
+
+.iq-access-btn {
+  border: none;
+  background: var(--iq-accent);
+  color: white;
+  padding: 12px 18px;
+  border-radius: 999px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.iq-navbar {
+  width: 100%;
+  height: 76px;
+  background: rgba(255,255,255,0.92);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--iq-border);
+  position: sticky;
+  top: 0;
+  z-index: 9999;
+}
+
+.iq-navbar-inner {
+  width: 100%;
+  max-width: 1500px;
+  margin: auto;
+  height: 100%;
+  padding: 0 32px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.iq-logo {
+  height: 40px;
+}
+
+.iq-nav-links {
+  display: flex;
+  gap: 28px;
+  font-size: 14px;
+  color: var(--iq-muted);
+}
+
+.iq-nav-links a:hover {
+  color: var(--iq-text);
+}
+
+.iq-access-btn {
+  border: none;
+  background: var(--iq-accent);
+  color: white;
+  padding: 12px 18px;
+  border-radius: 999px;
+  cursor: pointer;
+  font-weight: 600;
 }

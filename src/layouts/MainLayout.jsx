@@ -1,15 +1,19 @@
-import { Outlet } from "react-router-dom";
-import Navbar from "../components/Navbar.jsx";
-import Footer from "../components/Footer.jsx";
+import { Outlet, useLocation } from "react-router-dom";
+import Navbar from "../components/Navbar";
+import Footer from "../components/Footer";
 
 export default function MainLayout() {
+  const location = useLocation();
+
+  const isHomePage = location.pathname === "/";
+
   return (
-    <div className="min-h-screen bg-white text-slate-950">
-      <Navbar />
-      <main>
-        <Outlet />
-      </main>
-      <Footer />
-    </div>
+    <>
+      {!isHomePage && <Navbar />}
+
+      <Outlet />
+
+      {!isHomePage && <Footer />}
+    </>
   );
 }

@@ -1,230 +1,184 @@
-import {
-  Map,
-  Route,
-  Zap,
-  Layers3,
-  MapPinned,
-  Radar,
-  GitCompare,
-  Gauge,
-} from "lucide-react";
-import Button from "../components/Button.jsx";
-import PageHeader from "../components/PageHeader.jsx";
-import SectionHeader from "../components/SectionHeader.jsx";
-import FeatureGrid from "../components/FeatureGrid.jsx";
-import UseCaseCard from "../components/UseCaseCard.jsx";
-import ProcessStep from "../components/ProcessStep.jsx";
-import CTASection from "../components/CTASection.jsx";
-import MapPreview from "../components/MapPreview.jsx";
-
-const features = [
-  {
-    icon: Map,
-    title: "Location intelligence",
-    description:
-      "Assess cities, towns, corridors, properties and municipalities through EV infrastructure planning context.",
-  },
-  {
-    icon: Route,
-    title: "Corridor modelling",
-    description:
-      "Analyse strategic transport routes such as national roads, logistics corridors and long-distance EV travel pathways.",
-  },
-  {
-    icon: Zap,
-    title: "Grid context",
-    description:
-      "Compare charger deployment scenarios against grid stress, infrastructure strength and location-specific constraints.",
-  },
-  {
-    icon: Layers3,
-    title: "Existing charger layer",
-    description:
-      "Use existing charger locations as a baseline layer for scenario comparisons and infrastructure gap analysis.",
-  },
-  {
-    icon: GitCompare,
-    title: "Scenario comparison",
-    description:
-      "Compare potential charger placement scenarios by demand, location, grid, coverage and infrastructure readiness.",
-  },
-  {
-    icon: Gauge,
-    title: "Planning readiness scores",
-    description:
-      "Translate complex spatial and infrastructure signals into clear planning readiness indicators.",
-  },
-];
-
-const useCases = [
-  {
-    title: "For municipalities",
-    description:
-      "Understand where charging infrastructure can support public mobility, economic activity and municipal planning goals.",
-  },
-  {
-    title: "For operators",
-    description:
-      "Identify locations and corridors where infrastructure expansion may be commercially and operationally viable.",
-  },
-  {
-    title: "For property groups",
-    description:
-      "Compare sites and understand which properties may be better positioned for future EV infrastructure investment.",
-  },
-];
-
-const process = [
-  {
-    number: "01",
-    title: "Map the current landscape",
-    description:
-      "Start with existing chargers, spatial nodes, routes, towns, cities, properties and municipal context.",
-  },
-  {
-    number: "02",
-    title: "Layer infrastructure constraints",
-    description:
-      "Add grid, demand, corridor, traffic, land-use, regional and location-specific intelligence layers.",
-  },
-  {
-    number: "03",
-    title: "Compare scenarios",
-    description:
-      "Evaluate different charger placement options and infrastructure expansion pathways using evidence-led scoring.",
-  },
-];
+import { useState } from "react";
+import { Link } from "react-router-dom";
+import AccessModal from "../components/AccessModal.jsx";
 
 export default function TerrainIntel() {
+  const [showAccessModal, setShowAccessModal] = useState(false);
+
   return (
-    <div>
-      <PageHeader
-        eyebrow="TerrainIntel"
-        title="Spatial electrification intelligence."
-        description="TerrainIntel helps stakeholders plan EV charging infrastructure by combining maps, routes, grid context, existing charger visibility and scenario comparison."
+    <main className="ti-page">
+      <section className="ti-hero">
+        <div className="ti-hero-copy">
+          <p className="ti-kicker">TerrainIntel Enterprise Layer</p>
+
+          <h1>
+            Spatial intelligence for EV infrastructure decisions across South
+            Africa.
+          </h1>
+
+          <p className="ti-lead">
+            TerrainIntel helps OEMs, municipalities, charge point operators,
+            property groups and fleet stakeholders understand where EV
+            infrastructure is viable, constrained, strategically important, or
+            commercially under-supported.
+          </p>
+
+          <div className="ti-actions">
+            <button type="button" onClick={() => setShowAccessModal(true)}>
+              Request TerrainIntel briefing
+            </button>
+
+            <Link to="/">Open public map</Link>
+          </div>
+        </div>
+
+        <div className="ti-map-card">
+          <div className="ti-map-topbar">
+            <span />
+            <span />
+            <span />
+          </div>
+
+          <div className="ti-map-grid">
+            <div className="ti-zone green">Metro readiness</div>
+            <div className="ti-zone yellow">Corridor watch</div>
+            <div className="ti-zone red">Constraint zone</div>
+            <div className="ti-route route-a" />
+            <div className="ti-route route-b" />
+            <div className="ti-node node-a" />
+            <div className="ti-node node-b" />
+            <div className="ti-node node-c" />
+          </div>
+
+          <div className="ti-map-caption">
+            <span>Public map</span>
+            <strong>Limited Green / Yellow / Red zoning</strong>
+            <p>
+              The homepage map shows public signals only. Enterprise
+              TerrainIntel interprets why the signals matter.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section className="ti-metrics">
+        <article>
+          <span>01</span>
+          <strong>Regions</strong>
+          <p>Provincial, municipal and city-level infrastructure signals.</p>
+        </article>
+
+        <article>
+          <span>02</span>
+          <strong>Corridors</strong>
+          <p>
+            Route-based readiness, gaps, movement logic and deployment risk.
+          </p>
+        </article>
+
+        <article>
+          <span>03</span>
+          <strong>Zoning</strong>
+          <p>
+            Green, yellow and red classifications with strategic reasoning.
+          </p>
+        </article>
+      </section>
+
+      <section className="ti-decision-layer">
+        <div>
+          <p className="ti-kicker">Enterprise decision layer</p>
+          <h2>
+            Designed for planning before infrastructure money is committed.
+          </h2>
+        </div>
+
+        <div className="ti-stack">
+          <article>
+            <span>Deployment screening</span>
+            <p>
+              Identify where public EV infrastructure makes strategic sense
+              before progressing to detailed site analysis.
+            </p>
+          </article>
+
+          <article>
+            <span>Corridor interpretation</span>
+            <p>
+              Compare logistics, tourism, metro access and regional charging
+              dependencies across major routes.
+            </p>
+          </article>
+
+          <article>
+            <span>Readiness briefings</span>
+            <p>
+              Translate infrastructure signals into boardroom-ready planning
+              notes, risks and next-step recommendations.
+            </p>
+          </article>
+        </div>
+      </section>
+
+      <section className="ti-use-cases">
+        <p className="ti-kicker">Who uses TerrainIntel?</p>
+
+        <div className="ti-use-grid">
+          <article>
+            <h3>Municipalities</h3>
+            <p>
+              Understand public readiness, corridor dependency and infrastructure
+              gaps.
+            </p>
+          </article>
+
+          <article>
+            <h3>OEMs</h3>
+            <p>
+              Interpret EV market readiness by region, corridor and customer
+              geography.
+            </p>
+          </article>
+
+          <article>
+            <h3>CPOs</h3>
+            <p>
+              Screen deployment zones before committing engineering and capex
+              resources.
+            </p>
+          </article>
+
+          <article>
+            <h3>Property groups</h3>
+            <p>
+              Understand where hosted charging may create strategic property
+              value.
+            </p>
+          </article>
+        </div>
+      </section>
+
+      <section className="ti-cta">
+        <div>
+          <p className="ti-kicker">Request a consultation</p>
+          <h2>Need deeper regional or corridor intelligence?</h2>
+          <p>
+            Submit a TerrainIntel request and IQ4EV will follow up manually with
+            the appropriate briefing or consultation pathway.
+          </p>
+        </div>
+
+        <button type="button" onClick={() => setShowAccessModal(true)}>
+          Request briefing
+        </button>
+      </section>
+
+      <AccessModal
+        open={showAccessModal}
+        onClose={() => setShowAccessModal(false)}
+        defaultPlatform="TerrainIntel"
+        defaultRequestType="Request TerrainIntel Briefing"
       />
-
-      <section className="mx-auto max-w-7xl px-6 py-20">
-        <div className="grid gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
-          <div>
-            <SectionHeader
-              eyebrow="What TerrainIntel does"
-              title="It turns geography into EV infrastructure strategy."
-              description="EV charging infrastructure decisions are deeply spatial. TerrainIntel helps decision-makers understand where infrastructure exists, where gaps may emerge and how deployment scenarios compare."
-            />
-
-            <div className="mt-8 flex flex-wrap gap-4">
-              <Button to="/contact">Request TerrainIntel briefing</Button>
-              <Button to="/evss" variant="outline">
-                View EVSS
-              </Button>
-            </div>
-          </div>
-
-          <div className="rounded-[2rem] border border-slate-200 bg-white p-4 shadow-xl shadow-slate-200">
-            <div className="rounded-[1.5rem] border border-slate-200 bg-slate-50 p-5">
-              <div className="mb-5 flex items-center justify-between">
-                <div>
-                  <p className="text-sm font-black text-slate-950">
-                    TerrainIntel Scenario View
-                  </p>
-                  <p className="text-xs text-slate-500">
-                    Location, route and grid planning layer
-                  </p>
-                </div>
-
-                <span className="rounded-full bg-orange-100 px-3 py-1 text-xs font-bold text-orange-700">
-                  Planning
-                </span>
-              </div>
-
-              <MapPreview />
-
-              <div className="mt-4 grid gap-3 md:grid-cols-3">
-                <div className="rounded-2xl bg-white p-4 shadow-sm">
-                  <MapPinned className="text-orange-600" size={22} />
-                  <p className="mt-3 text-sm font-black text-slate-950">
-                    Sites
-                  </p>
-                </div>
-
-                <div className="rounded-2xl bg-white p-4 shadow-sm">
-                  <Route className="text-orange-600" size={22} />
-                  <p className="mt-3 text-sm font-black text-slate-950">
-                    Routes
-                  </p>
-                </div>
-
-                <div className="rounded-2xl bg-white p-4 shadow-sm">
-                  <Radar className="text-orange-600" size={22} />
-                  <p className="mt-3 text-sm font-black text-slate-950">
-                    Risk
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section className="border-y border-slate-200 bg-slate-50">
-        <div className="mx-auto max-w-7xl px-6 py-20">
-          <SectionHeader
-            eyebrow="Capabilities"
-            title="Built for charger placement, corridor planning and infrastructure comparison."
-            description="TerrainIntel supports the planning layer of South Africa’s EV transition by making spatial infrastructure decisions more visible."
-          />
-
-          <div className="mt-10">
-            <FeatureGrid items={features} />
-          </div>
-        </div>
-      </section>
-
-      <section className="mx-auto max-w-7xl px-6 py-20">
-        <SectionHeader
-          eyebrow="Use cases"
-          title="Who TerrainIntel is for."
-          description="TerrainIntel supports stakeholders who need to understand location readiness, route opportunity and infrastructure gaps."
-        />
-
-        <div className="mt-10 grid gap-6 md:grid-cols-3">
-          {useCases.map((item) => (
-            <UseCaseCard
-              key={item.title}
-              title={item.title}
-              description={item.description}
-            />
-          ))}
-        </div>
-      </section>
-
-      <section className="border-y border-slate-200 bg-slate-50">
-        <div className="mx-auto max-w-7xl px-6 py-20">
-          <SectionHeader
-            eyebrow="How it works"
-            title="From map layers to infrastructure decisions."
-            description="TerrainIntel uses layered spatial reasoning to support more disciplined EV infrastructure planning."
-          />
-
-          <div className="mt-10 grid gap-6 md:grid-cols-3">
-            {process.map((step) => (
-              <ProcessStep
-                key={step.number}
-                number={step.number}
-                title={step.title}
-                description={step.description}
-              />
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <CTASection
-        eyebrow="TerrainIntel briefing"
-        title="Plan EV infrastructure with spatial evidence, not guesswork."
-        description="Request a TerrainIntel briefing to explore charger placement, route planning, existing charger baselines and infrastructure scenario comparison."
-      />
-    </div>
+    </main>
   );
 }

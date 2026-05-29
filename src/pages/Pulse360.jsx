@@ -1,223 +1,218 @@
-import {
-  Activity,
-  AlertTriangle,
-  Building2,
-  FileBarChart,
-  Gauge,
-  ShieldCheck,
-} from "lucide-react";
-import Button from "../components/Button.jsx";
-import PageHeader from "../components/PageHeader.jsx";
-import SectionHeader from "../components/SectionHeader.jsx";
-import FeatureGrid from "../components/FeatureGrid.jsx";
-import UseCaseCard from "../components/UseCaseCard.jsx";
-import ProcessStep from "../components/ProcessStep.jsx";
-import CTASection from "../components/CTASection.jsx";
-
-const features = [
-  {
-    icon: Activity,
-    title: "Charger health visibility",
-    description:
-      "Track charger status, uptime behaviour, availability signals and operational condition across sites.",
-  },
-  {
-    icon: AlertTriangle,
-    title: "Risk intelligence",
-    description:
-      "Identify infrastructure risk, downtime patterns, site stress, repeat faults and operational weak points.",
-  },
-  {
-    icon: Building2,
-    title: "Property-host reporting",
-    description:
-      "Give landlords, retail centres, hotels, estates and other host properties clear visibility into the assets on their sites.",
-  },
-  {
-    icon: Gauge,
-    title: "Performance context",
-    description:
-      "Understand charger performance against site realities, usage behaviour, location context and operating conditions.",
-  },
-  {
-    icon: FileBarChart,
-    title: "Executive reporting",
-    description:
-      "Translate technical charger data into boardroom-ready summaries, property reports and infrastructure intelligence.",
-  },
-  {
-    icon: ShieldCheck,
-    title: "Confidential intelligence layer",
-    description:
-      "Support sensitive conversations between operators, hosts and decision-makers without exposing unnecessary client data.",
-  },
-];
-
-const useCases = [
-  {
-    title: "For property hosts",
-    description:
-      "Understand whether chargers on your property are reliable, visible, well-maintained and contributing to the value of the site.",
-  },
-  {
-    title: "For operators",
-    description:
-      "Use intelligence reporting to improve service visibility, infrastructure conversations and performance accountability.",
-  },
-  {
-    title: "For investors and decision-makers",
-    description:
-      "View charger infrastructure as an operational asset class, not just hardware installed in the ground.",
-  },
-];
-
-const process = [
-  {
-    number: "01",
-    title: "Ingest infrastructure signals",
-    description:
-      "Pulse360 receives charger and site-level data through secure ingestion methods designed for operational intelligence.",
-  },
-  {
-    number: "02",
-    title: "Analyse risk and performance",
-    description:
-      "The platform converts raw infrastructure signals into uptime, condition, site and operational risk intelligence.",
-  },
-  {
-    number: "03",
-    title: "Report for decisions",
-    description:
-      "IQ4EV translates the intelligence into dashboards, reports and strategic recommendations for stakeholders.",
-  },
-];
+import { useState } from "react";
+import AccessModal from "../components/AccessModal.jsx";
 
 export default function Pulse360() {
+  const [showAccessModal, setShowAccessModal] = useState(false);
+
   return (
-    <div>
-      <PageHeader
-        eyebrow="Pulse360"
-        title="Charger and property intelligence."
-        description="Pulse360 is IQ4EV’s flagship intelligence layer for EV charging infrastructure, helping stakeholders understand charger health, uptime, site risk and infrastructure value."
-      />
+    <main className="ti-page">
+      <section className="pulse-hero">
+        <div className="pulse-copy">
+          <p className="pulse-kicker">Pulse360 Infrastructure Layer</p>
 
-      <section className="mx-auto max-w-7xl px-6 py-20">
-        <div className="grid gap-10 lg:grid-cols-[0.95fr_1.05fr] lg:items-center">
-          <div>
-            <SectionHeader
-              eyebrow="What Pulse360 does"
-              title="It turns charger data into infrastructure intelligence."
-              description="EV chargers are no longer just technical assets. They sit inside properties, retail networks, fleet operations and public infrastructure systems. Pulse360 helps make their condition and performance visible."
-            />
+          <h1>
+            Charger and property intelligence for operational EV infrastructure
+            visibility.
+          </h1>
 
-            <div className="mt-8 flex flex-wrap gap-4">
-              <Button to="/contact">Request Pulse360 briefing</Button>
-              <Button to="/terrainintel" variant="outline">
-                View TerrainIntel
-              </Button>
-            </div>
+          <p className="pulse-lead">
+            Pulse360 helps operators, OEMs and property stakeholders move beyond
+            charger installation into infrastructure visibility, uptime
+            awareness, reporting intelligence and operational trust.
+          </p>
+
+          <div className="pulse-actions">
+            <button type="button" onClick={() => setShowAccessModal(true)}>
+              Request Pulse360 consultation
+            </button>
+
+            <a href="#pulse360-capabilities">Explore capabilities</a>
           </div>
 
-          <div className="rounded-[2rem] border border-slate-200 bg-slate-50 p-6">
-            <div className="grid gap-4 md:grid-cols-2">
-              <div className="rounded-2xl bg-white p-5 shadow-sm">
-                <p className="text-xs font-bold uppercase tracking-[0.2em] text-slate-500">
-                  Layer
-                </p>
-                <p className="mt-2 text-2xl font-black text-slate-950">
-                  Charger health
-                </p>
-              </div>
+          <div className="pulse-mini-metrics">
+            <div>
+              <strong>Uptime visibility</strong>
+              <span>Operational monitoring layer</span>
+            </div>
 
-              <div className="rounded-2xl bg-white p-5 shadow-sm">
-                <p className="text-xs font-bold uppercase tracking-[0.2em] text-slate-500">
-                  Output
-                </p>
-                <p className="mt-2 text-2xl font-black text-slate-950">
-                  Risk reports
-                </p>
-              </div>
+            <div>
+              <strong>Property intelligence</strong>
+              <span>Host-facing reporting visibility</span>
+            </div>
 
-              <div className="rounded-2xl bg-white p-5 shadow-sm">
-                <p className="text-xs font-bold uppercase tracking-[0.2em] text-slate-500">
-                  Users
-                </p>
-                <p className="mt-2 text-2xl font-black text-slate-950">
-                  Hosts & operators
-                </p>
-              </div>
-
-              <div className="rounded-2xl bg-white p-5 shadow-sm">
-                <p className="text-xs font-bold uppercase tracking-[0.2em] text-slate-500">
-                  Positioning
-                </p>
-                <p className="mt-2 text-2xl font-black text-slate-950">
-                  Neutral visibility
-                </p>
-              </div>
+            <div>
+              <strong>Infrastructure trust</strong>
+              <span>Experience + reliability interpretation</span>
             </div>
           </div>
         </div>
-      </section>
 
-      <section className="border-y border-slate-200 bg-slate-50">
-        <div className="mx-auto max-w-7xl px-6 py-20">
-          <SectionHeader
-            eyebrow="Capabilities"
-            title="Designed for visibility, reporting and operational accountability."
-            description="Pulse360 focuses on the intelligence gap between charger hardware, property hosts, operators and strategic decision-makers."
-          />
+        <div className="pulse-visual">
+          <div className="pulse-glow pulse-glow-1" />
+          <div className="pulse-glow pulse-glow-2" />
 
-          <div className="mt-10">
-            <FeatureGrid items={features} />
+          <div className="pulse-monitor">
+            <div className="pulse-monitor-top">
+              <span />
+              <span />
+              <span />
+            </div>
+
+            <div className="pulse-monitor-grid">
+              <div className="pulse-panel large">
+                <small>Network status</small>
+                <strong>87%</strong>
+                <span>stable infrastructure visibility</span>
+              </div>
+
+              <div className="pulse-panel">
+                <small>Site risk</small>
+                <strong>YELLOW</strong>
+              </div>
+
+              <div className="pulse-panel">
+                <small>Properties</small>
+                <strong>124</strong>
+              </div>
+
+              <div className="pulse-panel">
+                <small>Nodes monitored</small>
+                <strong>418</strong>
+              </div>
+            </div>
+
+            <div className="pulse-chart">
+              <div className="pulse-chart-line" />
+            </div>
           </div>
         </div>
       </section>
 
-      <section className="mx-auto max-w-7xl px-6 py-20">
-        <SectionHeader
-          eyebrow="Use cases"
-          title="Who Pulse360 is for."
-          description="The platform is designed for stakeholders who need clarity without becoming charger technicians."
-        />
+      <section id="pulse360-capabilities" className="ti-metrics">
+        <article>
+          <span>01</span>
+          <strong>Uptime visibility</strong>
+          <p>
+            Monitor charger status patterns and identify when infrastructure
+            performance may be affecting user experience.
+          </p>
+        </article>
 
-        <div className="mt-10 grid gap-6 md:grid-cols-3">
-          {useCases.map((item) => (
-            <UseCaseCard
-              key={item.title}
-              title={item.title}
-              description={item.description}
-            />
-          ))}
+        <article>
+          <span>02</span>
+          <strong>Property-host reporting</strong>
+          <p>
+            Translate technical charger data into usable reporting for retail
+            centres, offices, hospitality sites and property portfolios.
+          </p>
+        </article>
+
+        <article>
+          <span>03</span>
+          <strong>Operational risk</strong>
+          <p>
+            Track sites that may require intervention due to outages, poor
+            utilisation, unreliable visibility or reporting gaps.
+          </p>
+        </article>
+      </section>
+
+      <section className="ti-decision-layer">
+        <div>
+          <p className="ti-kicker">Why Pulse360 exists</p>
+          <h2>
+            Charging infrastructure is not only a hardware issue. It is a
+            property, uptime and trust issue.
+          </h2>
+        </div>
+
+        <div className="ti-stack">
+          <article>
+            <span>For property hosts</span>
+            <p>
+              Understand whether chargers on your property are available,
+              visible, reliable and adding value to the location.
+            </p>
+          </article>
+
+          <article>
+            <span>For charge point operators</span>
+            <p>
+              Improve host reporting, site-level visibility and operational
+              intelligence across distributed charging assets.
+            </p>
+          </article>
+
+          <article>
+            <span>For OEMs and partners</span>
+            <p>
+              Understand infrastructure quality signals that may affect driver
+              confidence, customer experience and EV adoption readiness.
+            </p>
+          </article>
         </div>
       </section>
 
-      <section className="border-y border-slate-200 bg-slate-50">
-        <div className="mx-auto max-w-7xl px-6 py-20">
-          <SectionHeader
-            eyebrow="How it works"
-            title="From infrastructure signals to decision-ready intelligence."
-            description="Pulse360 is built to translate technical charger information into clear operational and strategic insight."
-          />
+      <section className="ti-use-cases">
+        <p className="ti-kicker">Core intelligence areas</p>
 
-          <div className="mt-10 grid gap-6 md:grid-cols-3">
-            {process.map((step) => (
-              <ProcessStep
-                key={step.number}
-                number={step.number}
-                title={step.title}
-                description={step.description}
-              />
-            ))}
-          </div>
+        <div className="ti-use-grid">
+          <article>
+            <h3>Charger status</h3>
+            <p>
+              Site-level visibility into whether chargers are available,
+              offline, constrained or unknown.
+            </p>
+          </article>
+
+          <article>
+            <h3>Site risk</h3>
+            <p>
+              Identify properties where infrastructure visibility or uptime may
+              create operational exposure.
+            </p>
+          </article>
+
+          <article>
+            <h3>Host reporting</h3>
+            <p>
+              Create clearer communication between property owners, operators
+              and infrastructure partners.
+            </p>
+          </article>
+
+          <article>
+            <h3>Infrastructure confidence</h3>
+            <p>
+              Support EV market confidence by improving the intelligence layer
+              around charging reliability.
+            </p>
+          </article>
         </div>
       </section>
 
-      <CTASection
-        eyebrow="Pulse360 briefing"
-        title="Turn charger infrastructure into a visible operational asset."
-        description="Request a Pulse360 briefing to explore charger visibility, property-host intelligence, operational risk reporting and stakeholder dashboards."
+      <section className="ti-cta">
+        <div>
+          <p className="ti-kicker">Request a consultation</p>
+          <h2>Need charger or property intelligence support?</h2>
+          <p>
+            Submit a Pulse360 request and IQ4EV will follow up manually to
+            understand your infrastructure, sites, reporting needs and
+            onboarding pathway.
+          </p>
+        </div>
+
+        <button type="button" onClick={() => setShowAccessModal(true)}>
+          Request consultation
+        </button>
+      </section>
+
+      <AccessModal
+        open={showAccessModal}
+        onClose={() => setShowAccessModal(false)}
+        defaultPlatform="Pulse360"
+        defaultRequestType="Request Pulse360 Consultation"
       />
-    </div>
+    </main>
   );
 }

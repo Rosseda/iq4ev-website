@@ -1,21 +1,25 @@
-import MainLayout from "./layouts/MainLayout.jsx";
+import {
+  createBrowserRouter,
+} from "react-router-dom";
 
-import Home from "./pages/Home.jsx";
-import About from "./pages/About.jsx";
-import Pulse360 from "./pages/Pulse360.jsx";
-import TerrainIntel from "./pages/TerrainIntel.jsx";
-import EVSS from "./pages/EVSS.jsx";
-import Consulting from "./pages/Consulting.jsx";
-import Insights from "./pages/Insights.jsx";
-import InsightDetail from "./pages/InsightDetail.jsx";
-import Briefings from "./pages/Briefings.jsx";
-import Contact from "./pages/Contact.jsx";
-import NotFound from "./pages/NotFound.jsx";
+import MainLayout from "./layouts/MainLayout";
 
-const routes = [
+import Home from "./pages/Home";
+import About from "./pages/About";
+import TerrainIntel from "./pages/TerrainIntel";
+import Pulse360 from "./pages/Pulse360";
+import EVSS from "./pages/EVSS";
+import Briefings from "./pages/Briefings";
+import Consulting from "./pages/Consulting";
+import Insights from "./pages/Insights";
+import Contact from "./pages/Contact";
+import NotFound from "./pages/NotFound";
+
+const router = createBrowserRouter([
   {
     path: "/",
     element: <MainLayout />,
+    errorElement: <NotFound />,
     children: [
       {
         index: true,
@@ -26,16 +30,20 @@ const routes = [
         element: <About />,
       },
       {
-        path: "pulse360",
-        element: <Pulse360 />,
-      },
-      {
         path: "terrainintel",
         element: <TerrainIntel />,
       },
       {
+        path: "pulse360",
+        element: <Pulse360 />,
+      },
+      {
         path: "evss",
         element: <EVSS />,
+      },
+      {
+        path: "briefings",
+        element: <Briefings />,
       },
       {
         path: "consulting",
@@ -46,23 +54,11 @@ const routes = [
         element: <Insights />,
       },
       {
-        path: "insights/:slug",
-        element: <InsightDetail />,
-      },
-      {
-        path: "briefings",
-        element: <Briefings />,
-      },
-      {
         path: "contact",
         element: <Contact />,
       },
-      {
-        path: "*",
-        element: <NotFound />,
-      },
     ],
   },
-];
+]);
 
-export default routes;
+export default router;

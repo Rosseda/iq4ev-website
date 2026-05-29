@@ -1,186 +1,193 @@
-import {
-  BriefcaseBusiness,
-  Building2,
-  ClipboardCheck,
-  FileSearch,
-  LineChart,
-  ShieldCheck,
-} from "lucide-react";
-
-import Button from "../components/Button.jsx";
-import PageHeader from "../components/PageHeader.jsx";
-import SectionHeader from "../components/SectionHeader.jsx";
-import FeatureGrid from "../components/FeatureGrid.jsx";
-import UseCaseCard from "../components/UseCaseCard.jsx";
-import CTASection from "../components/CTASection.jsx";
-
-const services = [
-  {
-    icon: Building2,
-    title: "Infrastructure strategy",
-    description:
-      "Support EV infrastructure planning, rollout sequencing, charger positioning and operational visibility discussions.",
-  },
-  {
-    icon: LineChart,
-    title: "Market intelligence",
-    description:
-      "Research-driven insight into EV infrastructure trends, operational signals and sector movement.",
-  },
-  {
-    icon: ClipboardCheck,
-    title: "Operational readiness",
-    description:
-      "Assess whether organizations, fleets, properties or projects are operationally prepared for EV transition.",
-  },
-  {
-    icon: FileSearch,
-    title: "Research & analysis",
-    description:
-      "Produce analytical reports, intelligence summaries and strategic EV sector documentation.",
-  },
-  {
-    icon: ShieldCheck,
-    title: "Confidential advisory",
-    description:
-      "Support sensitive infrastructure conversations while protecting stakeholder confidentiality.",
-  },
-  {
-    icon: BriefcaseBusiness,
-    title: "Decision support",
-    description:
-      "Translate technical EV infrastructure realities into executive-level decision intelligence.",
-  },
-];
-
-const clients = [
-  {
-    title: "Property stakeholders",
-    description:
-      "Support landlords, mixed-use developments, retail centres and estates navigating charger infrastructure discussions.",
-  },
-  {
-    title: "Fleet stakeholders",
-    description:
-      "Help organizations evaluate fleet electrification readiness and operational implications.",
-  },
-  {
-    title: "Infrastructure stakeholders",
-    description:
-      "Support charger operators, infrastructure groups and ecosystem participants with evidence-led insight.",
-  },
-];
+import { useState } from "react";
+import AccessModal from "../components/AccessModal.jsx";
 
 export default function Consulting() {
+  const [showAccessModal, setShowAccessModal] = useState(false);
+
   return (
-    <div>
-      <PageHeader
-        eyebrow="Consulting"
-        title="Strategic EV advisory and intelligence."
-        description="IQ4EV supports organizations navigating EV infrastructure, operational readiness, fleet transition and strategic electrification decisions."
-      />
+    <main className="ti-page consulting-page">
+      <section className="consult-hero">
+        <div className="consult-copy">
+          <p className="pulse-kicker">IQ4EV Consulting</p>
 
-      <section className="mx-auto max-w-7xl px-6 py-20">
-        <div className="grid gap-10 lg:grid-cols-[0.95fr_1.05fr] lg:items-center">
-          <div>
-            <SectionHeader
-              eyebrow="What IQ4EV consulting is"
-              title="Independent EV intelligence for real-world infrastructure decisions."
-              description="IQ4EV operates as an intelligence quality company for the EV sector, helping organizations move beyond assumptions toward evidence-led infrastructure and operational thinking."
-            />
+          <h1>
+            Strategic EV infrastructure consulting grounded in operational
+            intelligence.
+          </h1>
 
-            <div className="mt-8 flex flex-wrap gap-4">
-              <Button to="/contact">Request consultation</Button>
+          <p className="pulse-lead">
+            IQ4EV supports organisations navigating EV infrastructure,
+            electrification strategy, charging deployment, fleet transition,
+            operational readiness and infrastructure intelligence in South
+            Africa.
+          </p>
 
-              <Button to="/briefings" variant="outline">
-                View briefings
-              </Button>
+          <div className="pulse-actions">
+            <button type="button" onClick={() => setShowAccessModal(true)}>
+              Request consultation
+            </button>
+
+            <a href="#consulting-areas">Explore consulting areas</a>
+          </div>
+        </div>
+
+        <div className="consult-visual">
+          <div className="consult-grid">
+            <div className="consult-box large">
+              <small>Infrastructure strategy</small>
+              <strong>Deployment intelligence</strong>
+            </div>
+
+            <div className="consult-box">
+              <small>Fleet readiness</small>
+              <strong>EVSS</strong>
+            </div>
+
+            <div className="consult-box">
+              <small>Charging visibility</small>
+              <strong>Pulse360</strong>
+            </div>
+
+            <div className="consult-box">
+              <small>Spatial analysis</small>
+              <strong>TerrainIntel</strong>
             </div>
           </div>
 
-          <div className="rounded-[2rem] border border-slate-200 bg-slate-50 p-8">
-            <div className="grid gap-4 md:grid-cols-2">
-              <div className="rounded-2xl bg-white p-5 shadow-sm">
-                <p className="text-xs font-bold uppercase tracking-[0.2em] text-slate-500">
-                  Focus
-                </p>
-
-                <p className="mt-2 text-2xl font-black text-slate-950">
-                  Infrastructure intelligence
-                </p>
-              </div>
-
-              <div className="rounded-2xl bg-white p-5 shadow-sm">
-                <p className="text-xs font-bold uppercase tracking-[0.2em] text-slate-500">
-                  Approach
-                </p>
-
-                <p className="mt-2 text-2xl font-black text-slate-950">
-                  Evidence-led
-                </p>
-              </div>
-
-              <div className="rounded-2xl bg-white p-5 shadow-sm">
-                <p className="text-xs font-bold uppercase tracking-[0.2em] text-slate-500">
-                  Coverage
-                </p>
-
-                <p className="mt-2 text-2xl font-black text-slate-950">
-                  Fleet + infrastructure
-                </p>
-              </div>
-
-              <div className="rounded-2xl bg-white p-5 shadow-sm">
-                <p className="text-xs font-bold uppercase tracking-[0.2em] text-slate-500">
-                  Position
-                </p>
-
-                <p className="mt-2 text-2xl font-black text-slate-950">
-                  Infrastructure-neutral
-                </p>
-              </div>
-            </div>
+          <div className="consult-overlay">
+            <span>Strategic support</span>
+            <strong>Infrastructure + operational intelligence</strong>
           </div>
         </div>
       </section>
 
-      <section className="border-y border-slate-200 bg-slate-50">
-        <div className="mx-auto max-w-7xl px-6 py-20">
-          <SectionHeader
-            eyebrow="Capabilities"
-            title="Built around strategic EV infrastructure understanding."
-            description="IQ4EV consulting combines operational awareness, spatial intelligence and EV sector analysis."
-          />
+      <section id="consulting-areas" className="ti-metrics">
+        <article>
+          <span>01</span>
+          <strong>Infrastructure planning</strong>
+          <p>
+            Support infrastructure strategy, charging deployment planning and
+            readiness interpretation.
+          </p>
+        </article>
 
-          <div className="mt-10">
-            <FeatureGrid items={services} />
-          </div>
+        <article>
+          <span>02</span>
+          <strong>Fleet transition</strong>
+          <p>
+            Assist organisations evaluating EV fleet pathways, operational
+            readiness and simulation-led planning.
+          </p>
+        </article>
+
+        <article>
+          <span>03</span>
+          <strong>Strategic interpretation</strong>
+          <p>
+            Translate EV infrastructure and operational signals into executive
+            decision support.
+          </p>
+        </article>
+      </section>
+
+      <section className="ti-decision-layer">
+        <div>
+          <p className="ti-kicker">Consulting approach</p>
+
+          <h2>
+            IQ4EV approaches EV transition as an infrastructure systems problem,
+            not only a vehicle problem.
+          </h2>
+        </div>
+
+        <div className="ti-stack">
+          <article>
+            <span>Evidence-led planning</span>
+            <p>
+              Infrastructure decisions should be informed by operational,
+              spatial and deployment intelligence — not assumptions alone.
+            </p>
+          </article>
+
+          <article>
+            <span>Cross-platform intelligence</span>
+            <p>
+              IQ4EV combines TerrainIntel, Pulse360 and EVSS perspectives to
+              interpret infrastructure, operational and readiness conditions.
+            </p>
+          </article>
+
+          <article>
+            <span>Strategic interpretation</span>
+            <p>
+              The goal is not only analytics. The goal is helping organisations
+              understand what actions make sense operationally and commercially.
+            </p>
+          </article>
         </div>
       </section>
 
-      <section className="mx-auto max-w-7xl px-6 py-20">
-        <SectionHeader
-          eyebrow="Stakeholders"
-          title="Who IQ4EV supports."
-          description="IQ4EV consulting is designed for organizations navigating the realities of electrification transition."
-        />
+      <section className="ti-use-cases">
+        <p className="ti-kicker">Consulting audiences</p>
 
-        <div className="mt-10 grid gap-6 md:grid-cols-3">
-          {clients.map((item) => (
-            <UseCaseCard
-              key={item.title}
-              title={item.title}
-              description={item.description}
-            />
-          ))}
+        <div className="ti-use-grid">
+          <article>
+            <h3>Municipalities</h3>
+            <p>
+              EV readiness interpretation, infrastructure strategy and regional
+              planning support.
+            </p>
+          </article>
+
+          <article>
+            <h3>OEMs</h3>
+            <p>
+              Market readiness, infrastructure visibility and customer support
+              interpretation.
+            </p>
+          </article>
+
+          <article>
+            <h3>Fleet operators</h3>
+            <p>
+              Fleet transition readiness, route analysis and charging strategy
+              interpretation.
+            </p>
+          </article>
+
+          <article>
+            <h3>Property groups</h3>
+            <p>
+              Charging infrastructure opportunity and operational visibility for
+              hosted assets.
+            </p>
+          </article>
         </div>
       </section>
 
-      <CTASection
-        eyebrow="Consulting engagement"
-        title="Bring EV infrastructure conversations into operational reality."
-        description="Request a consultation with IQ4EV to explore infrastructure intelligence, fleet transition planning, reporting strategy and EV operational readiness."
+      <section className="ti-cta">
+        <div>
+          <p className="ti-kicker">Request strategic support</p>
+
+          <h2>Need EV infrastructure or operational consulting?</h2>
+
+          <p>
+            Submit a consultation request and IQ4EV will follow up manually to
+            understand your organisation, objectives and support requirements.
+          </p>
+        </div>
+
+        <button type="button" onClick={() => setShowAccessModal(true)}>
+          Request consultation
+        </button>
+      </section>
+
+      <AccessModal
+        open={showAccessModal}
+        onClose={() => setShowAccessModal(false)}
+        defaultPlatform="Strategic Consulting"
+        defaultRequestType="Request IQ4EV Consulting"
       />
-    </div>
+    </main>
   );
 }
