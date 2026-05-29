@@ -168,7 +168,7 @@ a {
   position: absolute;
   z-index: 4600;
   top: 154px !important;
-  right: 40px !important;
+  left: 40px !important;
   width: 535px !important;
   border-radius: 999px !important;
   background: rgba(255, 255, 255, 0.94) !important;
