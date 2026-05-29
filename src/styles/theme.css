@@ -12,21 +12,19 @@
   --iq-accent: #ff6b6b;
   --iq-accent-soft: #ff9f9f;
 
-  --iq-shadow:
-    0 4px 18px rgba(15, 23, 42, 0.08);
-
+  --iq-shadow: 0 4px 18px rgba(15, 23, 42, 0.08);
   --iq-radius: 16px;
 }
+
+/* Keep themes.css for variables only.
+   Main layout/navbar styling should live in index.css. */
 
 body {
   margin: 0;
   padding: 0;
   background: var(--iq-bg);
   color: var(--iq-text);
-  font-family:
-    Inter,
-    system-ui,
-    sans-serif;
+  font-family: Inter, system-ui, sans-serif;
 }
 
 * {
@@ -36,100 +34,4 @@ body {
 a {
   text-decoration: none;
   color: inherit;
-}
-
-.iq-navbar {
-  width: 100%;
-  height: 76px;
-  background: rgba(255,255,255,0.92);
-  backdrop-filter: blur(16px);
-  border-bottom: 1px solid var(--iq-border);
-  position: sticky;
-  top: 0;
-  z-index: 9999;
-}
-
-.iq-navbar-inner {
-  width: 100%;
-  max-width: 1500px;
-  margin: auto;
-  height: 100%;
-  padding: 0 32px;
-
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.iq-logo {
-  height: 40px;
-}
-
-.iq-nav-links {
-  display: flex;
-  gap: 28px;
-  font-size: 14px;
-  color: var(--iq-muted);
-}
-
-.iq-nav-links a:hover {
-  color: var(--iq-text);
-}
-
-.iq-access-btn {
-  border: none;
-  background: var(--iq-accent);
-  color: white;
-  padding: 12px 18px;
-  border-radius: 999px;
-  cursor: pointer;
-  font-weight: 600;
-}
-
-.iq-navbar {
-  width: 100%;
-  height: 76px;
-  background: rgba(255,255,255,0.92);
-  backdrop-filter: blur(16px);
-  border-bottom: 1px solid var(--iq-border);
-  position: sticky;
-  top: 0;
-  z-index: 9999;
-}
-
-.iq-navbar-inner {
-  width: 100%;
-  max-width: 1500px;
-  margin: auto;
-  height: 100%;
-  padding: 0 32px;
-
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.iq-logo {
-  height: 40px;
-}
-
-.iq-nav-links {
-  display: flex;
-  gap: 28px;
-  font-size: 14px;
-  color: var(--iq-muted);
-}
-
-.iq-nav-links a:hover {
-  color: var(--iq-text);
-}
-
-.iq-access-btn {
-  border: none;
-  background: var(--iq-accent);
-  color: white;
-  padding: 12px 18px;
-  border-radius: 999px;
-  cursor: pointer;
-  font-weight: 600;
 }
