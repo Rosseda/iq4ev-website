@@ -3879,3 +3879,171 @@ a {
     width: min(235px, calc(100vw - 24px)) !important;
   }
 }
+
+/* =========================================================
+   MAP LAYERS + LEGEND MOBILE DECLUTTER
+   Add this at the VERY BOTTOM of src/styles/index.css.
+   Supports updated src/data/components/MapView.jsx.
+========================================================= */
+
+/* Desktop defaults */
+.map-layer-toggle-button {
+  display: none;
+}
+
+.map-panel-header {
+  display: contents;
+}
+
+.map-panel-close {
+  display: none;
+}
+
+/* Tablet/phone declutter */
+@media (max-width: 760px) {
+  .map-layer-toggle-button {
+    display: inline-flex;
+    position: fixed;
+    left: 12px;
+    bottom: calc(18px + env(safe-area-inset-bottom));
+    z-index: 4400;
+
+    padding: 12px 15px;
+    border-radius: 999px;
+    background: #ffffff;
+    color: #111827;
+    border: 1px solid rgba(226, 232, 240, 0.95);
+    box-shadow: 0 18px 42px rgba(15, 23, 42, 0.18);
+
+    font-size: 12px;
+    font-weight: 850;
+  }
+
+  .map-layer-control {
+    display: none !important;
+
+    position: fixed !important;
+    top: auto !important;
+    left: 12px !important;
+    right: 12px !important;
+    bottom: calc(72px + env(safe-area-inset-bottom)) !important;
+
+    width: auto !important;
+    min-width: 0 !important;
+    max-width: none !important;
+    z-index: 4500 !important;
+
+    padding: 16px 18px !important;
+    border-radius: 24px !important;
+
+    background: rgba(255, 255, 255, 0.97) !important;
+    border: 1px solid rgba(226, 232, 240, 0.95) !important;
+    box-shadow: 0 28px 70px rgba(15, 23, 42, 0.18) !important;
+    backdrop-filter: blur(18px);
+  }
+
+  .map-layer-control.is-open {
+    display: grid !important;
+  }
+
+  .map-panel-header {
+    display: flex !important;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 4px;
+  }
+
+  .map-panel-header strong {
+    margin: 0 !important;
+    font-size: 15px !important;
+  }
+
+  .map-panel-close {
+    display: inline-grid;
+    place-items: center;
+
+    width: 30px;
+    height: 30px;
+    border-radius: 999px;
+
+    background: #f1f5f9;
+    color: #111827;
+
+    font-size: 20px;
+    line-height: 1;
+    font-weight: 900;
+  }
+
+  .map-layer-control label {
+    font-size: 14px !important;
+    padding: 7px 0;
+  }
+
+  /* Move signal toggle to right; layers toggle stays left */
+  .iq4ev-mobile-intel-toggle {
+    right: 12px !important;
+    left: auto !important;
+  }
+
+  /* Legend becomes another bottom-sheet style panel */
+  .legend-toggle-wrap {
+    display: grid !important;
+    position: fixed !important;
+    left: 50% !important;
+    right: auto !important;
+    bottom: calc(18px + env(safe-area-inset-bottom)) !important;
+    transform: translateX(-50%) !important;
+    z-index: 4400 !important;
+    justify-items: center !important;
+  }
+
+  .legend-toggle-button {
+    padding: 12px 15px !important;
+    border-radius: 999px !important;
+    background: #ffffff !important;
+    color: #111827 !important;
+    border: 1px solid rgba(226, 232, 240, 0.95) !important;
+    box-shadow: 0 18px 42px rgba(15, 23, 42, 0.18) !important;
+    font-size: 12px !important;
+    font-weight: 850 !important;
+  }
+
+  .map-legend {
+    position: fixed !important;
+    left: 12px !important;
+    right: 12px !important;
+    bottom: calc(72px + env(safe-area-inset-bottom)) !important;
+
+    width: auto !important;
+    min-width: 0 !important;
+    max-width: none !important;
+    max-height: 42dvh !important;
+    overflow-y: auto !important;
+
+    padding: 16px 18px !important;
+    border-radius: 24px !important;
+    z-index: 4500 !important;
+
+    background: rgba(255, 255, 255, 0.97) !important;
+    border: 1px solid rgba(226, 232, 240, 0.95) !important;
+    box-shadow: 0 28px 70px rgba(15, 23, 42, 0.18) !important;
+    backdrop-filter: blur(18px);
+  }
+
+  /* Prevent Leaflet attribution from fighting the bottom buttons */
+  .leaflet-control-attribution {
+    max-width: calc(100vw - 24px);
+    font-size: 10px !important;
+  }
+}
+
+/* Very narrow phones: make the three bottom controls fit */
+@media (max-width: 390px) {
+  .map-layer-toggle-button,
+  .legend-toggle-button,
+  .iq4ev-mobile-intel-toggle {
+    padding: 10px 12px !important;
+    font-size: 11px !important;
+  }
+}
