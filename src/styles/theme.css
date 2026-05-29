@@ -1,3 +1,9 @@
+/* =========================================================
+   IQ4EV THEME + BASE NAVBAR
+   This file keeps global tokens and the shared top navbar sizing.
+   Page-specific layouts and map overlays should remain in index.css.
+========================================================= */
+
 :root {
   --iq-bg: #f5f7fb;
   --iq-panel: #ffffff;
@@ -11,65 +17,132 @@
 
   --iq-accent: #ff6b6b;
   --iq-accent-soft: #ff9f9f;
+  --iq-orange: #fb923c;
 
-  --iq-shadow:
-    0 4px 18px rgba(15, 23, 42, 0.08);
+  --iq-shadow: 0 4px 18px rgba(15, 23, 42, 0.08);
+  --iq-shadow-lg: 0 28px 70px rgba(15, 23, 42, 0.14);
 
   --iq-radius: 16px;
+  --iq-radius-lg: 28px;
+  --iq-radius-pill: 999px;
+
+  --iq-container: 1500px;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  width: 100%;
+  min-width: 0;
+  margin: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
 }
 
 body {
-  margin: 0;
-  padding: 0;
+  min-height: 100vh;
+  overflow-x: hidden;
   background: var(--iq-bg);
   color: var(--iq-text);
   font-family:
     Inter,
+    ui-sans-serif,
     system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
     sans-serif;
 }
 
-* {
-  box-sizing: border-box;
+img,
+svg,
+video,
+canvas {
+  max-width: 100%;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+button {
+  border: none;
+  cursor: pointer;
 }
 
 a {
-  text-decoration: none;
   color: inherit;
+  text-decoration: none;
 }
 
+/* =========================================================
+   SHARED INTERNAL PAGE NAVBAR
+   Required by src/components/Navbar.jsx.
+   Do not remove unless Navbar.jsx is rewritten.
+========================================================= */
+
 .iq-navbar {
-  width: 100%;
-  height: 76px;
-  background: rgba(255,255,255,0.92);
-  backdrop-filter: blur(16px);
-  border-bottom: 1px solid var(--iq-border);
   position: sticky;
   top: 0;
   z-index: 9999;
+  width: 100%;
+  height: 76px;
+  background: rgba(255, 255, 255, 0.92);
+  border-bottom: 1px solid var(--iq-border);
+  backdrop-filter: blur(16px);
 }
 
 .iq-navbar-inner {
   width: 100%;
-  max-width: 1500px;
-  margin: auto;
+  max-width: var(--iq-container);
   height: 100%;
+  margin: 0 auto;
   padding: 0 32px;
 
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 28px;
+}
+
+.iq-logo-wrap {
+  display: inline-flex;
+  align-items: center;
+  flex: 0 0 auto;
+  min-width: 0;
 }
 
 .iq-logo {
+  display: block;
+  width: auto;
   height: 40px;
+  max-height: 40px;
+  object-fit: contain;
 }
 
 .iq-nav-links {
   display: flex;
+  align-items: center;
+  justify-content: center;
   gap: 28px;
-  font-size: 14px;
+  min-width: 0;
   color: var(--iq-muted);
+  font-size: 14px;
+  font-weight: 650;
+  white-space: nowrap;
 }
 
 .iq-nav-links a:hover {
@@ -77,59 +150,160 @@ a {
 }
 
 .iq-access-btn {
-  border: none;
-  background: var(--iq-accent);
-  color: white;
+  flex: 0 0 auto;
   padding: 12px 18px;
   border-radius: 999px;
-  cursor: pointer;
-  font-weight: 600;
+  background: var(--iq-accent);
+  color: #ffffff;
+  font-weight: 700;
+  white-space: nowrap;
 }
 
-.iq-navbar {
-  width: 100%;
-  height: 76px;
-  background: rgba(255,255,255,0.92);
-  backdrop-filter: blur(16px);
-  border-bottom: 1px solid var(--iq-border);
-  position: sticky;
-  top: 0;
-  z-index: 9999;
+/* Tablet: keep navbar stable, reduce spacing */
+@media (max-width: 1050px) {
+  .iq-navbar {
+    height: 68px;
+  }
+
+  .iq-navbar-inner {
+    padding: 0 18px;
+    gap: 16px;
+  }
+
+  .iq-logo {
+    height: 34px;
+    max-height: 34px;
+  }
+
+  .iq-nav-links {
+    gap: 16px;
+    font-size: 13px;
+  }
+
+  .iq-access-btn {
+    padding: 10px 14px;
+    font-size: 13px;
+  }
 }
 
-.iq-navbar-inner {
-  width: 100%;
-  max-width: 1500px;
-  margin: auto;
-  height: 100%;
-  padding: 0 32px;
+/* Phone: hide links but keep logo/button properly sized */
+@media (max-width: 760px) {
+  .iq-navbar {
+    height: 64px;
+  }
 
+  .iq-navbar-inner {
+    padding: 0 14px;
+    gap: 12px;
+  }
+
+  .iq-logo {
+    height: 32px;
+    max-height: 32px;
+  }
+
+  .iq-nav-links {
+    display: none;
+  }
+
+  .iq-access-btn {
+    padding: 10px 14px;
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 380px) {
+  .iq-logo {
+    height: 28px;
+    max-height: 28px;
+  }
+
+  .iq-access-btn {
+    padding: 9px 12px;
+    font-size: 12px;
+  }
+}
+
+.iq-navbar-actions {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  gap: 12px;
 }
 
-.iq-logo {
-  height: 40px;
+.iq-mobile-menu-btn {
+  display: none;
 }
 
-.iq-nav-links {
-  display: flex;
-  gap: 28px;
-  font-size: 14px;
-  color: var(--iq-muted);
+.iq-mobile-menu {
+  display: none;
 }
 
-.iq-nav-links a:hover {
+.iq-nav-links a.is-active {
   color: var(--iq-text);
+  font-weight: 800;
 }
 
-.iq-access-btn {
-  border: none;
-  background: var(--iq-accent);
-  color: white;
-  padding: 12px 18px;
-  border-radius: 999px;
-  cursor: pointer;
-  font-weight: 600;
+@media (max-width: 760px) {
+  .iq-mobile-menu-btn {
+    width: 42px;
+    height: 42px;
+    border-radius: 999px;
+    background: #f1f5f9;
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+  }
+
+  .iq-mobile-menu-btn span {
+    width: 18px;
+    height: 2px;
+    border-radius: 999px;
+    background: var(--iq-text);
+  }
+
+  .iq-navbar .iq-access-btn {
+    display: none;
+  }
+
+  .iq-mobile-menu {
+    display: none;
+    position: absolute;
+    top: 64px;
+    left: 12px;
+    right: 12px;
+    padding: 12px;
+    border-radius: 22px;
+    background: rgba(255, 255, 255, 0.96);
+    border: 1px solid var(--iq-border);
+    box-shadow: var(--iq-shadow-lg);
+    backdrop-filter: blur(18px);
+  }
+
+  .iq-mobile-menu.is-open {
+    display: block;
+  }
+
+  .iq-mobile-menu nav {
+    display: grid;
+    gap: 8px;
+  }
+
+  .iq-mobile-menu a,
+  .iq-mobile-menu button {
+    width: 100%;
+    padding: 13px 14px;
+    border-radius: 14px;
+    background: #f8fafc;
+    color: var(--iq-text);
+    text-align: left;
+    font-weight: 750;
+  }
+
+  .iq-mobile-menu button {
+    background: var(--iq-accent);
+    color: white;
+    text-align: center;
+  }
 }

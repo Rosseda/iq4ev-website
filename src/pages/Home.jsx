@@ -1,7 +1,16 @@
 import { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
-import MapView from "../data/components/MapView.jsx";
 import AccessModal from "../components/AccessModal.jsx";
+import MapView from "../data/components/MapView.jsx";
+
+const HOME_NAV_LINKS = [
+  { to: "/about", label: "About" },
+  { to: "/terrainintel", label: "TerrainIntel" },
+  { to: "/pulse360", label: "Pulse360" },
+  { to: "/evss", label: "EVSS" },
+  { to: "/briefings", label: "Briefings" },
+  { to: "/consulting", label: "Consulting" },
+];
 
 export default function Home() {
   const [selectedZone, setSelectedZone] = useState(null);
@@ -11,6 +20,8 @@ export default function Home() {
   const [activeCharger, setActiveCharger] = useState(null);
   const [resetSignal, setResetSignal] = useState(0);
   const [showAccessModal, setShowAccessModal] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [intelPanelOpen, setIntelPanelOpen] = useState(true);
 
   const selectedIntel = useMemo(() => {
     const selected =
@@ -84,6 +95,7 @@ export default function Home() {
     setSelectedZone(null);
     setActiveNode(null);
     setActiveCharger(null);
+    setIntelPanelOpen(true);
   }
 
   function handleRouteSelect(route) {
@@ -92,6 +104,7 @@ export default function Home() {
     setSelectedZone(null);
     setActiveNode(null);
     setActiveCharger(null);
+    setIntelPanelOpen(true);
   }
 
   function handleZoneSelect(zone) {
@@ -99,6 +112,7 @@ export default function Home() {
     setActiveRoute(null);
     setActiveNode(null);
     setActiveCharger(null);
+    setIntelPanelOpen(true);
   }
 
   function handleNodeSelect(node) {
@@ -107,6 +121,7 @@ export default function Home() {
     setActiveProvince(null);
     setSelectedZone(null);
     setActiveCharger(null);
+    setIntelPanelOpen(true);
   }
 
   function handleChargerSelect(charger) {
@@ -114,6 +129,7 @@ export default function Home() {
     setActiveRoute(null);
     setActiveNode(null);
     setSelectedZone(null);
+    setIntelPanelOpen(true);
   }
 
   function handleResetMap() {
@@ -123,32 +139,74 @@ export default function Home() {
     setActiveNode(null);
     setActiveCharger(null);
     setResetSignal((current) => current + 1);
+    setIntelPanelOpen(true);
+  }
+
+  function openAccessModal() {
+    setMobileMenuOpen(false);
+    setShowAccessModal(true);
   }
 
   return (
     <main className="iq4ev-intel-home">
       <header className="iq4ev-command-nav">
-        <Link to="/" className="iq4ev-command-logo" aria-label="IQ4EV home">
+        <Link
+          to="/"
+          className="iq4ev-command-logo"
+          aria-label="IQ4EV home"
+          onClick={() => setMobileMenuOpen(false)}
+        >
           <img src="/iq4ev-logo.png" alt="IQ4EV" />
         </Link>
 
         <nav className="iq4ev-command-links" aria-label="Main navigation">
-          <Link to="/about">About</Link>
-          <Link to="/terrainintel">TerrainIntel</Link>
-          <Link to="/pulse360">Pulse360</Link>
-          <Link to="/evss">EVSS</Link>
-          <Link to="/briefings">Briefings</Link>
-          <Link to="/consulting">Consulting</Link>
+          {HOME_NAV_LINKS.map((item) => (
+            <Link key={item.to} to={item.to}>
+              {item.label}
+            </Link>
+          ))}
         </nav>
 
         <div className="iq4ev-command-actions">
           <button type="button" onClick={handleResetMap}>
             Reset
           </button>
-          <button type="button" onClick={() => setShowAccessModal(true)}>
-  Request Access
-</button>
+          <button type="button" onClick={openAccessModal}>
+            Request Access
+          </button>
+          <button
+            type="button"
+            className="iq4ev-command-menu-btn"
+            aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
+            aria-expanded={mobileMenuOpen}
+            onClick={() => setMobileMenuOpen((current) => !current)}
+          >
+            <span />
+            <span />
+            <span />
+          </button>
         </div>
+
+        <nav
+          className={`iq4ev-command-mobile-menu ${
+            mobileMenuOpen ? "is-open" : ""
+          }`}
+          aria-label="Mobile navigation"
+          aria-hidden={!mobileMenuOpen}
+        >
+          {HOME_NAV_LINKS.map((item) => (
+            <Link
+              key={item.to}
+              to={item.to}
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              {item.label}
+            </Link>
+          ))}
+          <button type="button" onClick={openAccessModal}>
+            Request Access
+          </button>
+        </nav>
       </header>
 
       <section className="iq4ev-map-stage" aria-label="TerrainIntel public map">
@@ -168,7 +226,21 @@ export default function Home() {
         />
       </section>
 
-      <aside className="iq4ev-public-intel-card">
+      <button
+        type="button"
+        className="iq4ev-mobile-intel-toggle"
+        onClick={() => setIntelPanelOpen((current) => !current)}
+      >
+        {intelPanelOpen ? "Hide Signal" : "Show Signal"}
+      </button>
+
+      <aside
+        className={`iq4ev-public-intel-card ${
+          intelPanelOpen ? "is-open" : "is-collapsed"
+        }`}
+      >
+        <div className="iq4ev-intel-card-handle" aria-hidden="true" />
+
         <div className="iq4ev-intel-eyebrow">Public zoning signal</div>
 
         <h2>{selectedIntel.name}</h2>
@@ -191,11 +263,12 @@ export default function Home() {
           Request deeper briefing
         </Link>
       </aside>
+
       <AccessModal
-  open={showAccessModal}
-  onClose={() => setShowAccessModal(false)}
-  defaultRequestType="Request IQ4EV Access"
-/>
+        open={showAccessModal}
+        onClose={() => setShowAccessModal(false)}
+        defaultRequestType="Request IQ4EV Access"
+      />
     </main>
   );
 }

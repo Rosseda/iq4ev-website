@@ -3487,3 +3487,395 @@ a {
     grid-column: span 1 !important;
   }
 }
+
+
+/* ===== HOMEPAGE COMMAND MOBILE MENU FIX ===== */
+
+.iq4ev-command-menu-btn {
+  display: none;
+}
+
+.iq4ev-command-mobile-menu {
+  display: none;
+}
+
+@media (max-width: 760px) {
+  .iq4ev-command-menu-btn {
+    display: inline-flex;
+    width: 44px;
+    height: 44px;
+    border-radius: 999px;
+    background: #f1f5f9;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .iq4ev-command-menu-btn span {
+    width: 18px;
+    height: 2px;
+    border-radius: 999px;
+    background: #111827;
+  }
+
+  .iq4ev-command-mobile-menu {
+    display: none;
+    position: absolute;
+    top: calc(100% + 10px);
+    left: 12px;
+    right: 12px;
+    padding: 12px;
+    border-radius: 22px;
+    background: rgba(255, 255, 255, 0.96);
+    border: 1px solid rgba(226, 232, 240, 0.95);
+    box-shadow: 0 28px 70px rgba(15, 23, 42, 0.16);
+    backdrop-filter: blur(18px);
+  }
+
+  .iq4ev-command-mobile-menu.is-open {
+    display: grid;
+    gap: 8px;
+  }
+
+  .iq4ev-command-mobile-menu a,
+  .iq4ev-command-mobile-menu button {
+    width: 100%;
+    padding: 13px 14px;
+    border-radius: 14px;
+    background: #f8fafc;
+    color: #111827;
+    text-align: left;
+    font-weight: 800;
+  }
+
+  .iq4ev-command-mobile-menu button {
+    background: #111827;
+    color: white;
+    text-align: center;
+  }
+}
+
+/* =========================================================
+   HOME PAGE RESPONSIVE CONTROL LAYER
+   Add this at the VERY BOTTOM of src/styles/index.css.
+   This supports the updated src/pages/Home.jsx.
+========================================================= */
+
+/* Hide new homepage mobile elements by default on desktop */
+.iq4ev-command-menu-btn,
+.iq4ev-command-mobile-menu,
+.iq4ev-mobile-intel-toggle,
+.iq4ev-intel-card-handle {
+  display: none;
+}
+
+/* Make active homepage command nav stable */
+.iq4ev-command-actions {
+  min-width: 0;
+}
+
+.iq4ev-command-actions button {
+  white-space: nowrap;
+}
+
+/* Desktop safety: keep floating intel card desktop-style */
+@media (min-width: 901px) {
+  .iq4ev-public-intel-card {
+    max-height: calc(100vh - 290px);
+    overflow-y: auto;
+  }
+}
+
+/* Tablet homepage */
+@media (max-width: 1100px) {
+  .iq4ev-command-nav {
+    width: calc(100% - 32px) !important;
+    grid-template-columns: 150px 1fr 280px !important;
+    gap: 16px !important;
+    padding: 0 18px !important;
+  }
+
+  .iq4ev-command-links {
+    gap: 18px !important;
+    font-size: 13px !important;
+  }
+
+  .iq4ev-command-actions {
+    gap: 10px !important;
+  }
+
+  .iq4ev-command-actions button {
+    padding: 13px 16px !important;
+    font-size: 13px !important;
+  }
+}
+
+/* Phone homepage:
+   Keep the map as the hero, but make controls usable instead of huge. */
+@media (max-width: 760px) {
+  .iq4ev-intel-home,
+  .iq4ev-map-stage {
+    width: 100%;
+    height: 100dvh;
+    min-height: 100dvh;
+    overflow: hidden;
+  }
+
+  .map-view,
+  .leaflet-map,
+  .leaflet-container {
+    width: 100%;
+    height: 100%;
+  }
+
+  .iq4ev-command-nav {
+    top: 12px !important;
+    left: 12px !important;
+    right: 12px !important;
+    transform: none !important;
+    width: auto !important;
+    height: 64px !important;
+
+    display: grid !important;
+    grid-template-columns: auto 1fr !important;
+    gap: 10px !important;
+    align-items: center !important;
+
+    padding: 0 12px !important;
+    border-radius: 24px !important;
+  }
+
+  .iq4ev-command-logo img {
+    height: 34px !important;
+    max-height: 34px !important;
+  }
+
+  .iq4ev-command-links {
+    display: none !important;
+  }
+
+  .iq4ev-command-actions {
+    justify-content: flex-end !important;
+    gap: 8px !important;
+  }
+
+  .iq4ev-command-actions > button:not(.iq4ev-command-menu-btn) {
+    padding: 11px 13px !important;
+    font-size: 12px !important;
+    line-height: 1 !important;
+  }
+
+  .iq4ev-command-menu-btn {
+    display: inline-flex;
+    width: 42px;
+    height: 42px;
+    flex: 0 0 42px;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 4px;
+    border-radius: 999px;
+    background: #f1f5f9;
+  }
+
+  .iq4ev-command-menu-btn span {
+    display: block;
+    width: 17px;
+    height: 2px;
+    border-radius: 999px;
+    background: #111827;
+  }
+
+  .iq4ev-command-mobile-menu {
+    position: absolute;
+    top: calc(100% + 10px);
+    left: 0;
+    right: 0;
+    z-index: 6000;
+
+    padding: 12px;
+    border-radius: 22px;
+    background: rgba(255, 255, 255, 0.97);
+    border: 1px solid rgba(226, 232, 240, 0.95);
+    box-shadow: 0 28px 70px rgba(15, 23, 42, 0.16);
+    backdrop-filter: blur(18px);
+  }
+
+  .iq4ev-command-mobile-menu.is-open {
+    display: grid;
+    gap: 8px;
+  }
+
+  .iq4ev-command-mobile-menu a,
+  .iq4ev-command-mobile-menu button {
+    width: 100%;
+    padding: 13px 14px;
+    border-radius: 14px;
+    background: #f8fafc;
+    color: #111827;
+    text-align: left;
+    font-weight: 850;
+  }
+
+  .iq4ev-command-mobile-menu button {
+    background: #111827;
+    color: #ffffff;
+    text-align: center;
+  }
+
+  .map-search-card {
+    top: 88px !important;
+    left: 12px !important;
+    right: 12px !important;
+    width: auto !important;
+    border-radius: 22px !important;
+  }
+
+  .map-search-card input {
+    height: 54px !important;
+    padding: 0 16px !important;
+    font-size: 14px !important;
+  }
+
+  .map-layer-control {
+    top: 154px !important;
+    left: 12px !important;
+    width: min(260px, calc(100vw - 24px)) !important;
+    min-width: 0 !important;
+    padding: 14px 16px !important;
+    border-radius: 22px !important;
+  }
+
+  .map-layer-control strong {
+    font-size: 14px !important;
+  }
+
+  .map-layer-control label {
+    font-size: 13px !important;
+    gap: 8px !important;
+  }
+
+  .leaflet-top.leaflet-left {
+    top: 330px !important;
+    left: 12px !important;
+  }
+
+  .legend-toggle-wrap,
+  .map-hover-card {
+    display: none !important;
+  }
+
+  .iq4ev-mobile-intel-toggle {
+    display: inline-flex;
+    position: fixed;
+    right: 12px;
+    bottom: calc(18px + env(safe-area-inset-bottom));
+    z-index: 4400;
+
+    padding: 12px 15px;
+    border-radius: 999px;
+    background: #111827;
+    color: #ffffff;
+    font-size: 12px;
+    font-weight: 850;
+    box-shadow: 0 18px 42px rgba(15, 23, 42, 0.22);
+  }
+
+  .iq4ev-public-intel-card {
+    top: auto !important;
+    left: 12px !important;
+    right: 12px !important;
+    bottom: calc(72px + env(safe-area-inset-bottom)) !important;
+    width: auto !important;
+
+    max-height: 34dvh !important;
+    overflow-y: auto !important;
+
+    padding: 16px 18px !important;
+    border-radius: 24px !important;
+    transition:
+      transform 220ms ease,
+      opacity 220ms ease;
+  }
+
+  .iq4ev-public-intel-card.is-collapsed {
+    transform: translateY(calc(100% + 90px));
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .iq4ev-intel-card-handle {
+    display: block;
+    width: 44px;
+    height: 5px;
+    margin: 0 auto 12px;
+    border-radius: 999px;
+    background: #cbd5e1;
+  }
+
+  .iq4ev-intel-eyebrow {
+    font-size: 9px !important;
+    margin-bottom: 8px !important;
+  }
+
+  .iq4ev-public-intel-card h2 {
+    font-size: 21px !important;
+    line-height: 1.08 !important;
+  }
+
+  .iq4ev-intel-location {
+    font-size: 12px !important;
+  }
+
+  .iq4ev-zone-row {
+    padding: 7px 11px !important;
+    font-size: 12px !important;
+  }
+
+  .iq4ev-public-intel-card p {
+    font-size: 13px !important;
+    line-height: 1.5 !important;
+  }
+
+  .iq4ev-intel-note {
+    display: none !important;
+  }
+}
+
+/* Very narrow phones */
+@media (max-width: 390px) {
+  .iq4ev-command-nav {
+    height: 60px !important;
+    padding: 0 10px !important;
+  }
+
+  .iq4ev-command-logo img {
+    height: 30px !important;
+  }
+
+  .iq4ev-command-actions > button:not(.iq4ev-command-menu-btn) {
+    padding: 10px 11px !important;
+    font-size: 11px !important;
+  }
+
+  .iq4ev-command-menu-btn {
+    width: 38px;
+    height: 38px;
+    flex-basis: 38px;
+  }
+
+  .map-search-card {
+    top: 82px !important;
+  }
+
+  .map-search-card input {
+    height: 50px !important;
+    font-size: 13px !important;
+  }
+
+  .map-layer-control {
+    top: 144px !important;
+    width: min(235px, calc(100vw - 24px)) !important;
+  }
+}
