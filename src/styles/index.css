@@ -3489,10 +3489,31 @@ a {
 }
 
 /* =========================================================
-   IQ4EV RESPONSIVE FINAL LAYER
-   Keep desktop-style homepage composition, scaled down properly.
-   KEEP THIS AT THE VERY BOTTOM OF index.css.
-========================================================= */
+   IQ4EV FULL RESPONSIVE OPTIMISATION LAYER
+   Replace your current index.css with this full file.
+   This final layer deliberately overrides earlier duplicate rules.
+   ========================================================= */
+
+:root {
+  --iq-bg: #f8fafc;
+  --iq-surface: rgba(255, 255, 255, 0.94);
+  --iq-surface-strong: #ffffff;
+  --iq-ink: #0f172a;
+  --iq-muted: #475569;
+  --iq-soft: #64748b;
+  --iq-line: rgba(226, 232, 240, 0.95);
+  --iq-coral: #ff6b6b;
+  --iq-orange: #fb923c;
+  --iq-radius-xl: clamp(24px, 3vw, 42px);
+  --iq-page-x: clamp(16px, 5vw, 112px);
+  --iq-section-gap: clamp(48px, 7vw, 90px);
+  --iq-card-pad: clamp(20px, 2.6vw, 34px);
+  --iq-nav-height: clamp(68px, 7vw, 90px);
+}
+
+* {
+  min-width: 0;
+}
 
 html,
 body,
@@ -3501,44 +3522,820 @@ body,
   overflow-x: hidden;
 }
 
+body {
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
 img,
 svg,
-canvas,
-video {
+video,
+canvas {
   max-width: 100%;
 }
 
-/* ===== DESKTOP / LAPTOP ===== */
-
-@media (min-width: 1201px) {
-  .iq4ev-command-nav {
-    width: min(1650px, calc(100vw - 270px)) !important;
-  }
+button,
+a,
+input,
+select,
+textarea {
+  -webkit-tap-highlight-color: transparent;
 }
 
-/* ===== TABLET ===== */
+button,
+a {
+  touch-action: manipulation;
+}
 
-@media (max-width: 1200px) {
+input,
+select,
+textarea {
+  font-size: 16px;
+}
+
+/* ---------- Global page rhythm ---------- */
+.iq-page,
+.ti-page {
+  width: 100%;
+  padding: clamp(104px, 12vw, 150px) var(--iq-page-x) clamp(56px, 7vw, 90px) !important;
+  overflow-x: hidden;
+}
+
+.ti-page .ti-hero,
+.pulse-hero,
+.evss-hero,
+.briefings-page .brief-hero,
+.consult-hero,
+.about-page .about-hero,
+.iq-product-hero,
+.ti-page .ti-metrics,
+.evss-page .ti-metrics,
+.briefings-page .ti-metrics,
+.consulting-page .ti-metrics,
+.about-page .ti-metrics,
+.pulse-hero + .ti-metrics,
+.ti-page .ti-decision-layer,
+.evss-page .ti-decision-layer,
+.briefings-page .ti-decision-layer,
+.consulting-page .ti-decision-layer,
+.about-page .ti-decision-layer,
+.pulse-hero ~ .ti-decision-layer,
+.ti-page .ti-use-cases,
+.evss-page .ti-use-cases,
+.briefings-page .ti-use-cases,
+.consulting-page .ti-use-cases,
+.about-page .ti-use-cases,
+.pulse-hero ~ .ti-use-cases,
+.ti-page .ti-cta,
+.evss-page .ti-cta,
+.briefings-page .ti-cta,
+.consulting-page .ti-cta,
+.about-page .ti-cta,
+.pulse-hero ~ .ti-cta {
+  max-width: 1500px !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+
+.ti-page .ti-hero,
+.pulse-hero,
+.evss-hero,
+.briefings-page .brief-hero,
+.consult-hero,
+.about-page .about-hero,
+.iq-product-hero {
+  grid-template-columns: minmax(0, 1.05fr) minmax(360px, 560px) !important;
+  gap: clamp(28px, 4vw, 54px) !important;
+  margin-bottom: var(--iq-section-gap) !important;
+}
+
+.ti-page .ti-metrics,
+.evss-page .ti-metrics,
+.briefings-page .ti-metrics,
+.consulting-page .ti-metrics,
+.about-page .ti-metrics,
+.pulse-hero + .ti-metrics,
+.iq-grid-3 {
+  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  gap: clamp(16px, 2vw, 24px) !important;
+  margin-bottom: var(--iq-section-gap) !important;
+}
+
+.ti-page .ti-use-grid,
+.evss-page .ti-use-grid,
+.briefings-page .ti-use-grid,
+.consulting-page .ti-use-grid,
+.about-page .ti-use-grid,
+.pulse-hero ~ .ti-use-cases .ti-use-grid {
+  grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+  gap: clamp(14px, 1.8vw, 20px) !important;
+}
+
+.ti-page .ti-decision-layer,
+.evss-page .ti-decision-layer,
+.briefings-page .ti-decision-layer,
+.consulting-page .ti-decision-layer,
+.about-page .ti-decision-layer,
+.pulse-hero ~ .ti-decision-layer,
+.iq-split-section {
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr) !important;
+  gap: clamp(26px, 3.5vw, 42px) !important;
+  margin-bottom: var(--iq-section-gap) !important;
+}
+
+.ti-page .ti-hero-copy h1,
+.pulse-copy h1,
+.evss-copy h1,
+.brief-copy h1,
+.consult-copy h1,
+.about-copy h1,
+.iq-product-hero h1 {
+  font-size: clamp(42px, 6.2vw, 88px) !important;
+  line-height: 0.96 !important;
+  letter-spacing: clamp(-0.07em, -0.5vw, -0.035em) !important;
+}
+
+.ti-page .ti-decision-layer h2,
+.evss-page .ti-decision-layer h2,
+.briefings-page .ti-decision-layer h2,
+.consulting-page .ti-decision-layer h2,
+.about-page .ti-decision-layer h2,
+.pulse-hero ~ .ti-decision-layer h2,
+.iq-split-section h2,
+.iq-cta-panel h2,
+.ti-page .ti-cta h2,
+.evss-page .ti-cta h2,
+.briefings-page .ti-cta h2,
+.consulting-page .ti-cta h2,
+.about-page .ti-cta h2,
+.pulse-hero ~ .ti-cta h2 {
+  font-size: clamp(32px, 4.8vw, 70px) !important;
+  line-height: 1 !important;
+}
+
+.ti-page .ti-lead,
+.pulse-lead,
+.iq-product-hero p,
+.iq-split-section p,
+.iq-cta-panel p,
+.ti-page .ti-cta p,
+.evss-page .ti-cta p,
+.briefings-page .ti-cta p,
+.consulting-page .ti-cta p,
+.about-page .ti-cta p,
+.pulse-hero ~ .ti-cta p {
+  font-size: clamp(16px, 1.45vw, 21px) !important;
+  line-height: 1.68 !important;
+}
+
+/* ---------- Command nav ---------- */
+.iq4ev-command-nav {
+  top: clamp(12px, 2.2vw, 32px) !important;
+  width: min(1650px, calc(100% - clamp(24px, 7vw, 270px))) !important;
+  height: auto !important;
+  min-height: var(--iq-nav-height) !important;
+  grid-template-columns: minmax(110px, 190px) minmax(0, 1fr) auto !important;
+  gap: clamp(12px, 2vw, 24px) !important;
+  padding: clamp(10px, 1.4vw, 18px) clamp(12px, 1.8vw, 24px) !important;
+  border-radius: clamp(22px, 3vw, 32px) !important;
+}
+
+.iq4ev-command-logo img {
+  height: clamp(36px, 4vw, 48px) !important;
+}
+
+.iq4ev-command-links {
+  gap: clamp(12px, 2vw, 34px) !important;
+  font-size: clamp(13px, 1.2vw, 16px) !important;
+  white-space: nowrap;
+}
+
+.iq4ev-command-actions {
+  gap: clamp(8px, 1vw, 14px) !important;
+}
+
+.iq4ev-command-actions button,
+.iq4ev-command-actions a,
+.pulse-actions button,
+.pulse-actions a,
+.ti-page .ti-actions button,
+.ti-page .ti-actions a,
+.iq-hero-actions button,
+.iq-hero-actions a,
+.iq-cta-panel button,
+.access-submit,
+.ti-page .ti-cta button,
+.evss-page .ti-cta button,
+.briefings-page .ti-cta button,
+.consulting-page .ti-cta button,
+.about-page .ti-cta button,
+.pulse-hero ~ .ti-cta button {
+  min-height: 46px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.iq4ev-command-actions button,
+.iq4ev-command-actions a {
+  padding: clamp(12px, 1.2vw, 17px) clamp(14px, 1.6vw, 28px) !important;
+  font-size: clamp(13px, 1.1vw, 15px) !important;
+}
+
+/* ---------- Homepage map ---------- */
+.iq4ev-intel-home,
+.iq4ev-map-stage {
+  min-height: 100svh !important;
+  height: 100svh !important;
+}
+
+.map-search-card {
+  top: calc(clamp(12px, 2.2vw, 32px) + var(--iq-nav-height) + 24px) !important;
+  right: clamp(16px, 3vw, 40px) !important;
+  width: min(535px, calc(100vw - 32px)) !important;
+}
+
+.map-search-card input {
+  height: clamp(54px, 5vw, 68px) !important;
+  font-size: clamp(15px, 1.6vw, 19px) !important;
+}
+
+.map-layer-control {
+  top: calc(clamp(12px, 2.2vw, 32px) + var(--iq-nav-height) + 24px) !important;
+  left: clamp(16px, 3vw, 40px) !important;
+  min-width: min(275px, calc(100vw - 32px)) !important;
+}
+
+.iq4ev-public-intel-card {
+  top: calc(clamp(12px, 2.2vw, 32px) + var(--iq-nav-height) + 115px) !important;
+  right: clamp(16px, 3vw, 40px) !important;
+  width: min(535px, calc(100vw - 32px)) !important;
+  padding: clamp(18px, 2vw, 26px) !important;
+}
+
+.leaflet-top.leaflet-left {
+  top: calc(clamp(12px, 2.2vw, 32px) + var(--iq-nav-height) + 175px) !important;
+  left: clamp(16px, 3vw, 40px) !important;
+}
+
+.legend-toggle-wrap {
+  left: clamp(16px, 3vw, 40px) !important;
+  bottom: clamp(18px, 3vw, 40px) !important;
+}
+
+/* ---------- Visual systems ---------- */
+.ti-map-card,
+.pulse-visual,
+.evss-visual,
+.brief-visual,
+.consult-visual,
+.about-visual {
+  height: clamp(480px, 42vw, 640px) !important;
+  border-radius: var(--iq-radius-xl) !important;
+}
+
+.pulse-monitor,
+.ti-map-card,
+.evss-visual,
+.brief-visual,
+.consult-visual,
+.about-visual,
+.iq-system-card,
+.iq-grid-3 article,
+.ti-page .ti-metrics article,
+.evss-page .ti-metrics article,
+.briefings-page .ti-metrics article,
+.consulting-page .ti-metrics article,
+.about-page .ti-metrics article,
+.pulse-hero + .ti-metrics article,
+.ti-page .ti-stack article,
+.evss-page .ti-stack article,
+.briefings-page .ti-stack article,
+.consulting-page .ti-stack article,
+.about-page .ti-stack article,
+.pulse-hero ~ .ti-decision-layer .ti-stack article,
+.ti-page .ti-use-grid article,
+.evss-page .ti-use-grid article,
+.briefings-page .ti-use-grid article,
+.consulting-page .ti-use-grid article,
+.about-page .ti-use-grid article,
+.pulse-hero ~ .ti-use-cases article,
+.ti-page .ti-cta,
+.evss-page .ti-cta,
+.briefings-page .ti-cta,
+.consulting-page .ti-cta,
+.about-page .ti-cta,
+.pulse-hero ~ .ti-cta,
+.iq-cta-panel {
+  border-radius: clamp(24px, 2.6vw, 42px) !important;
+}
+
+.pulse-monitor-grid,
+.pulse-mini-metrics,
+.consult-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+}
+
+.pulse-mini-metrics {
+  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+}
+
+.pulse-chart {
+  height: clamp(140px, 14vw, 180px) !important;
+  min-height: clamp(140px, 14vw, 180px) !important;
+  flex-basis: clamp(140px, 14vw, 180px) !important;
+}
+
+.evss-orbit {
+  width: min(420px, 78vw) !important;
+  height: min(420px, 78vw) !important;
+}
+
+/* ---------- Modals ---------- */
+.iq-modal-backdrop,
+.access-backdrop {
+  padding: clamp(10px, 2vw, 24px) !important;
+  align-items: center !important;
+}
+
+.iq-modal-form,
+.access-modal {
+  width: min(980px, 100%) !important;
+  max-height: calc(100svh - clamp(20px, 4vw, 48px)) !important;
+  padding: clamp(22px, 3vw, 36px) !important;
+  border-radius: clamp(24px, 3vw, 38px) !important;
+  overscroll-behavior: contain;
+}
+
+.iq-modal-form h2,
+.access-header h2 {
+  padding-right: 42px;
+  font-size: clamp(30px, 5vw, 64px) !important;
+}
+
+.iq-modal-close,
+.access-close {
+  top: clamp(14px, 2vw, 22px) !important;
+  right: clamp(14px, 2vw, 22px) !important;
+  width: 42px !important;
+  height: 42px !important;
+}
+
+.access-card-grid {
+  grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+}
+
+.access-check-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+}
+
+.access-two-col {
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+}
+
+.access-card-grid button,
+.access-check-grid label {
+  min-height: 52px;
+}
+
+/* ---------- Footer ---------- */
+.iq-footer {
+  padding: clamp(42px, 6vw, 54px) var(--iq-page-x) 28px !important;
+}
+
+.iq-footer-main {
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr) !important;
+  gap: clamp(30px, 5vw, 70px) !important;
+}
+
+.iq-footer-columns {
+  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+}
+
+/* ---------- Laptop/tablet ---------- */
+@media (max-width: 1280px) {
   .iq4ev-command-nav {
-    top: 22px !important;
-    left: 50% !important;
-    right: auto !important;
-    transform: translateX(-50%) !important;
-    width: calc(100vw - 40px) !important;
-    height: 76px !important;
-    grid-template-columns: 140px 1fr 250px !important;
-    gap: 14px !important;
-    padding: 0 18px !important;
-    border-radius: 28px !important;
-  }
-
-  .iq4ev-command-logo img {
-    height: 40px !important;
+    width: calc(100% - 40px) !important;
+    grid-template-columns: auto 1fr auto !important;
   }
 
   .iq4ev-command-links {
-    gap: 16px !important;
+    gap: 18px !important;
+  }
+
+  .ti-page .ti-use-grid,
+  .evss-page .ti-use-grid,
+  .briefings-page .ti-use-grid,
+  .consulting-page .ti-use-grid,
+  .about-page .ti-use-grid,
+  .pulse-hero ~ .ti-use-cases .ti-use-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+}
+
+@media (max-width: 1100px) {
+  .iq4ev-command-nav {
+    grid-template-columns: auto 1fr !important;
+  }
+
+  .iq4ev-command-links {
+    display: none !important;
+  }
+
+  .ti-page .ti-hero,
+  .pulse-hero,
+  .evss-hero,
+  .briefings-page .brief-hero,
+  .consult-hero,
+  .about-page .about-hero,
+  .iq-product-hero,
+  .ti-page .ti-decision-layer,
+  .evss-page .ti-decision-layer,
+  .briefings-page .ti-decision-layer,
+  .consulting-page .ti-decision-layer,
+  .about-page .ti-decision-layer,
+  .pulse-hero ~ .ti-decision-layer,
+  .iq-split-section {
+    grid-template-columns: 1fr !important;
+  }
+
+  .ti-page .ti-metrics,
+  .evss-page .ti-metrics,
+  .briefings-page .ti-metrics,
+  .consulting-page .ti-metrics,
+  .about-page .ti-metrics,
+  .pulse-hero + .ti-metrics,
+  .iq-grid-3 {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+
+  .pulse-hero ~ .ti-decision-layer > div:first-child,
+  .evss-page .ti-decision-layer > div:first-child {
+    position: static !important;
+  }
+
+  .ti-page .ti-cta,
+  .evss-page .ti-cta,
+  .briefings-page .ti-cta,
+  .consulting-page .ti-cta,
+  .about-page .ti-cta,
+  .pulse-hero ~ .ti-cta,
+  .iq-cta-panel {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+  }
+}
+
+/* ---------- Mobile ---------- */
+@media (max-width: 760px) {
+  :root {
+    --iq-page-x: 16px;
+    --iq-nav-height: 64px;
+  }
+
+  .iq-page,
+  .ti-page {
+    padding-top: 96px !important;
+  }
+
+  .iq4ev-command-nav {
+    top: 10px !important;
+    width: calc(100% - 20px) !important;
+    min-height: 64px !important;
+    padding: 9px 10px !important;
+    border-radius: 22px !important;
+  }
+
+  .iq4ev-command-logo img {
+    height: 36px !important;
+  }
+
+  .iq4ev-command-actions {
+    gap: 6px !important;
+  }
+
+  .iq4ev-command-actions button,
+  .iq4ev-command-actions a {
+    min-height: 42px !important;
+    padding: 10px 12px !important;
+    font-size: 12px !important;
+  }
+
+  .iq4ev-command-actions button {
+    max-width: 92px;
+  }
+
+  .map-search-card {
+    top: 84px !important;
+    left: 10px !important;
+    right: 10px !important;
+    width: auto !important;
+    border-radius: 22px !important;
+  }
+
+  .map-search-card input {
+    height: 52px !important;
+    padding: 0 16px !important;
+  }
+
+  .search-results {
+    max-height: 34svh;
+    overflow-y: auto;
+  }
+
+  .map-layer-control {
+    top: 146px !important;
+    left: 10px !important;
+    right: auto !important;
+    min-width: 0 !important;
+    width: min(230px, calc(100vw - 20px)) !important;
+    padding: 12px 14px !important;
+    gap: 7px !important;
+    border-radius: 20px !important;
+  }
+
+  .map-layer-control strong,
+  .map-layer-control label {
     font-size: 13px !important;
+  }
+
+  .iq4ev-public-intel-card {
+    left: 10px !important;
+    right: 10px !important;
+    top: auto !important;
+    bottom: 12px !important;
+    width: auto !important;
+    max-height: 38svh;
+    overflow-y: auto;
+    border-radius: 24px !important;
+  }
+
+  .iq4ev-public-intel-card h2 {
+    font-size: 22px !important;
+  }
+
+  .iq4ev-public-intel-card p,
+  .iq4ev-intel-note {
+    font-size: 12px !important;
+    line-height: 1.5 !important;
+  }
+
+  .leaflet-top.leaflet-left {
+    top: auto !important;
+    left: 10px !important;
+    bottom: 42svh !important;
+  }
+
+  .legend-toggle-wrap,
+  .map-hover-card {
+    display: none !important;
+  }
+
+  .ti-page .ti-metrics,
+  .evss-page .ti-metrics,
+  .briefings-page .ti-metrics,
+  .consulting-page .ti-metrics,
+  .about-page .ti-metrics,
+  .pulse-hero + .ti-metrics,
+  .iq-grid-3,
+  .ti-page .ti-use-grid,
+  .evss-page .ti-use-grid,
+  .briefings-page .ti-use-grid,
+  .consulting-page .ti-use-grid,
+  .about-page .ti-use-grid,
+  .pulse-hero ~ .ti-use-cases .ti-use-grid,
+  .pulse-mini-metrics,
+  .pulse-monitor-grid,
+  .consult-grid,
+  .access-card-grid,
+  .access-check-grid,
+  .access-two-col,
+  .iq-footer-main,
+  .iq-footer-columns {
+    grid-template-columns: 1fr !important;
+  }
+
+  .pulse-actions,
+  .ti-page .ti-actions,
+  .iq-hero-actions {
+    flex-direction: column !important;
+    align-items: stretch !important;
+  }
+
+  .pulse-actions button,
+  .pulse-actions a,
+  .ti-page .ti-actions button,
+  .ti-page .ti-actions a,
+  .iq-hero-actions button,
+  .iq-hero-actions a,
+  .access-submit,
+  .ti-page .ti-cta button,
+  .evss-page .ti-cta button,
+  .briefings-page .ti-cta button,
+  .consulting-page .ti-cta button,
+  .about-page .ti-cta button,
+  .pulse-hero ~ .ti-cta button,
+  .iq-cta-panel button {
+    width: 100% !important;
+  }
+
+  .ti-map-card,
+  .pulse-visual,
+  .evss-visual,
+  .brief-visual,
+  .consult-visual,
+  .about-visual {
+    height: auto !important;
+    min-height: 460px !important;
+  }
+
+  .pulse-monitor {
+    min-height: 560px !important;
+    padding: 20px !important;
+  }
+
+  .pulse-panel.large {
+    grid-column: span 1 !important;
+  }
+
+  .pulse-panel strong {
+    font-size: 36px !important;
+  }
+
+  .pulse-chart {
+    height: 150px !important;
+    min-height: 150px !important;
+    flex-basis: 150px !important;
+  }
+
+  .ti-map-grid {
+    height: 260px !important;
+    margin: 0 14px !important;
+  }
+
+  .ti-map-topbar {
+    padding: 18px !important;
+  }
+
+  .ti-map-caption {
+    left: 14px !important;
+    right: 14px !important;
+    bottom: 14px !important;
+    padding: 16px !important;
+  }
+
+  .ti-map-caption strong,
+  .brief-document strong,
+  .consult-box strong,
+  .about-layer strong {
+    font-size: 22px !important;
+  }
+
+  .brief-document.main,
+  .brief-document.one,
+  .brief-document.two,
+  .about-layer.terrain,
+  .about-layer.pulse,
+  .about-layer.evss {
+    position: relative !important;
+    inset: auto !important;
+    width: auto !important;
+    margin: 14px !important;
+  }
+
+  .brief-line,
+  .brief-dot,
+  .about-core {
+    display: none !important;
+  }
+
+  .consult-grid {
+    position: relative !important;
+    inset: auto !important;
+    padding: 16px !important;
+  }
+
+  .consult-box.large {
+    grid-column: span 1 !important;
+  }
+
+  .consult-overlay {
+    position: relative !important;
+    left: auto !important;
+    bottom: auto !important;
+    margin: 0 16px 16px !important;
+  }
+
+  .evss-node {
+    font-size: 11px !important;
+    padding: 10px 12px !important;
+  }
+
+  .evss-node.terrain { right: -8px !important; }
+  .evss-node.depot { left: -8px !important; }
+
+  .evss-sim-card {
+    left: 14px !important;
+    right: 14px !important;
+    bottom: 14px !important;
+  }
+
+  .access-backdrop,
+  .iq-modal-backdrop {
+    align-items: stretch !important;
+    padding: 8px !important;
+  }
+
+  .access-modal,
+  .iq-modal-form {
+    max-height: calc(100svh - 16px) !important;
+    border-radius: 24px !important;
+    padding: 22px !important;
+  }
+
+  .access-card-grid button {
+    min-height: 58px !important;
+  }
+
+  .iq-footer-brand {
+    flex-direction: column !important;
+  }
+
+  .iq-footer-bottom {
+    flex-direction: column !important;
+  }
+}
+
+@media (max-width: 420px) {
+  .iq4ev-command-actions a {
+    display: none !important;
+  }
+
+  .iq4ev-command-actions button {
+    max-width: none !important;
+  }
+
+  .ti-page .ti-hero-copy h1,
+  .pulse-copy h1,
+  .evss-copy h1,
+  .brief-copy h1,
+  .consult-copy h1,
+  .about-copy h1,
+  .iq-product-hero h1 {
+    font-size: clamp(36px, 12vw, 44px) !important;
+  }
+
+  .iq4ev-public-intel-card {
+    max-height: 34svh !important;
+  }
+}
+
+/* =========================================
+   MOBILE RESPONSIVE RESCUE LAYER
+========================================= */
+
+@media (max-width: 768px) {
+
+  html,
+  body,
+  #root {
+    overflow-x: hidden;
+  }
+
+  body {
+    width: 100%;
+  }
+
+  /* ===== GLOBAL PAGE PADDING ===== */
+
+  .iq-page,
+  .ti-page {
+    padding:
+      100px 16px 60px !important;
+  }
+
+  /* ===== NAVBAR ===== */
+
+  .iq4ev-command-nav {
+    top: 12px !important;
+    left: 12px !important;
+    right: 12px !important;
+    transform: none !important;
+
+    width: auto !important;
+    height: auto !important;
+
+    grid-template-columns: 1fr auto !important;
+
+    padding: 14px 16px !important;
+    border-radius: 22px !important;
+  }
+
+  .iq4ev-command-links {
+    display: none !important;
   }
 
   .iq4ev-command-actions {
@@ -3551,357 +4348,119 @@ video {
     font-size: 13px !important;
   }
 
-  .map-search-card {
-    top: 118px !important;
-    right: 24px !important;
-    left: auto !important;
-    width: min(430px, calc(100vw - 48px)) !important;
-  }
-
-  .map-search-card input {
-    height: 58px !important;
-    font-size: 16px !important;
-  }
-
-  .map-layer-control {
-    top: 118px !important;
-    left: 24px !important;
-    right: auto !important;
-    width: 245px !important;
-    min-width: 245px !important;
-    padding: 15px 17px !important;
-  }
-
-  .map-layer-control strong {
-    font-size: 14px !important;
-  }
-
-  .map-layer-control label {
-    font-size: 14px !important;
-  }
-
-  .iq4ev-public-intel-card {
-    top: 190px !important;
-    right: 24px !important;
-    left: auto !important;
-    bottom: auto !important;
-    width: min(430px, calc(100vw - 48px)) !important;
-    max-height: none !important;
-    padding: 20px 22px !important;
-  }
-
-  .iq4ev-public-intel-card h2 {
-    font-size: 23px !important;
-  }
-
-  .leaflet-top.leaflet-left {
-    top: 315px !important;
-    left: 24px !important;
-    bottom: auto !important;
-  }
-}
-
-/* ===== PHONE HOMEPAGE ===== */
-
-@media (max-width: 700px) {
-  .iq4ev-intel-home,
-  .iq4ev-map-stage {
-    width: 100vw !important;
-    height: 100dvh !important;
-    min-height: 100dvh !important;
-    overflow: hidden !important;
-  }
-
-  .map-view,
-  .leaflet-map,
-  .leaflet-container {
-    width: 100vw !important;
-    height: 100dvh !important;
-  }
-
-  .iq4ev-command-nav {
-    top: max(10px, env(safe-area-inset-top)) !important;
-    left: 10px !important;
-    right: 10px !important;
-    transform: none !important;
-    width: calc(100vw - 20px) !important;
-    height: 58px !important;
-    display: grid !important;
-    grid-template-columns: 38px 1fr 190px !important;
-    gap: 8px !important;
-    align-items: center !important;
-    padding: 0 10px !important;
-    border-radius: 20px !important;
-  }
-
   .iq4ev-command-logo img {
-    height: 30px !important;
-    width: auto !important;
+    height: 34px !important;
   }
 
-  .iq4ev-command-links {
-    display: none !important;
-  }
-
-  .iq4ev-command-actions {
-    display: flex !important;
-    justify-content: flex-end !important;
-    gap: 7px !important;
-    min-width: 0 !important;
-  }
-
-  .iq4ev-command-actions button,
-  .iq4ev-command-actions a {
-    padding: 10px 12px !important;
-    border-radius: 999px !important;
-    font-size: 12px !important;
-    line-height: 1 !important;
-    white-space: nowrap !important;
-  }
-
-  .map-search-card {
-    top: calc(max(10px, env(safe-area-inset-top)) + 70px) !important;
-    left: 10px !important;
-    right: 10px !important;
-    width: calc(100vw - 20px) !important;
-    border-radius: 20px !important;
-  }
-
-  .map-search-card input {
-    height: 50px !important;
-    padding: 0 16px !important;
-    font-size: 14px !important;
-    font-weight: 800 !important;
-  }
-
-  .map-layer-control {
-    top: calc(max(10px, env(safe-area-inset-top)) + 132px) !important;
-    left: 10px !important;
-    right: auto !important;
-    width: 230px !important;
-    min-width: 0 !important;
-    max-width: calc(100vw - 20px) !important;
-    padding: 13px 15px !important;
-    border-radius: 20px !important;
-    gap: 7px !important;
-  }
-
-  .map-layer-control strong {
-    font-size: 14px !important;
-    margin-bottom: 3px !important;
-  }
-
-  .map-layer-control label {
-    font-size: 13px !important;
-    gap: 8px !important;
-    line-height: 1.2 !important;
-  }
-
-  .map-layer-control input {
-    width: 14px !important;
-    height: 14px !important;
-  }
-
-  .iq4ev-public-intel-card {
-    top: auto !important;
-    left: 10px !important;
-    right: 10px !important;
-    bottom: calc(14px + env(safe-area-inset-bottom)) !important;
-    width: calc(100vw - 20px) !important;
-    max-height: 30dvh !important;
-    overflow-y: auto !important;
-    padding: 16px 18px !important;
-    border-radius: 22px !important;
-  }
-
-  .iq4ev-intel-eyebrow {
-    font-size: 9px !important;
-    letter-spacing: 0.18em !important;
-    margin-bottom: 7px !important;
-  }
-
-  .iq4ev-public-intel-card h2 {
-    font-size: 20px !important;
-    line-height: 1.08 !important;
-    margin-bottom: 5px !important;
-  }
-
-  .iq4ev-intel-location {
-    font-size: 11px !important;
-    margin-bottom: 9px !important;
-  }
-
-  .iq4ev-zone-row {
-    padding: 7px 10px !important;
-    margin-bottom: 9px !important;
-    font-size: 11px !important;
-  }
-
-  .iq4ev-zone-dot {
-    width: 9px !important;
-    height: 9px !important;
-  }
-
-  .iq4ev-public-intel-card p {
-    font-size: 12px !important;
-    line-height: 1.45 !important;
-    margin-bottom: 8px !important;
-  }
-
-  .iq4ev-intel-note {
-    display: none !important;
-  }
-
-  .iq4ev-intel-card-cta {
-    padding: 9px 12px !important;
-    font-size: 11px !important;
-  }
-
-  .leaflet-top.leaflet-left {
-    top: calc(max(10px, env(safe-area-inset-top)) + 300px) !important;
-    left: 10px !important;
-    bottom: auto !important;
-  }
-
-  .leaflet-control-zoom a {
-    width: 32px !important;
-    height: 32px !important;
-    line-height: 32px !important;
-    font-size: 18px !important;
-  }
-
-  .legend-toggle-wrap,
-  .map-hover-card {
-    display: none !important;
-  }
-
-  .leaflet-control-attribution {
-    font-size: 10px !important;
-  }
-}
-
-/* ===== VERY NARROW PHONES ===== */
-
-@media (max-width: 390px) {
-  .iq4ev-command-nav {
-    grid-template-columns: 34px 1fr 176px !important;
-    height: 54px !important;
-    padding: 0 8px !important;
-  }
-
-  .iq4ev-command-actions button,
-  .iq4ev-command-actions a {
-    padding: 9px 10px !important;
-    font-size: 11px !important;
-  }
-
-  .map-search-card {
-    top: calc(max(10px, env(safe-area-inset-top)) + 64px) !important;
-  }
-
-  .map-search-card input {
-    height: 46px !important;
-    font-size: 13px !important;
-  }
-
-  .map-layer-control {
-    top: calc(max(10px, env(safe-area-inset-top)) + 120px) !important;
-    width: 210px !important;
-    padding: 11px 13px !important;
-  }
-
-  .map-layer-control label {
-    font-size: 12px !important;
-  }
-
-  .iq4ev-public-intel-card {
-    max-height: 28dvh !important;
-  }
-}
-
-/* ===== INTERNAL PAGES MOBILE COLLAPSE ===== */
-
-@media (max-width: 900px) {
-  .iq-page,
-  .ti-page {
-    padding: 96px 16px 56px !important;
-  }
+  /* ===== HERO LAYOUTS ===== */
 
   .iq-product-hero,
-  .ti-page .ti-hero,
   .pulse-hero,
   .evss-hero,
-  .briefings-page .brief-hero,
   .consult-hero,
-  .iq-split-section,
-  .ti-page .ti-decision-layer,
-  .evss-page .ti-decision-layer,
-  .briefings-page .ti-decision-layer,
-  .consulting-page .ti-decision-layer {
+  .briefings-page .brief-hero,
+  .ti-page .ti-hero {
     grid-template-columns: 1fr !important;
-    gap: 28px !important;
+    gap: 30px !important;
   }
 
+  /* ===== HERO HEADINGS ===== */
+
+  .iq-product-hero h1,
+  .pulse-copy h1,
+  .evss-copy h1,
+  .consult-copy h1,
+  .brief-copy h1,
+  .ti-page .ti-hero-copy h1 {
+    font-size: clamp(38px, 10vw, 58px) !important;
+    line-height: 1 !important;
+  }
+
+  /* ===== MAP / VISUAL CONTAINERS ===== */
+
+  .pulse-visual,
+  .evss-visual,
+  .consult-visual,
+  .brief-visual,
+  .ti-map-card {
+    height: auto !important;
+    min-height: 420px !important;
+  }
+
+  /* ===== GRID SYSTEMS ===== */
+
   .iq-grid-3,
+  .pulse-mini-metrics,
   .ti-page .ti-metrics,
   .ti-page .ti-use-grid,
   .evss-page .ti-metrics,
   .evss-page .ti-use-grid,
   .briefings-page .ti-metrics,
-  .briefings-page .ti-use-grid,
-  .consulting-page .ti-metrics,
-  .consulting-page .ti-use-grid,
-  .pulse-mini-metrics,
-  .pulse-hero + .ti-metrics,
-  .pulse-hero ~ .ti-use-cases .ti-use-grid {
+  .briefings-page .ti-use-grid {
     grid-template-columns: 1fr !important;
   }
 
-  .iq-product-hero h1,
-  .ti-page .ti-hero-copy h1,
-  .pulse-copy h1,
-  .evss-copy h1,
-  .brief-copy h1,
-  .consult-copy h1 {
-    font-size: clamp(36px, 11vw, 54px) !important;
-    line-height: 1 !important;
-    letter-spacing: -0.055em !important;
+  /* ===== MAP SEARCH ===== */
+
+  .map-search-card {
+    top: 92px !important;
+    left: 12px !important;
+    right: 12px !important;
+    width: auto !important;
   }
 
-  .ti-page .ti-lead,
-  .pulse-lead,
-  .iq-product-hero p,
-  .iq-split-section p,
-  .iq-cta-panel p {
+  .map-search-card input {
+    height: 58px !important;
     font-size: 16px !important;
-    line-height: 1.65 !important;
   }
 
-  .pulse-visual,
-  .evss-visual,
-  .brief-visual,
-  .consult-visual,
-  .ti-map-card {
-    height: auto !important;
-    min-height: 430px !important;
+  /* ===== MAP CONTROL ===== */
+
+  .map-layer-control {
+    top: 164px !important;
+    left: 12px !important;
+
+    min-width: auto !important;
+    width: calc(100% - 24px) !important;
   }
+
+  /* ===== PUBLIC INTEL CARD ===== */
+
+  .iq4ev-public-intel-card {
+    left: 12px !important;
+    right: 12px !important;
+    bottom: 18px !important;
+
+    width: auto !important;
+    padding: 20px !important;
+    border-radius: 24px !important;
+  }
+
+  .iq4ev-public-intel-card h2 {
+    font-size: 22px !important;
+  }
+
+  /* ===== LEAFLET CONTROLS ===== */
+
+  .leaflet-top.leaflet-left {
+    top: auto !important;
+    bottom: 120px !important;
+    left: 12px !important;
+  }
+
+  /* ===== CTA PANELS ===== */
 
   .iq-cta-panel,
   .ti-page .ti-cta,
   .evss-page .ti-cta,
-  .briefings-page .ti-cta,
-  .consulting-page .ti-cta {
+  .briefings-page .ti-cta {
     flex-direction: column !important;
     align-items: flex-start !important;
+
     padding: 24px !important;
-    border-radius: 28px !important;
   }
 
-  .iq-hero-actions,
-  .pulse-actions,
-  .ti-page .ti-actions {
-    flex-wrap: wrap !important;
-  }
+  /* ===== MODAL ===== */
 
   .iq-modal-backdrop {
     padding: 10px !important;
@@ -3909,8 +4468,26 @@ video {
 
   .iq-modal-form {
     width: 100% !important;
-    max-height: 92dvh !important;
+    max-height: 92vh !important;
+
     padding: 22px !important;
     border-radius: 24px !important;
+  }
+
+  .iq-modal-form h2 {
+    font-size: 28px !important;
+  }
+
+  /* ===== BUTTONS ===== */
+
+  button,
+  a {
+    touch-action: manipulation;
+  }
+
+  /* ===== REMOVE OVERFLOW ===== */
+
+  * {
+    max-width: 100%;
   }
 }
