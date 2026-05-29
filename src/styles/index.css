@@ -3913,8 +3913,8 @@ a {
   }
 
   .map-layer-toggle-button {
-    left: 12px !important;
-    right: auto !important;
+    right: 12px !important;
+    left: auto !important;
     background: #ffffff !important;
     color: #111827 !important;
   }
