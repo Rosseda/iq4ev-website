@@ -168,7 +168,7 @@ a {
   position: absolute;
   z-index: 4600;
   top: 154px !important;
-  left: 40px !important;
+  right: 40px !important;
   width: 535px !important;
   border-radius: 999px !important;
   background: rgba(255, 255, 255, 0.94) !important;
@@ -3557,332 +3557,23 @@ a {
 }
 
 /* =========================================================
-   HOME PAGE RESPONSIVE CONTROL LAYER
-   Add this at the VERY BOTTOM of src/styles/index.css.
-   This supports the updated src/pages/Home.jsx.
+   MAP CONTROLS MOBILE FIX — FINAL CORRECTED
+   Requires updated MapView.jsx with:
+   .map-layer-toggle-button
+   .map-layer-control.is-open
 ========================================================= */
 
-/* Hide new homepage mobile elements by default on desktop */
-.iq4ev-command-menu-btn,
-.iq4ev-command-mobile-menu,
-.iq4ev-mobile-intel-toggle,
-.iq4ev-intel-card-handle {
+.map-layer-toggle-button {
   display: none;
 }
 
-/* Make active homepage command nav stable */
-.iq4ev-command-actions {
-  min-width: 0;
+.map-panel-header {
+  display: contents;
 }
 
-.iq4ev-command-actions button {
-  white-space: nowrap;
+.map-panel-close {
+  display: none;
 }
-
-/* Desktop safety: keep floating intel card desktop-style */
-@media (min-width: 901px) {
-  .iq4ev-public-intel-card {
-    max-height: calc(100vh - 290px);
-    overflow-y: auto;
-  }
-}
-
-/* Tablet homepage */
-@media (max-width: 1100px) {
-  .iq4ev-command-nav {
-    width: calc(100% - 32px) !important;
-    grid-template-columns: 150px 1fr 280px !important;
-    gap: 16px !important;
-    padding: 0 18px !important;
-  }
-
-  .iq4ev-command-links {
-    gap: 18px !important;
-    font-size: 13px !important;
-  }
-
-  .iq4ev-command-actions {
-    gap: 10px !important;
-  }
-
-  .iq4ev-command-actions button {
-    padding: 13px 16px !important;
-    font-size: 13px !important;
-  }
-}
-
-/* Phone homepage:
-   Keep the map as the hero, but make controls usable instead of huge. */
-@media (max-width: 760px) {
-  .iq4ev-intel-home,
-  .iq4ev-map-stage {
-    width: 100%;
-    height: 100dvh;
-    min-height: 100dvh;
-    overflow: hidden;
-  }
-
-  .map-view,
-  .leaflet-map,
-  .leaflet-container {
-    width: 100%;
-    height: 100%;
-  }
-
-  .iq4ev-command-nav {
-    top: 12px !important;
-    left: 12px !important;
-    right: 12px !important;
-    transform: none !important;
-    width: auto !important;
-    height: 64px !important;
-
-    display: grid !important;
-    grid-template-columns: auto 1fr !important;
-    gap: 10px !important;
-    align-items: center !important;
-
-    padding: 0 12px !important;
-    border-radius: 24px !important;
-  }
-
-  .iq4ev-command-logo img {
-    height: 34px !important;
-    max-height: 34px !important;
-  }
-
-  .iq4ev-command-links {
-    display: none !important;
-  }
-
-  .iq4ev-command-actions {
-    justify-content: flex-end !important;
-    gap: 8px !important;
-  }
-
-  .iq4ev-command-actions > button:not(.iq4ev-command-menu-btn) {
-    padding: 11px 13px !important;
-    font-size: 12px !important;
-    line-height: 1 !important;
-  }
-
-  .iq4ev-command-menu-btn {
-    display: inline-flex;
-    width: 42px;
-    height: 42px;
-    flex: 0 0 42px;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    gap: 4px;
-    border-radius: 999px;
-    background: #f1f5f9;
-  }
-
-  .iq4ev-command-menu-btn span {
-    display: block;
-    width: 17px;
-    height: 2px;
-    border-radius: 999px;
-    background: #111827;
-  }
-
-  .iq4ev-command-mobile-menu {
-    position: absolute;
-    top: calc(100% + 10px);
-    left: 0;
-    right: 0;
-    z-index: 6000;
-
-    padding: 12px;
-    border-radius: 22px;
-    background: rgba(255, 255, 255, 0.97);
-    border: 1px solid rgba(226, 232, 240, 0.95);
-    box-shadow: 0 28px 70px rgba(15, 23, 42, 0.16);
-    backdrop-filter: blur(18px);
-  }
-
-  .iq4ev-command-mobile-menu.is-open {
-    display: grid;
-    gap: 8px;
-  }
-
-  .iq4ev-command-mobile-menu a,
-  .iq4ev-command-mobile-menu button {
-    width: 100%;
-    padding: 13px 14px;
-    border-radius: 14px;
-    background: #f8fafc;
-    color: #111827;
-    text-align: left;
-    font-weight: 850;
-  }
-
-  .iq4ev-command-mobile-menu button {
-    background: #111827;
-    color: #ffffff;
-    text-align: center;
-  }
-
-  .map-search-card {
-    top: 88px !important;
-    left: 12px !important;
-    right: 12px !important;
-    width: auto !important;
-    border-radius: 22px !important;
-  }
-
-  .map-search-card input {
-    height: 54px !important;
-    padding: 0 16px !important;
-    font-size: 14px !important;
-  }
-
-  .map-layer-control {
-    top: 154px !important;
-    left: 12px !important;
-    width: min(260px, calc(100vw - 24px)) !important;
-    min-width: 0 !important;
-    padding: 14px 16px !important;
-    border-radius: 22px !important;
-  }
-
-  .map-layer-control strong {
-    font-size: 14px !important;
-  }
-
-  .map-layer-control label {
-    font-size: 13px !important;
-    gap: 8px !important;
-  }
-
-  .leaflet-top.leaflet-left {
-    top: 330px !important;
-    left: 12px !important;
-  }
-
-  .legend-toggle-wrap,
-  .map-hover-card {
-    display: none !important;
-  }
-
-  .iq4ev-mobile-intel-toggle {
-    display: inline-flex;
-    position: fixed;
-    right: 12px;
-    bottom: calc(18px + env(safe-area-inset-bottom));
-    z-index: 4400;
-
-    padding: 12px 15px;
-    border-radius: 999px;
-    background: #111827;
-    color: #ffffff;
-    font-size: 12px;
-    font-weight: 850;
-    box-shadow: 0 18px 42px rgba(15, 23, 42, 0.22);
-  }
-
-  .iq4ev-public-intel-card {
-    top: auto !important;
-    left: 12px !important;
-    right: 12px !important;
-    bottom: calc(72px + env(safe-area-inset-bottom)) !important;
-    width: auto !important;
-
-    max-height: 34dvh !important;
-    overflow-y: auto !important;
-
-    padding: 16px 18px !important;
-    border-radius: 24px !important;
-    transition:
-      transform 220ms ease,
-      opacity 220ms ease;
-  }
-
-  .iq4ev-public-intel-card.is-collapsed {
-    transform: translateY(calc(100% + 90px));
-    opacity: 0;
-    pointer-events: none;
-  }
-
-  .iq4ev-intel-card-handle {
-    display: block;
-    width: 44px;
-    height: 5px;
-    margin: 0 auto 12px;
-    border-radius: 999px;
-    background: #cbd5e1;
-  }
-
-  .iq4ev-intel-eyebrow {
-    font-size: 9px !important;
-    margin-bottom: 8px !important;
-  }
-
-  .iq4ev-public-intel-card h2 {
-    font-size: 21px !important;
-    line-height: 1.08 !important;
-  }
-
-  .iq4ev-intel-location {
-    font-size: 12px !important;
-  }
-
-  .iq4ev-zone-row {
-    padding: 7px 11px !important;
-    font-size: 12px !important;
-  }
-
-  .iq4ev-public-intel-card p {
-    font-size: 13px !important;
-    line-height: 1.5 !important;
-  }
-
-  .iq4ev-intel-note {
-    display: none !important;
-  }
-}
-
-/* Very narrow phones */
-@media (max-width: 390px) {
-  .iq4ev-command-nav {
-    height: 60px !important;
-    padding: 0 10px !important;
-  }
-
-  .iq4ev-command-logo img {
-    height: 30px !important;
-  }
-
-  .iq4ev-command-actions > button:not(.iq4ev-command-menu-btn) {
-    padding: 10px 11px !important;
-    font-size: 11px !important;
-  }
-
-  .iq4ev-command-menu-btn {
-    width: 38px;
-    height: 38px;
-    flex-basis: 38px;
-  }
-
-  .map-search-card {
-    top: 82px !important;
-  }
-
-  .map-search-card input {
-    height: 50px !important;
-    font-size: 13px !important;
-  }
-
-  .map-layer-control {
-    top: 144px !important;
-    width: min(235px, calc(100vw - 24px)) !important;
-  }
-}
-
-/* =========================================================
-   MAP CONTROLS MOBILE FIX — FINAL OVERRIDE
-========================================================= */
 
 @media (max-width: 760px) {
   .map-layer-toggle-button,
@@ -3896,7 +3587,6 @@ a {
     align-items: center !important;
     justify-content: center !important;
 
-    min-width: auto !important;
     height: 48px !important;
     padding: 0 14px !important;
 
@@ -3912,13 +3602,15 @@ a {
     backdrop-filter: blur(18px) !important;
   }
 
+  /* LEFT BUTTON: MAP LAYERS */
   .map-layer-toggle-button {
-    right: 12px !important;
-    left: auto !important;
+    left: 12px !important;
+    right: auto !important;
     background: #ffffff !important;
     color: #111827 !important;
   }
 
+  /* CENTRE BUTTON: LEGEND */
   .legend-toggle-wrap {
     display: block !important;
     position: static !important;
@@ -3934,6 +3626,7 @@ a {
     color: #111827 !important;
   }
 
+  /* RIGHT BUTTON: SIGNAL */
   .iq4ev-mobile-intel-toggle {
     right: 12px !important;
     left: auto !important;
@@ -3941,8 +3634,10 @@ a {
     color: #ffffff !important;
   }
 
-  .map-layer-control,
-  .map-legend {
+  /* MAP LAYERS BOTTOM SHEET */
+  .map-layer-control {
+    display: none !important;
+
     position: fixed !important;
     top: auto !important;
     left: 12px !important;
@@ -3967,35 +3662,11 @@ a {
     z-index: 4550 !important;
   }
 
-  .map-layer-control {
-    display: none !important;
-  }
-
   .map-layer-control.is-open {
     display: grid !important;
   }
 
-  .map-legend {
-    display: grid !important;
-    gap: 8px !important;
-  }
-
-  .map-legend div {
-    display: flex !important;
-    align-items: flex-start !important;
-    gap: 10px !important;
-  }
-
-  .map-legend,
-  .map-legend span,
-  .map-legend strong,
-  .map-legend div {
-    font-size: 13px !important;
-    line-height: 1.35 !important;
-  }
-
-  .map-panel-header,
-  .legend-header {
+  .map-panel-header {
     display: flex !important;
     align-items: center !important;
     justify-content: space-between !important;
@@ -4003,8 +3674,12 @@ a {
     margin-bottom: 6px !important;
   }
 
-  .map-panel-close,
-  .legend-header button {
+  .map-panel-header strong {
+    margin: 0 !important;
+    font-size: 15px !important;
+  }
+
+  .map-panel-close {
     display: inline-grid !important;
     place-items: center !important;
 
@@ -4025,6 +3700,71 @@ a {
     gap: 10px !important;
     padding: 8px 0 !important;
     font-size: 14px !important;
+  }
+
+  /* LEGEND BOTTOM SHEET */
+  .map-legend {
+    position: fixed !important;
+    top: auto !important;
+    left: 12px !important;
+    right: 12px !important;
+    bottom: calc(78px + env(safe-area-inset-bottom)) !important;
+
+    width: auto !important;
+    min-width: 0 !important;
+    max-width: none !important;
+    max-height: 42dvh !important;
+
+    display: grid !important;
+    gap: 8px !important;
+    overflow-y: auto !important;
+
+    padding: 18px 20px !important;
+    border-radius: 24px !important;
+
+    background: rgba(255, 255, 255, 0.98) !important;
+    border: 1px solid rgba(226, 232, 240, 0.95) !important;
+    box-shadow: 0 28px 70px rgba(15, 23, 42, 0.2) !important;
+    backdrop-filter: blur(18px) !important;
+
+    z-index: 4550 !important;
+  }
+
+  .map-legend div {
+    display: flex !important;
+    align-items: flex-start !important;
+    gap: 10px !important;
+  }
+
+  .map-legend,
+  .map-legend span,
+  .map-legend strong,
+  .map-legend div {
+    font-size: 13px !important;
+    line-height: 1.35 !important;
+  }
+
+  .legend-header {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 12px !important;
+    margin-bottom: 6px !important;
+  }
+
+  .legend-header button {
+    display: inline-grid !important;
+    place-items: center !important;
+
+    width: 30px !important;
+    height: 30px !important;
+    border-radius: 999px !important;
+
+    background: #f1f5f9 !important;
+    color: #111827 !important;
+
+    font-size: 18px !important;
+    font-weight: 900 !important;
   }
 
   .leaflet-control-attribution {
