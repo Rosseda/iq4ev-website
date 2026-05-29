@@ -3783,4 +3783,518 @@ a {
   }
 }
 
-/* FINAL MOBILE SYSTEM APPENDED */
+/* =========================================================
+   IQ4EV FINAL RESPONSIVE HOMEPAGE + MAP CONTROL SYSTEM
+   This block intentionally sits at the very bottom of index.css.
+   It depends on updated Home.jsx and updated MapView.jsx.
+========================================================= */
+
+/* Desktop defaults for new mobile-only controls */
+.iq4ev-command-menu-btn,
+.iq4ev-command-mobile-menu,
+.iq4ev-mobile-intel-toggle,
+.iq4ev-intel-card-handle,
+.map-layer-toggle-button,
+.map-panel-close {
+  display: none;
+}
+
+/* Keep desktop layer panel visible */
+@media (min-width: 761px) {
+  .map-layer-control {
+    display: grid;
+  }
+
+  .map-panel-header {
+    display: contents;
+  }
+}
+
+/* =========================================================
+   MOBILE HOMEPAGE
+========================================================= */
+
+@media (max-width: 760px) {
+  html,
+  body,
+  #root {
+    width: 100%;
+    height: 100%;
+    overflow-x: hidden;
+  }
+
+  .iq4ev-intel-home,
+  .iq4ev-map-stage {
+    width: 100%;
+    height: 100dvh;
+    min-height: 100dvh;
+    overflow: hidden;
+  }
+
+  .map-view,
+  .leaflet-map,
+  .leaflet-container {
+    width: 100% !important;
+    height: 100% !important;
+  }
+
+  /* ===== TOP COMMAND NAV ===== */
+
+  .iq4ev-command-nav {
+    top: 12px !important;
+    left: 12px !important;
+    right: 12px !important;
+    transform: none !important;
+
+    width: auto !important;
+    max-width: none !important;
+    height: 72px !important;
+
+    display: grid !important;
+    grid-template-columns: 40px 1fr !important;
+    align-items: center !important;
+    gap: 10px !important;
+
+    padding: 0 12px !important;
+    border-radius: 28px !important;
+    z-index: 5000 !important;
+  }
+
+  .iq4ev-command-logo {
+    min-width: 0 !important;
+  }
+
+  .iq4ev-command-logo img {
+    height: 34px !important;
+    max-height: 34px !important;
+    width: auto !important;
+  }
+
+  .iq4ev-command-links {
+    display: none !important;
+  }
+
+  .iq4ev-command-actions {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-end !important;
+    gap: 8px !important;
+    min-width: 0 !important;
+  }
+
+  .iq4ev-command-actions > button:not(.iq4ev-command-menu-btn) {
+    padding: 12px 14px !important;
+    border-radius: 999px !important;
+    font-size: 12px !important;
+    line-height: 1.1 !important;
+    white-space: nowrap !important;
+  }
+
+  .iq4ev-command-menu-btn {
+    display: inline-flex !important;
+    flex: 0 0 44px !important;
+    width: 44px !important;
+    height: 44px !important;
+
+    align-items: center !important;
+    justify-content: center !important;
+    flex-direction: column !important;
+    gap: 4px !important;
+
+    padding: 0 !important;
+    border-radius: 999px !important;
+    background: #f1f5f9 !important;
+  }
+
+  .iq4ev-command-menu-btn span {
+    display: block !important;
+    width: 18px !important;
+    height: 2px !important;
+    border-radius: 999px !important;
+    background: #111827 !important;
+  }
+
+  .iq4ev-command-mobile-menu {
+    position: absolute !important;
+    top: calc(100% + 10px) !important;
+    left: 0 !important;
+    right: 0 !important;
+
+    padding: 12px !important;
+    border-radius: 24px !important;
+
+    background: rgba(255, 255, 255, 0.98) !important;
+    border: 1px solid rgba(226, 232, 240, 0.95) !important;
+    box-shadow: 0 28px 70px rgba(15, 23, 42, 0.18) !important;
+    backdrop-filter: blur(18px) !important;
+  }
+
+  .iq4ev-command-mobile-menu.is-open {
+    display: grid !important;
+    gap: 8px !important;
+  }
+
+  .iq4ev-command-mobile-menu a,
+  .iq4ev-command-mobile-menu button {
+    width: 100% !important;
+    padding: 13px 14px !important;
+    border-radius: 14px !important;
+    background: #f8fafc !important;
+    color: #111827 !important;
+    text-align: left !important;
+    font-weight: 850 !important;
+  }
+
+  .iq4ev-command-mobile-menu button {
+    background: #111827 !important;
+    color: #ffffff !important;
+    text-align: center !important;
+  }
+
+  /* ===== SEARCH ===== */
+
+  .map-search-card {
+    top: 96px !important;
+    left: 12px !important;
+    right: 12px !important;
+    width: auto !important;
+    border-radius: 28px !important;
+  }
+
+  .map-search-card input {
+    height: 58px !important;
+    padding: 0 18px !important;
+    font-size: 15px !important;
+  }
+
+  .search-results {
+    max-height: 34dvh;
+    overflow-y: auto;
+  }
+
+  /* ===== DESKTOP MAP PANELS HIDDEN ON MOBILE ===== */
+
+  .map-layer-control {
+    display: none !important;
+  }
+
+  .map-hover-card {
+    display: none !important;
+  }
+
+  /* ===== BOTTOM CONTROL BUTTONS ===== */
+
+  .map-layer-toggle-button,
+  .legend-toggle-button,
+  .iq4ev-mobile-intel-toggle {
+    position: fixed !important;
+    bottom: calc(18px + env(safe-area-inset-bottom)) !important;
+
+    z-index: 4600 !important;
+
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+
+    height: 48px !important;
+    padding: 0 14px !important;
+
+    border-radius: 999px !important;
+    border: 1px solid rgba(226, 232, 240, 0.95) !important;
+
+    font-size: 12px !important;
+    font-weight: 850 !important;
+    line-height: 1 !important;
+    white-space: nowrap !important;
+
+    box-shadow: 0 18px 42px rgba(15, 23, 42, 0.18) !important;
+    backdrop-filter: blur(18px) !important;
+  }
+
+  .map-layer-toggle-button {
+    left: 12px !important;
+    right: auto !important;
+    background: #ffffff !important;
+    color: #111827 !important;
+  }
+
+  .legend-toggle-wrap {
+    display: block !important;
+    position: static !important;
+    transform: none !important;
+    z-index: auto !important;
+  }
+
+  .legend-toggle-button {
+    left: 50% !important;
+    right: auto !important;
+    transform: translateX(-50%) !important;
+    background: #ffffff !important;
+    color: #111827 !important;
+  }
+
+  .iq4ev-mobile-intel-toggle {
+    right: 12px !important;
+    left: auto !important;
+    background: #111827 !important;
+    color: #ffffff !important;
+  }
+
+  /* ===== MAP LAYERS BOTTOM SHEET ===== */
+
+  .map-layer-control.is-open {
+    display: grid !important;
+
+    position: fixed !important;
+    top: auto !important;
+    left: 12px !important;
+    right: 12px !important;
+    bottom: calc(78px + env(safe-area-inset-bottom)) !important;
+
+    width: auto !important;
+    min-width: 0 !important;
+    max-width: none !important;
+    max-height: 42dvh !important;
+
+    overflow-y: auto !important;
+
+    padding: 18px 20px !important;
+    border-radius: 26px !important;
+
+    background: rgba(255, 255, 255, 0.98) !important;
+    border: 1px solid rgba(226, 232, 240, 0.95) !important;
+    box-shadow: 0 28px 70px rgba(15, 23, 42, 0.2) !important;
+    backdrop-filter: blur(18px) !important;
+
+    z-index: 4550 !important;
+    gap: 10px !important;
+  }
+
+  .map-panel-header {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 12px !important;
+    margin-bottom: 6px !important;
+  }
+
+  .map-panel-header strong {
+    margin: 0 !important;
+    font-size: 15px !important;
+  }
+
+  .map-panel-close {
+    display: inline-grid !important;
+    place-items: center !important;
+
+    width: 30px !important;
+    height: 30px !important;
+
+    border-radius: 999px !important;
+    background: #f1f5f9 !important;
+    color: #111827 !important;
+
+    font-size: 18px !important;
+    font-weight: 900 !important;
+  }
+
+  .map-layer-control label {
+    display: flex !important;
+    align-items: center !important;
+    gap: 10px !important;
+    padding: 8px 0 !important;
+    font-size: 14px !important;
+  }
+
+  .map-layer-control input {
+    width: 16px !important;
+    height: 16px !important;
+  }
+
+  /* ===== LEGEND BOTTOM SHEET ===== */
+
+  .map-legend {
+    position: fixed !important;
+    top: auto !important;
+    left: 12px !important;
+    right: 12px !important;
+    bottom: calc(78px + env(safe-area-inset-bottom)) !important;
+
+    width: auto !important;
+    min-width: 0 !important;
+    max-width: none !important;
+    max-height: 42dvh !important;
+
+    overflow-y: auto !important;
+
+    padding: 18px 20px !important;
+    border-radius: 26px !important;
+
+    background: rgba(255, 255, 255, 0.98) !important;
+    border: 1px solid rgba(226, 232, 240, 0.95) !important;
+    box-shadow: 0 28px 70px rgba(15, 23, 42, 0.2) !important;
+    backdrop-filter: blur(18px) !important;
+
+    z-index: 4550 !important;
+  }
+
+  .map-legend div {
+    display: flex !important;
+    align-items: flex-start !important;
+    gap: 10px !important;
+  }
+
+  .map-legend,
+  .map-legend div,
+  .map-legend span,
+  .map-legend strong {
+    font-size: 13px !important;
+    line-height: 1.4 !important;
+  }
+
+  .legend-header {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 12px !important;
+    margin-bottom: 6px !important;
+  }
+
+  .legend-header button {
+    display: inline-grid !important;
+    place-items: center !important;
+
+    width: 30px !important;
+    height: 30px !important;
+
+    border-radius: 999px !important;
+    background: #f1f5f9 !important;
+    color: #111827 !important;
+
+    font-size: 18px !important;
+    font-weight: 900 !important;
+  }
+
+  /* ===== SIGNAL BOTTOM SHEET ===== */
+
+  .iq4ev-public-intel-card {
+    top: auto !important;
+    left: 12px !important;
+    right: 12px !important;
+    bottom: calc(78px + env(safe-area-inset-bottom)) !important;
+
+    width: auto !important;
+    max-height: 40dvh !important;
+
+    overflow-y: auto !important;
+
+    padding: 18px 20px !important;
+    border-radius: 28px !important;
+
+    transition:
+      transform 220ms ease,
+      opacity 220ms ease !important;
+  }
+
+  .iq4ev-public-intel-card.is-collapsed {
+    transform: translateY(calc(100% + 90px)) !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+  }
+
+  .iq4ev-intel-card-handle {
+    display: block !important;
+
+    width: 46px !important;
+    height: 5px !important;
+    margin: 0 auto 14px !important;
+
+    border-radius: 999px !important;
+    background: #cbd5e1 !important;
+  }
+
+  .iq4ev-intel-eyebrow {
+    font-size: 9px !important;
+    margin-bottom: 8px !important;
+  }
+
+  .iq4ev-public-intel-card h2 {
+    font-size: 24px !important;
+    line-height: 1.08 !important;
+  }
+
+  .iq4ev-intel-location {
+    font-size: 12px !important;
+  }
+
+  .iq4ev-public-intel-card p {
+    font-size: 13px !important;
+    line-height: 1.5 !important;
+  }
+
+  .iq4ev-intel-note {
+    display: none !important;
+  }
+
+  .iq4ev-intel-card-cta {
+    padding: 12px 16px !important;
+    font-size: 12px !important;
+  }
+
+  /* ===== LEAFLET MOBILE CLEANUP ===== */
+
+  .leaflet-top.leaflet-left {
+    top: 184px !important;
+    left: 12px !important;
+  }
+
+  .leaflet-control-zoom a {
+    width: 36px !important;
+    height: 36px !important;
+    line-height: 36px !important;
+  }
+
+  .leaflet-control-attribution {
+    max-width: calc(100vw - 24px) !important;
+    font-size: 10px !important;
+  }
+}
+
+/* Very narrow phones */
+@media (max-width: 390px) {
+  .iq4ev-command-nav {
+    height: 68px !important;
+  }
+
+  .iq4ev-command-logo img {
+    height: 30px !important;
+  }
+
+  .iq4ev-command-actions > button:not(.iq4ev-command-menu-btn) {
+    padding: 10px 11px !important;
+    font-size: 11px !important;
+  }
+
+  .iq4ev-command-menu-btn {
+    flex-basis: 40px !important;
+    width: 40px !important;
+    height: 40px !important;
+  }
+
+  .map-search-card {
+    top: 90px !important;
+  }
+
+  .map-search-card input {
+    height: 54px !important;
+    font-size: 13px !important;
+  }
+
+  .map-layer-toggle-button,
+  .legend-toggle-button,
+  .iq4ev-mobile-intel-toggle {
+    height: 44px !important;
+    padding: 0 11px !important;
+    font-size: 11px !important;
+  }
+}
