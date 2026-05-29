@@ -636,67 +636,45 @@ export default function MapView({
         Reset Map
       </button>
 
-<button
-  type="button"
-  className="map-layer-toggle-button"
-  onClick={() => {
-    setShowLayerPanel((current) => !current);
-    setShowLegend(false);
-  }}
->
-  {showLayerPanel ? "Hide Layers" : "Map Layers"}
-</button>
+      <div className="map-layer-control">
+        <strong>Map Layers</strong>
 
-<div className={`map-layer-control ${showLayerPanel ? "is-open" : ""}`}>
-  <div className="map-panel-header">
-    <strong>Map Layers</strong>
+        <label>
+          <input
+            type="checkbox"
+            checked={layers.regions}
+            onChange={() => toggleLayer("regions")}
+          />
+          Regions
+        </label>
 
-    <button
-      type="button"
-      className="map-panel-close"
-      onClick={() => setShowLayerPanel(false)}
-      aria-label="Close map layers"
-    >
-      ×
-    </button>
-  </div>
+        <label>
+          <input
+            type="checkbox"
+            checked={layers.corridors}
+            onChange={() => toggleLayer("corridors")}
+          />
+          Corridors
+        </label>
 
-  <label>
-    <input
-      type="checkbox"
-      checked={layers.regions}
-      onChange={() => toggleLayer("regions")}
-    />
-    Regions
-  </label>
+        <label>
+          <input
+            type="checkbox"
+            checked={layers.nodes}
+            onChange={() => toggleLayer("nodes")}
+          />
+          Intelligence Nodes
+        </label>
 
-  <label>
-    <input
-      type="checkbox"
-      checked={layers.corridors}
-      onChange={() => toggleLayer("corridors")}
-    />
-    Corridors
-  </label>
-
-  <label>
-    <input
-      type="checkbox"
-      checked={layers.nodes}
-      onChange={() => toggleLayer("nodes")}
-    />
-    Intelligence Nodes
-  </label>
-
-  <label>
-    <input
-      type="checkbox"
-      checked={layers.existingChargers}
-      onChange={() => toggleLayer("existingChargers")}
-    />
-    Existing Chargers
-  </label>
-</div>
+        <label>
+          <input
+            type="checkbox"
+            checked={layers.existingChargers}
+            onChange={() => toggleLayer("existingChargers")}
+          />
+          Existing Chargers
+        </label>
+      </div>
 
       <div className="legend-toggle-wrap">
         <button
