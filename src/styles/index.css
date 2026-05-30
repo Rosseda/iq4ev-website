@@ -2172,7 +2172,7 @@ a {
 .brief-document.main {
   left: 42px;
   right: 42px;
-  top: 74px;
+  top: 7px;
 }
 
 .brief-document.small {
@@ -2222,7 +2222,7 @@ a {
   position: absolute;
   left: 120px;
   right: 120px;
-  top: 56%;
+  top: 45%;
   height: 3px;
   border-radius: 999px;
   background: linear-gradient(90deg, #ff6b6b, #fb923c);
@@ -2241,12 +2241,12 @@ a {
 
 .brief-dot.dot-a {
   left: 110px;
-  top: 54%;
+  top: 44%;
 }
 
 .brief-dot.dot-b {
   right: 110px;
-  top: 54%;
+  top: 44%;
   background: #fb923c;
 }
 
