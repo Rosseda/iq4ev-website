@@ -2222,7 +2222,7 @@ a {
   position: absolute;
   left: 120px;
   right: 120px;
-  top: 45%;
+  top: 50%;
   height: 3px;
   border-radius: 999px;
   background: linear-gradient(90deg, #ff6b6b, #fb923c);
@@ -2241,12 +2241,12 @@ a {
 
 .brief-dot.dot-a {
   left: 110px;
-  top: 44%;
+  top: 49%;
 }
 
 .brief-dot.dot-b {
   right: 110px;
-  top: 44%;
+  top: 49%;
   background: #fb923c;
 }
 
