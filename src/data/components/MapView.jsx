@@ -247,6 +247,7 @@ export default function MapView({
   const [hoveredFeature, setHoveredFeature] = useState(null);
   const [hoveredRoute, setHoveredRoute] = useState(null);
   const [showLegend, setShowLegend] = useState(false);
+  const [showLayers, setShowLayers] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
 
   const [layers, setLayers] = useState({
@@ -259,6 +260,7 @@ export default function MapView({
   function handleResetMap() {
     setSearchTerm("");
     setShowLegend(false);
+    setShowLayers(false);
     setHoveredFeature(null);
     setHoveredRoute(null);
     setLayers({
@@ -275,6 +277,8 @@ export default function MapView({
 
   useEffect(() => {
     setSearchTerm("");
+    setShowLegend(false);
+    setShowLayers(false);
     setLayers({
       regions: true,
       corridors: true,
@@ -636,44 +640,65 @@ export default function MapView({
         Reset Map
       </button>
 
-      <div className="map-layer-control">
-        <strong>Map Layers</strong>
+      <div className="map-layer-toggle-wrap">
+        <button
+          type="button"
+          className="map-layer-toggle-button"
+          onClick={() => setShowLayers((current) => !current)}
+        >
+          {showLayers ? "Hide Layers" : "Map Layers"}
+        </button>
 
-        <label>
-          <input
-            type="checkbox"
-            checked={layers.regions}
-            onChange={() => toggleLayer("regions")}
-          />
-          Regions
-        </label>
+        <div className={`map-layer-control ${showLayers ? "is-open" : ""}`}>
+          <div className="map-layer-header">
+            <strong>Map Layers</strong>
 
-        <label>
-          <input
-            type="checkbox"
-            checked={layers.corridors}
-            onChange={() => toggleLayer("corridors")}
-          />
-          Corridors
-        </label>
+            <button
+              type="button"
+              className="map-layer-close"
+              onClick={() => setShowLayers(false)}
+              aria-label="Close map layers"
+            >
+              ×
+            </button>
+          </div>
 
-        <label>
-          <input
-            type="checkbox"
-            checked={layers.nodes}
-            onChange={() => toggleLayer("nodes")}
-          />
-          Intelligence Nodes
-        </label>
+          <label>
+            <input
+              type="checkbox"
+              checked={layers.regions}
+              onChange={() => toggleLayer("regions")}
+            />
+            Regions
+          </label>
 
-        <label>
-          <input
-            type="checkbox"
-            checked={layers.existingChargers}
-            onChange={() => toggleLayer("existingChargers")}
-          />
-          Existing Chargers
-        </label>
+          <label>
+            <input
+              type="checkbox"
+              checked={layers.corridors}
+              onChange={() => toggleLayer("corridors")}
+            />
+            Corridors
+          </label>
+
+          <label>
+            <input
+              type="checkbox"
+              checked={layers.nodes}
+              onChange={() => toggleLayer("nodes")}
+            />
+            Intelligence Nodes
+          </label>
+
+          <label>
+            <input
+              type="checkbox"
+              checked={layers.existingChargers}
+              onChange={() => toggleLayer("existingChargers")}
+            />
+            Existing Chargers
+          </label>
+        </div>
       </div>
 
       <div className="legend-toggle-wrap">

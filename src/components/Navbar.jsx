@@ -7,6 +7,7 @@ const NAV_LINKS = [
   { to: "/terrainintel", label: "TerrainIntel" },
   { to: "/pulse360", label: "Pulse360" },
   { to: "/evss", label: "EVSS" },
+  { to: "/insights", label: "Insights" },
   { to: "/briefings", label: "Briefings" },
   { to: "/consulting", label: "Consulting" },
 ];
@@ -23,6 +24,14 @@ export default function Navbar() {
     setShowAccessModal(true);
   };
 
+  const isActiveLink = (path) => {
+    if (path === "/insights") {
+      return location.pathname === "/insights" || location.pathname.startsWith("/insights/");
+    }
+
+    return location.pathname === path;
+  };
+
   return (
     <>
       <header className="iq-navbar">
@@ -36,7 +45,7 @@ export default function Navbar() {
               <Link
                 key={item.to}
                 to={item.to}
-                className={location.pathname === item.to ? "is-active" : ""}
+                className={isActiveLink(item.to) ? "is-active" : ""}
               >
                 {item.label}
               </Link>
@@ -75,7 +84,7 @@ export default function Navbar() {
               <Link
                 key={item.to}
                 to={item.to}
-                className={location.pathname === item.to ? "is-active" : ""}
+                className={isActiveLink(item.to) ? "is-active" : ""}
                 onClick={closeMobileMenu}
               >
                 {item.label}

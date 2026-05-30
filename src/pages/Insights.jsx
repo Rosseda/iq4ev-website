@@ -8,9 +8,6 @@ import {
 } from "lucide-react";
 
 import Button from "../components/Button.jsx";
-import PageHeader from "../components/PageHeader.jsx";
-import SectionHeader from "../components/SectionHeader.jsx";
-import FeatureGrid from "../components/FeatureGrid.jsx";
 import CTASection from "../components/CTASection.jsx";
 import InsightCard from "../components/InsightCard.jsx";
 import { insights } from "../data/insights.js";
@@ -20,37 +17,37 @@ const insightAreas = [
     icon: Cable,
     title: "Infrastructure analysis",
     description:
-      "Operational commentary and intelligence around EV charging infrastructure and deployment.",
+      "Operational commentary around charging deployment, uptime, site readiness and infrastructure performance.",
   },
   {
     icon: Building2,
     title: "Property participation",
     description:
-      "Analysis of the growing role property stakeholders play in EV infrastructure ecosystems.",
+      "Analysis of the role retail centres, hotels, estates and mixed-use properties play in EV infrastructure.",
   },
   {
     icon: Map,
     title: "Spatial intelligence",
     description:
-      "Discussion around charger placement, corridor development and regional infrastructure patterns.",
+      "Public commentary around charger placement, corridor development and regional EV infrastructure patterns.",
   },
   {
     icon: FileBarChart,
     title: "Operational insight",
     description:
-      "Thought leadership around charger uptime, infrastructure visibility and EV operational realities.",
+      "Clear explanations of charger reliability, site-level risk, infrastructure visibility and EV transition realities.",
   },
   {
     icon: Newspaper,
     title: "Sector commentary",
     description:
-      "Public intelligence notes interpreting EV sector movement and strategic implications.",
+      "Public market intelligence interpreting EV sector movement, strategic signals and infrastructure implications.",
   },
   {
     icon: BookOpenText,
-    title: "Educational content",
+    title: "Educational intelligence",
     description:
-      "Clear explanations helping stakeholders better understand EV transition complexity.",
+      "Accessible articles helping stakeholders understand the systems behind South Africa’s EV transition.",
   },
 ];
 
@@ -59,94 +56,167 @@ export default function Insights() {
   const regularInsights = insights.filter((item) => !item.featured);
 
   return (
-    <div>
-      <PageHeader
-        eyebrow="Insights"
-        title="Public EV intelligence and sector commentary."
-        description="IQ4EV insights translate EV infrastructure, fleet transition and operational realities into accessible public intelligence."
-      />
+    <main className="insights-page">
+      <section className="insights-hero">
+        <div className="insights-copy">
+          <p className="ti-kicker">IQ4EV Insights</p>
 
-      <section className="mx-auto max-w-7xl px-6 py-20">
-        <div className="grid gap-10 lg:grid-cols-[0.95fr_1.05fr] lg:items-center">
-          <div>
-            <SectionHeader
-              eyebrow="What insights are"
-              title="Public-facing EV intelligence built around real infrastructure realities."
-              description="IQ4EV insights are designed to explain the operational, spatial and strategic realities shaping South Africa’s EV transition."
-            />
+          <h1>Public EV intelligence for infrastructure decision-makers.</h1>
 
-            <div className="mt-8 flex flex-wrap gap-4">
-              <Button to="/contact">Request a discussion</Button>
+          <p className="insights-lead">
+            IQ4EV Insights translate South Africa’s EV infrastructure, fleet
+            transition, property-host and operational realities into accessible
+            public intelligence.
+          </p>
 
-              <Button to="/briefings" variant="outline">
-                View enterprise briefings
-              </Button>
+          <div className="insights-actions">
+            <Button to="/contact">Request a discussion</Button>
+
+            <Button to="/briefings" variant="outline">
+              View enterprise briefings
+            </Button>
+          </div>
+        </div>
+
+        <div className="insights-visual">
+          <div className="insights-visual-glow one" />
+          <div className="insights-visual-glow two" />
+
+          <div className="insights-terminal">
+            <div className="insights-terminal-top">
+              <span />
+              <span />
+              <span />
+            </div>
+
+            <div className="insights-signal-card primary">
+              <span>Public intelligence layer</span>
+              <strong>Insights</strong>
+              <p>
+                Open market commentary designed to explain infrastructure
+                behaviour, sector signals and EV transition realities.
+              </p>
+            </div>
+
+            <div className="insights-signal-grid">
+              <article>
+                <span>01</span>
+                <strong>Infrastructure</strong>
+                <p>Charging networks, uptime and site-level visibility.</p>
+              </article>
+
+              <article>
+                <span>02</span>
+                <strong>Fleets</strong>
+                <p>Operational readiness, routes and transition sequencing.</p>
+              </article>
+
+              <article>
+                <span>03</span>
+                <strong>Property</strong>
+                <p>Property hosts as critical infrastructure partners.</p>
+              </article>
+
+              <article>
+                <span>04</span>
+                <strong>Markets</strong>
+                <p>Sector movement, strategy and public intelligence signals.</p>
+              </article>
             </div>
           </div>
+        </div>
+      </section>
 
-          <div className="rounded-[2rem] border border-slate-200 bg-slate-50 p-8">
-            <p className="text-xs font-black uppercase tracking-[0.25em] text-orange-600">
-              Content themes
+      <section className="insights-definition">
+        <div>
+          <p className="ti-kicker">Insights vs Briefings</p>
+
+          <h2>Insights shape public understanding. Briefings support enterprise decisions.</h2>
+        </div>
+
+        <div className="insights-definition-grid">
+          <article>
+            <span>Public Layer</span>
+            <strong>Insights</strong>
+            <p>
+              Public-facing articles, thought leadership and market intelligence
+              designed to help the broader sector understand EV infrastructure
+              realities.
             </p>
+          </article>
 
-            <div className="mt-6 grid gap-4">
-              <div className="rounded-2xl bg-white p-5 shadow-sm">
-                Infrastructure intelligence
-              </div>
-
-              <div className="rounded-2xl bg-white p-5 shadow-sm">
-                Fleet transition realities
-              </div>
-
-              <div className="rounded-2xl bg-white p-5 shadow-sm">
-                Property-host participation
-              </div>
-
-              <div className="rounded-2xl bg-white p-5 shadow-sm">
-                EV operational systems thinking
-              </div>
-            </div>
-          </div>
+          <article>
+            <span>Enterprise Layer</span>
+            <strong>Briefings</strong>
+            <p>
+              Subscriber-grade intelligence reports focused on strategic risk,
+              commercial implications, scenario analysis and operational
+              decision-making.
+            </p>
+          </article>
         </div>
       </section>
 
-      <section className="border-y border-slate-200 bg-slate-50">
-        <div className="mx-auto max-w-7xl px-6 py-20">
-          <SectionHeader
-            eyebrow="Latest insights"
-            title="Public intelligence notes."
-            description="Structured commentary on EV infrastructure, fleet readiness, property participation and operational intelligence."
-          />
+      <section className="insights-latest">
+        <div className="insights-section-head">
+          <p className="ti-kicker">Latest insights</p>
 
-          <div className="mt-10 grid gap-6 md:grid-cols-2">
-            {featuredInsight && (
-              <InsightCard insight={featuredInsight} featured />
-            )}
+          <h2>Public intelligence notes.</h2>
 
-            {regularInsights.map((insight) => (
-              <InsightCard key={insight.slug} insight={insight} />
-            ))}
-          </div>
+          <p>
+            Structured commentary on EV infrastructure, fleet readiness,
+            property participation and operational intelligence.
+          </p>
+        </div>
+
+        <div className="insights-grid">
+          {featuredInsight && (
+            <InsightCard insight={featuredInsight} featured />
+          )}
+
+          {regularInsights.map((insight) => (
+            <InsightCard key={insight.slug} insight={insight} />
+          ))}
         </div>
       </section>
 
-      <section className="mx-auto max-w-7xl px-6 py-20">
-        <SectionHeader
-          eyebrow="Coverage"
-          title="Built around EV infrastructure understanding."
-          description="The insights layer focuses on helping the market better understand how EV systems actually behave."
-        />
+      <section className="insights-coverage">
+        <div className="insights-section-head">
+          <p className="ti-kicker">Coverage</p>
 
-        <div className="mt-10">
-          <FeatureGrid items={insightAreas} />
+          <h2>Built around EV infrastructure understanding.</h2>
+
+          <p>
+            The insights layer helps the market better understand how EV systems
+            actually behave across charging, property, fleet and corridor
+            environments.
+          </p>
+        </div>
+
+        <div className="insights-coverage-grid">
+          {insightAreas.map((area) => {
+            const Icon = area.icon;
+
+            return (
+              <article key={area.title}>
+                <span>
+                  <Icon size={20} />
+                </span>
+
+                <strong>{area.title}</strong>
+
+                <p>{area.description}</p>
+              </article>
+            );
+          })}
         </div>
       </section>
 
       <CTASection
         eyebrow="Public intelligence"
         title="Move beyond headlines into infrastructure understanding."
-        description="Follow IQ4EV insights for operational commentary, EV infrastructure analysis and evidence-led sector thinking."
+        description="Follow IQ4EV Insights for public EV infrastructure analysis, operational commentary and evidence-led sector thinking."
       />
-    </div>
+    </main>
   );
 }

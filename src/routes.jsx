@@ -1,6 +1,4 @@
-import {
-  createBrowserRouter,
-} from "react-router-dom";
+import { createBrowserRouter } from "react-router-dom";
 
 import MainLayout from "./layouts/MainLayout";
 
@@ -12,6 +10,7 @@ import EVSS from "./pages/EVSS";
 import Briefings from "./pages/Briefings";
 import Consulting from "./pages/Consulting";
 import Insights from "./pages/Insights";
+import InsightDetail from "./pages/InsightDetail";
 import Contact from "./pages/Contact";
 import NotFound from "./pages/NotFound";
 
@@ -42,16 +41,20 @@ const router = createBrowserRouter([
         element: <EVSS />,
       },
       {
+        path: "insights",
+        element: <Insights />,
+      },
+      {
+        path: "insights/:slug",
+        element: <InsightDetail />,
+      },
+      {
         path: "briefings",
         element: <Briefings />,
       },
       {
         path: "consulting",
         element: <Consulting />,
-      },
-      {
-        path: "insights",
-        element: <Insights />,
       },
       {
         path: "contact",
