@@ -73,69 +73,44 @@ export default function InsightDetail() {
 
   if (!insight || !article) {
     return (
-      <section className="mx-auto max-w-4xl px-6 py-24">
-        <p className="text-sm font-black uppercase tracking-[0.25em] text-orange-600">
-          Insight not found
-        </p>
+      <main className="insight-detail-page">
+        <section className="insight-detail-card">
+          <p className="ti-kicker">Insight not found</p>
 
-        <h1 className="mt-5 text-5xl font-black tracking-tight text-slate-950">
-          This article does not exist.
-        </h1>
+          <h1>This article does not exist.</h1>
 
-        <Link
-          to="/insights"
-          className="mt-10 inline-flex items-center gap-2 rounded-full bg-slate-950 px-6 py-3 text-sm font-bold text-white hover:bg-orange-600"
-        >
-          <ArrowLeft size={18} />
-          Back to insights
-        </Link>
-      </section>
+          <Link to="/insights" className="insight-back-link">
+            <ArrowLeft size={16} />
+            Back to insights
+          </Link>
+        </section>
+      </main>
     );
   }
 
   return (
-    <div>
-      <article className="mx-auto max-w-4xl px-6 py-24">
-        <Link
-          to="/insights"
-          className="inline-flex items-center gap-2 text-sm font-bold text-orange-600"
-        >
-          <ArrowLeft size={18} />
+    <main className="insight-detail-page">
+      <article className="insight-detail-article">
+        <Link to="/insights" className="insight-back-link">
+          <ArrowLeft size={16} />
           Back to insights
         </Link>
 
-        <div className="mt-10 flex flex-wrap items-center gap-3">
-          <span className="rounded-full bg-orange-50 px-3 py-1 text-xs font-bold text-orange-700">
-            {insight.category}
-          </span>
-
-          <span className="text-xs font-semibold text-slate-500">
-            {insight.readTime}
-          </span>
-
-          <span className="text-xs font-semibold text-slate-400">
-            {insight.date}
-          </span>
+        <div className="insight-detail-meta">
+          <span>{insight.category}</span>
+          <small>{insight.readTime}</small>
+          <small>{insight.date}</small>
         </div>
 
-        <h1 className="mt-6 text-5xl font-black tracking-tight text-slate-950 md:text-7xl">
-          {insight.title}
-        </h1>
+        <h1>{insight.title}</h1>
 
-        <p className="mt-7 text-xl leading-9 text-slate-600">
-          {insight.excerpt}
-        </p>
+        <p className="insight-detail-excerpt">{insight.excerpt}</p>
 
-        <div className="mt-14 space-y-12 border-t border-slate-200 pt-12">
+        <div className="insight-detail-body">
           {article.map((section) => (
             <section key={section.heading}>
-              <h2 className="text-3xl font-black tracking-tight text-slate-950">
-                {section.heading}
-              </h2>
-
-              <p className="mt-4 text-lg leading-8 text-slate-600">
-                {section.text}
-              </p>
+              <h2>{section.heading}</h2>
+              <p>{section.text}</p>
             </section>
           ))}
         </div>
@@ -146,6 +121,6 @@ export default function InsightDetail() {
         title="Turn EV sector signals into infrastructure understanding."
         description="Explore IQ4EV briefings and consulting support for deeper EV infrastructure, fleet and operational intelligence."
       />
-    </div>
+    </main>
   );
 }

@@ -70,7 +70,7 @@ export default function Insights() {
           </p>
 
           <div className="insights-actions">
-            <Button to="/contact">Request a discussion</Button>
+            <Button to="/briefings">Request a briefing</Button>
 
             <Button to="/briefings" variant="outline">
               View enterprise briefings
