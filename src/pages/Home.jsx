@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import AccessModal from "../components/AccessModal.jsx";
 import MapView from "../data/components/MapView.jsx";
@@ -8,6 +8,7 @@ const HOME_NAV_LINKS = [
   { to: "/terrainintel", label: "TerrainIntel" },
   { to: "/pulse360", label: "Pulse360" },
   { to: "/evss", label: "EVSS" },
+  { to: "/insights", label: "Insights" },
   { to: "/briefings", label: "Briefings" },
   { to: "/consulting", label: "Consulting" },
 ];
@@ -22,6 +23,22 @@ export default function Home() {
   const [showAccessModal, setShowAccessModal] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [intelPanelOpen, setIntelPanelOpen] = useState(true);
+
+  useEffect(() => {
+    const mobileQuery = window.matchMedia("(max-width: 760px)");
+
+    const applyInitialPanelState = () => {
+      setIntelPanelOpen(!mobileQuery.matches);
+    };
+
+    applyInitialPanelState();
+
+    mobileQuery.addEventListener("change", applyInitialPanelState);
+
+    return () => {
+      mobileQuery.removeEventListener("change", applyInitialPanelState);
+    };
+  }, []);
 
   const selectedIntel = useMemo(() => {
     const selected =
@@ -139,7 +156,7 @@ export default function Home() {
     setActiveNode(null);
     setActiveCharger(null);
     setResetSignal((current) => current + 1);
-    setIntelPanelOpen(true);
+    setIntelPanelOpen(false);
   }
 
   function openAccessModal() {
@@ -168,12 +185,22 @@ export default function Home() {
         </nav>
 
         <div className="iq4ev-command-actions">
-          <button type="button" onClick={handleResetMap}>
+          <button
+            type="button"
+            className="iq4ev-command-reset"
+            onClick={handleResetMap}
+          >
             Reset
           </button>
-          <button type="button" onClick={openAccessModal}>
+
+          <button
+            type="button"
+            className="iq4ev-command-access"
+            onClick={openAccessModal}
+          >
             Request Access
           </button>
+
           <button
             type="button"
             className="iq4ev-command-menu-btn"
@@ -203,6 +230,11 @@ export default function Home() {
               {item.label}
             </Link>
           ))}
+
+          <button type="button" onClick={handleResetMap}>
+            Reset map
+          </button>
+
           <button type="button" onClick={openAccessModal}>
             Request Access
           </button>
