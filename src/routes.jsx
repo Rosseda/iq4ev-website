@@ -13,6 +13,15 @@ import Insights from "./pages/Insights";
 import InsightDetail from "./pages/InsightDetail";
 import Contact from "./pages/Contact";
 import NotFound from "./pages/NotFound";
+import Login from "./pages/Login";
+import Account from "./pages/Account";
+import Admin from "./pages/Admin";
+import AdminContent from "./pages/AdminContent";
+import AdminContentEditor from "./pages/AdminContentEditor";
+import BriefingDetail from "./pages/BriefingDetail";
+import AdminSubscribers from "./pages/AdminSubscribers";
+import Subscribe from "./pages/Subscribe";
+import AccountSettings from "./pages/AccountSettings";
 
 const router = createBrowserRouter([
   {
@@ -59,6 +68,54 @@ const router = createBrowserRouter([
       {
         path: "contact",
         element: <Contact />,
+      },
+      {
+        path: "login",
+        element: <Login />,
+      },
+      {
+        path: "account",
+        element: <Account />,
+      },
+      {
+        path: "account/settings",
+        element: <AccountSettings />,
+      },
+      {
+        path: "admin",
+        element: <Admin />,
+      },
+      {
+        path: "admin/content",
+        element: <AdminContent />,
+      },
+      {
+        path: "admin/content/edit/:id",
+        element: <AdminContentEditor />,
+      },
+      {
+        path: "admin/content/new",
+        element: <AdminContentEditor />,
+      },
+      {
+        path: "admin/content/:id/edit",
+        element: <AdminContentEditor />,
+      },
+      {
+        path: "admin/subscribers",
+        element: <AdminSubscribers />,
+      },
+      {
+       path: "subscribe",
+       element: <Subscribe />,
+      },
+      {
+       path: "briefings",
+       element: <Briefings />,
+      },
+      {
+        path: "briefings/:slug",
+        element: <BriefingDetail />,
       },
     ],
   },

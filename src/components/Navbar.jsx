@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import AccessModal from "./AccessModal";
+import { useAuth } from "../contexts/AuthContext.jsx";
 
-const NAV_LINKS = [
+const BASE_NAV_LINKS = [
   { to: "/about", label: "About" },
   { to: "/terrainintel", label: "TerrainIntel" },
   { to: "/pulse360", label: "Pulse360" },
@@ -13,9 +14,17 @@ const NAV_LINKS = [
 ];
 
 export default function Navbar() {
+  const { isLoggedIn, isAdmin } = useAuth();
+
   const [showAccessModal, setShowAccessModal] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const location = useLocation();
+
+  const navLinks = [
+    ...BASE_NAV_LINKS,
+    ...(isAdmin ? [{ to: "/admin", label: "Admin" }] : []),
+    { to: isLoggedIn ? "/account" : "/login", label: isLoggedIn ? "Account" : "Login" },
+  ];
 
   const closeMobileMenu = () => setMobileMenuOpen(false);
 
@@ -26,7 +35,28 @@ export default function Navbar() {
 
   const isActiveLink = (path) => {
     if (path === "/insights") {
-      return location.pathname === "/insights" || location.pathname.startsWith("/insights/");
+      return (
+        location.pathname === "/insights" ||
+        location.pathname.startsWith("/insights/")
+      );
+    }
+
+    if (path === "/briefings") {
+      return (
+        location.pathname === "/briefings" ||
+        location.pathname.startsWith("/briefings/")
+      );
+    }
+
+    if (path === "/admin") {
+      return location.pathname === "/admin" || location.pathname.startsWith("/admin/");
+    }
+
+    if (path === "/account") {
+      return (
+        location.pathname === "/account" ||
+        location.pathname.startsWith("/account/")
+      );
     }
 
     return location.pathname === path;
@@ -41,7 +71,7 @@ export default function Navbar() {
           </Link>
 
           <nav className="iq-nav-links" aria-label="Primary navigation">
-            {NAV_LINKS.map((item) => (
+            {navLinks.map((item) => (
               <Link
                 key={item.to}
                 to={item.to}
@@ -53,13 +83,15 @@ export default function Navbar() {
           </nav>
 
           <div className="iq-navbar-actions">
-            <button
-              type="button"
-              className="iq-access-btn"
-              onClick={openAccessModal}
-            >
-              Request Access
-            </button>
+            {!isLoggedIn && (
+              <button
+                type="button"
+                className="iq-access-btn"
+                onClick={openAccessModal}
+              >
+                Request Access
+              </button>
+            )}
 
             <button
               type="button"
@@ -80,7 +112,7 @@ export default function Navbar() {
           aria-hidden={!mobileMenuOpen}
         >
           <nav aria-label="Mobile navigation">
-            {NAV_LINKS.map((item) => (
+            {navLinks.map((item) => (
               <Link
                 key={item.to}
                 to={item.to}
@@ -91,9 +123,11 @@ export default function Navbar() {
               </Link>
             ))}
 
-            <button type="button" onClick={openAccessModal}>
-              Request Access
-            </button>
+            {!isLoggedIn && (
+              <button type="button" onClick={openAccessModal}>
+                Request Access
+              </button>
+            )}
           </nav>
         </div>
       </header>

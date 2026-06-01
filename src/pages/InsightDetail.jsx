@@ -1,83 +1,89 @@
+import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import { ArrowLeft } from "lucide-react";
-import { insights } from "../data/insights.js";
+import { ArrowLeft, Share2 } from "lucide-react";
+
 import CTASection from "../components/CTASection.jsx";
-
-const articleBodies = {
-  "invisible-frontliners": [
-    {
-      heading: "EV infrastructure depends on more than operators and drivers.",
-      text: "When people talk about EV charging infrastructure, the conversation usually focuses on the charging network operators building and managing the stations, and the EV drivers using them. But between these two sits a third group that quietly enables much of the infrastructure we see today: property hosts.",
-    },
-    {
-      heading: "Property hosts are infrastructure partners.",
-      text: "Retail centres, hotels, office parks, fuel stations, residential estates and mixed-use developments provide the physical space where charging stations are installed. Without these locations, most public charging infrastructure would have nowhere to operate.",
-    },
-    {
-      heading: "Visibility creates better infrastructure conversations.",
-      text: "As EV infrastructure expands, property hosts need clearer visibility into how chargers perform, what risks exist on their sites and how charging assets contribute to the broader value of the property.",
-    },
-  ],
-
-  "charger-downtime": [
-    {
-      heading: "Downtime is not only a technical event.",
-      text: "A charger that is unavailable affects more than a single charging session. It influences driver confidence, site reputation, operator credibility and the perceived reliability of the wider EV ecosystem.",
-    },
-    {
-      heading: "Every failed session creates a trust problem.",
-      text: "For drivers, downtime can turn a planned charging stop into uncertainty. For property hosts, it can affect the customer experience. For operators, repeated downtime can weaken confidence in network quality.",
-    },
-    {
-      heading: "Infrastructure needs operational visibility.",
-      text: "The sector needs better visibility into uptime, fault patterns, maintenance signals and site-level risk so that infrastructure performance can be understood before it becomes reputational damage.",
-    },
-  ],
-
-  "ev-transition-systems": [
-    {
-      heading: "EV transition is not just vehicle replacement.",
-      text: "Electrification requires more than replacing internal combustion vehicles with electric alternatives. It requires infrastructure readiness, charging behaviour, depot planning, route suitability, grid awareness and operational sequencing.",
-    },
-    {
-      heading: "Systems thinking reduces implementation risk.",
-      text: "A fleet may appear ready on paper, but real-world conditions such as terrain, weather, traffic, payload, charging windows and route intensity can change the outcome significantly.",
-    },
-    {
-      heading: "Operational intelligence supports better rollout.",
-      text: "A systems approach allows organizations to test assumptions, compare scenarios and understand the practical realities of EV transition before committing capital.",
-    },
-  ],
-
-  "property-hosts": [
-    {
-      heading: "Property hosts are not passive locations.",
-      text: "The properties where chargers are installed form a critical part of the EV infrastructure ecosystem. These sites shape access, convenience, visibility and the commercial experience of public charging.",
-    },
-    {
-      heading: "Chargers can influence property value and experience.",
-      text: "For retail centres, hotels, estates and mixed-use developments, charging infrastructure can support customer attraction, tenant value, sustainability positioning and future mobility relevance.",
-    },
-    {
-      heading: "Hosts need better reporting.",
-      text: "To participate effectively, property hosts need clear reporting on charger performance, reliability, usage context and site-level risks without needing to become technical charger specialists.",
-    },
-  ],
-};
+import { supabase } from "../lib/supabaseClient.js";
+import { formatContentDate } from "../lib/contentHelpers.js";
 
 export default function InsightDetail() {
   const { slug } = useParams();
 
-  const insight = insights.find((item) => item.slug === slug);
-  const article = articleBodies[slug];
+  const [insight, setInsight] = useState(null);
+  const [loadingInsight, setLoadingInsight] = useState(true);
+  const [error, setError] = useState("");
+  const [copied, setCopied] = useState(false);
 
-  if (!insight || !article) {
+  useEffect(() => {
+    async function loadInsight() {
+      if (!supabase || !slug) {
+        setLoadingInsight(false);
+        return;
+      }
+
+      setLoadingInsight(true);
+      setError("");
+
+      const { data, error: insightError } = await supabase
+        .from("content_items")
+        .select(
+          "id, title, slug, excerpt, body, category, read_time, published_at"
+        )
+        .eq("slug", slug)
+        .eq("content_type", "insight")
+        .eq("status", "published")
+        .eq("access_level", "public")
+        .maybeSingle();
+
+      if (insightError) {
+        setError(insightError.message);
+        setInsight(null);
+      } else {
+        setInsight(data);
+      }
+
+      setLoadingInsight(false);
+    }
+
+    loadInsight();
+  }, [slug]);
+
+  async function handleShare() {
+    try {
+      await navigator.clipboard.writeText(window.location.href);
+      setCopied(true);
+
+      setTimeout(() => {
+        setCopied(false);
+      }, 1800);
+    } catch {
+      alert("Unable to copy link. Please copy it from your browser bar.");
+    }
+  }
+
+  if (loadingInsight) {
+    return (
+      <main className="insight-detail-page">
+        <section className="insight-detail-card">
+          <p className="ti-kicker">IQ4EV Insight</p>
+          <h1>Loading insight…</h1>
+        </section>
+      </main>
+    );
+  }
+
+  if (error || !insight) {
     return (
       <main className="insight-detail-page">
         <section className="insight-detail-card">
           <p className="ti-kicker">Insight not found</p>
 
           <h1>This article does not exist.</h1>
+
+          <p>
+            It may still be in draft, archived, or not yet published from the
+            admin content manager.
+          </p>
 
           <Link to="/insights" className="insight-back-link">
             <ArrowLeft size={16} />
@@ -97,29 +103,42 @@ export default function InsightDetail() {
         </Link>
 
         <div className="insight-detail-meta">
-          <span>{insight.category}</span>
-          <small>{insight.readTime}</small>
-          <small>{insight.date}</small>
+          <span>{insight.category || "Insight"}</span>
+          {insight.read_time && <small>{insight.read_time}</small>}
+          <small>{formatContentDate(insight.published_at)}</small>
         </div>
 
         <h1>{insight.title}</h1>
 
-        <p className="insight-detail-excerpt">{insight.excerpt}</p>
+        {insight.excerpt && (
+          <p className="insight-detail-excerpt">{insight.excerpt}</p>
+        )}
+
+        <div className="briefing-share-row">
+          <button type="button" onClick={handleShare}>
+            <Share2 size={16} />
+            {copied ? "Link copied" : "Share link"}
+          </button>
+        </div>
 
         <div className="insight-detail-body">
-          {article.map((section) => (
-            <section key={section.heading}>
-              <h2>{section.heading}</h2>
-              <p>{section.text}</p>
-            </section>
-          ))}
+          {insight.body
+            ?.split("\n")
+            .filter((paragraph) => paragraph.trim())
+            .map((paragraph, index) => (
+              <section key={`${insight.id}-${index}`}>
+                <p>{paragraph}</p>
+              </section>
+            ))}
         </div>
       </article>
 
       <CTASection
-        eyebrow="IQ4EV insights"
-        title="Turn EV sector signals into infrastructure understanding."
-        description="Explore IQ4EV briefings and consulting support for deeper EV infrastructure, fleet and operational intelligence."
+        eyebrow="Enterprise briefing"
+        title="Need deeper strategic interpretation?"
+        description="IQ4EV Enterprise Briefings extend public insights into risk, commercial implications and decision-ready intelligence."
+        buttonLabel="View enterprise briefings"
+        buttonTo="/briefings"
       />
     </main>
   );

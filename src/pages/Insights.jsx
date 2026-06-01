@@ -1,3 +1,4 @@
+import { useEffect, useMemo, useState } from "react";
 import {
   BookOpenText,
   Building2,
@@ -10,7 +11,7 @@ import {
 import Button from "../components/Button.jsx";
 import CTASection from "../components/CTASection.jsx";
 import InsightCard from "../components/InsightCard.jsx";
-import { insights } from "../data/insights.js";
+import { supabase } from "../lib/supabaseClient.js";
 
 const insightAreas = [
   {
@@ -52,8 +53,71 @@ const insightAreas = [
 ];
 
 export default function Insights() {
-  const featuredInsight = insights.find((item) => item.featured);
-  const regularInsights = insights.filter((item) => !item.featured);
+  const [insights, setInsights] = useState([]);
+  const [loadingInsights, setLoadingInsights] = useState(true);
+  const [error, setError] = useState("");
+
+  useEffect(() => {
+    async function loadInsights() {
+      if (!supabase) {
+        setLoadingInsights(false);
+        return;
+      }
+
+      setLoadingInsights(true);
+      setError("");
+
+      const { data, error: insightsError } = await supabase
+        .from("content_items")
+        .select(
+          "id, title, slug, excerpt, category, read_time, featured, published_at"
+        )
+        .eq("content_type", "insight")
+        .eq("status", "published")
+        .eq("access_level", "public")
+        .order("published_at", { ascending: false });
+
+      if (insightsError) {
+        setError(insightsError.message);
+        setInsights([]);
+      } else {
+        const formatted = (data || []).map((item) => ({
+          slug: item.slug,
+          category: item.category || "Insight",
+          readTime: item.read_time || "Insight",
+          title: item.title,
+          excerpt: item.excerpt,
+          date: item.published_at
+            ? new Intl.DateTimeFormat("en-ZA", {
+                year: "numeric",
+                month: "short",
+                day: "numeric",
+              }).format(new Date(item.published_at))
+            : "Unpublished",
+          featured: item.featured,
+        }));
+
+        setInsights(formatted);
+      }
+
+      setLoadingInsights(false);
+    }
+
+    loadInsights();
+  }, []);
+
+  const featuredInsight = useMemo(
+    () => insights.find((item) => item.featured) || insights[0],
+    [insights]
+  );
+
+  const regularInsights = useMemo(
+    () =>
+      featuredInsight
+        ? insights.filter((item) => item.slug !== featuredInsight.slug)
+        : insights,
+    [insights, featuredInsight]
+  );
 
   return (
     <main className="insights-page">
@@ -131,7 +195,10 @@ export default function Insights() {
         <div>
           <p className="ti-kicker">Insights vs Briefings</p>
 
-          <h2>Insights shape public understanding. Briefings support enterprise decisions.</h2>
+          <h2>
+            Insights shape public understanding. Briefings support enterprise
+            decisions.
+          </h2>
         </div>
 
         <div className="insights-definition-grid">
@@ -169,42 +236,62 @@ export default function Insights() {
           </p>
         </div>
 
-        <div className="insights-grid">
-          {featuredInsight && (
-            <InsightCard insight={featuredInsight} featured />
-          )}
+        {loadingInsights && (
+          <article className="insights-empty-state">
+            <h3>Loading insights…</h3>
+          </article>
+        )}
 
-          {regularInsights.map((insight) => (
-            <InsightCard key={insight.slug} insight={insight} />
-          ))}
-        </div>
+        {error && (
+          <article className="insights-empty-state">
+            <h3>Unable to load insights.</h3>
+            <p>{error}</p>
+          </article>
+        )}
+
+        {!loadingInsights && !error && insights.length === 0 && (
+          <article className="insights-empty-state">
+            <h3>No published insights yet.</h3>
+            <p>
+              Create a public insight from the admin content manager and set its
+              status to published.
+            </p>
+          </article>
+        )}
+
+        {!loadingInsights && !error && insights.length > 0 && (
+          <div className="insights-grid">
+            {featuredInsight && (
+              <InsightCard insight={featuredInsight} featured />
+            )}
+
+            {regularInsights.map((insight) => (
+              <InsightCard key={insight.slug} insight={insight} />
+            ))}
+          </div>
+        )}
       </section>
 
-      <section className="insights-coverage">
+      <section className="insights-areas">
         <div className="insights-section-head">
-          <p className="ti-kicker">Coverage</p>
+          <p className="ti-kicker">Coverage areas</p>
 
-          <h2>Built around EV infrastructure understanding.</h2>
+          <h2>What IQ4EV Insights focus on.</h2>
 
           <p>
-            The insights layer helps the market better understand how EV systems
-            actually behave across charging, property, fleet and corridor
-            environments.
+            Public analysis is designed to educate the sector while building the
+            evidence base for deeper enterprise intelligence.
           </p>
         </div>
 
-        <div className="insights-coverage-grid">
+        <div className="insights-area-grid">
           {insightAreas.map((area) => {
             const Icon = area.icon;
 
             return (
               <article key={area.title}>
-                <span>
-                  <Icon size={20} />
-                </span>
-
-                <strong>{area.title}</strong>
-
+                <Icon size={22} />
+                <h3>{area.title}</h3>
                 <p>{area.description}</p>
               </article>
             );
@@ -213,9 +300,11 @@ export default function Insights() {
       </section>
 
       <CTASection
-        eyebrow="Public intelligence"
-        title="Move beyond headlines into infrastructure understanding."
-        description="Follow IQ4EV Insights for public EV infrastructure analysis, operational commentary and evidence-led sector thinking."
+        eyebrow="Enterprise intelligence"
+        title="Need the deeper decision layer?"
+        description="IQ4EV Enterprise Briefings extend public insights into risk interpretation, commercial implications, scenario analysis and strategic decision support."
+        buttonLabel="View enterprise briefings"
+        buttonTo="/briefings"
       />
     </main>
   );

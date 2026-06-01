@@ -1,8 +1,56 @@
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
+import { Link } from "react-router-dom";
+import { Lock, ArrowRight } from "lucide-react";
+
 import AccessModal from "../components/AccessModal.jsx";
+import { useAuth } from "../contexts/AuthContext.jsx";
+import { supabase } from "../lib/supabaseClient.js";
+import { formatContentDate } from "../lib/contentHelpers.js";
 
 export default function Briefings() {
+  const { isSubscriber, isAdmin } = useAuth();
+
   const [showAccessModal, setShowAccessModal] = useState(false);
+  const [briefings, setBriefings] = useState([]);
+  const [loadingBriefings, setLoadingBriefings] = useState(true);
+  const [error, setError] = useState("");
+
+  const canViewFullBriefings = isSubscriber || isAdmin;
+
+  useEffect(() => {
+    async function loadBriefings() {
+      if (!supabase) {
+        setLoadingBriefings(false);
+        return;
+      }
+
+      setLoadingBriefings(true);
+      setError("");
+
+      const { data, error: briefingsError } = await supabase
+        .from("content_items")
+        .select(
+          "id, title, slug, excerpt, content_type, access_level, status, category, series, read_time, published_at"
+        )
+        .eq("content_type", "briefing")
+        .eq("status", "published")
+        .order("published_at", { ascending: false });
+
+      if (briefingsError) {
+        setError(briefingsError.message);
+        setBriefings([]);
+      } else {
+        setBriefings(data || []);
+      }
+
+      setLoadingBriefings(false);
+    }
+
+    loadBriefings();
+  }, []);
+
+  const featuredBriefing = useMemo(() => briefings[0], [briefings]);
+  const remainingBriefings = useMemo(() => briefings.slice(1), [briefings]);
 
   return (
     <main className="ti-page briefings-page">
@@ -25,7 +73,8 @@ export default function Briefings() {
             <button type="button" onClick={() => setShowAccessModal(true)}>
               Request briefing access
             </button>
-            <a href="#briefing-types">View briefing types</a>
+
+            <a href="#latest-briefings">View latest briefings</a>
           </div>
         </div>
 
@@ -55,7 +104,108 @@ export default function Briefings() {
         </div>
       </section>
 
-      <section id="briefing-types" className="ti-metrics">
+      <section id="latest-briefings" className="briefing-database-section">
+        <div className="briefing-database-head">
+          <div>
+            <p className="ti-kicker">Latest enterprise intelligence</p>
+            <h2>Published briefings.</h2>
+            <p>
+              Public previews are visible to all visitors. Full briefing content
+              opens for active subscribers and IQ4EV administrators.
+            </p>
+          </div>
+
+          {!canViewFullBriefings && (
+            <button type="button" onClick={() => setShowAccessModal(true)}>
+              Request access · R300/month
+            </button>
+          )}
+        </div>
+
+        {loadingBriefings && (
+          <article className="briefing-empty-card">
+            <h3>Loading briefings…</h3>
+          </article>
+        )}
+
+        {error && (
+          <article className="briefing-empty-card">
+            <h3>Unable to load briefings.</h3>
+            <p>{error}</p>
+          </article>
+        )}
+
+        {!loadingBriefings && !error && briefings.length === 0 && (
+          <article className="briefing-empty-card">
+            <h3>No published briefings yet.</h3>
+            <p>
+              Drafts and archived items stay hidden until they are published
+              from the admin content manager.
+            </p>
+          </article>
+        )}
+
+        {!loadingBriefings && !error && featuredBriefing && (
+          <div className="briefing-feature-card">
+            <div>
+              <div className="briefing-tags">
+                <span>{featuredBriefing.series || "Enterprise Briefing"}</span>
+                <span>{featuredBriefing.read_time || "Briefing"}</span>
+                {!canViewFullBriefings && (
+                  <span>
+                    <Lock size={12} />
+                    Subscriber
+                  </span>
+                )}
+              </div>
+
+              <h3>{featuredBriefing.title}</h3>
+
+              <p>{featuredBriefing.excerpt}</p>
+
+              <small>{formatContentDate(featuredBriefing.published_at)}</small>
+            </div>
+
+            <Link to={`/briefings/${featuredBriefing.slug}`}>
+              {canViewFullBriefings ? "Read full briefing" : "View preview"}
+              <ArrowRight size={17} />
+            </Link>
+          </div>
+        )}
+
+        {!loadingBriefings && !error && remainingBriefings.length > 0 && (
+          <div className="briefing-list-grid">
+            {remainingBriefings.map((briefing) => (
+              <article key={briefing.id} className="briefing-list-card">
+                <div className="briefing-tags">
+                  <span>{briefing.series || briefing.category || "Briefing"}</span>
+                  {!canViewFullBriefings && (
+                    <span>
+                      <Lock size={12} />
+                      Subscriber
+                    </span>
+                  )}
+                </div>
+
+                <h3>{briefing.title}</h3>
+
+                <p>{briefing.excerpt}</p>
+
+                <div className="briefing-card-footer">
+                  <small>{formatContentDate(briefing.published_at)}</small>
+
+                  <Link to={`/briefings/${briefing.slug}`}>
+                    Open
+                    <ArrowRight size={15} />
+                  </Link>
+                </div>
+              </article>
+            ))}
+          </div>
+        )}
+      </section>
+
+      <section className="ti-metrics">
         <article>
           <span>01</span>
           <strong>Infrastructure briefings</strong>
@@ -120,65 +270,26 @@ export default function Briefings() {
         </div>
       </section>
 
-      <section className="ti-use-cases">
-        <p className="ti-kicker">Briefing audiences</p>
-
-        <div className="ti-use-grid">
-          <article>
-            <h3>Executives</h3>
-            <p>
-              Decision-ready summaries for leadership teams and strategic
-              planning discussions.
-            </p>
-          </article>
-
-          <article>
-            <h3>OEM teams</h3>
-            <p>
-              Infrastructure, adoption and customer-readiness signals for EV
-              market positioning.
-            </p>
-          </article>
-
-          <article>
-            <h3>Municipalities</h3>
-            <p>
-              Interpretation of infrastructure readiness, corridors and local EV
-              development signals.
-            </p>
-          </article>
-
-          <article>
-            <h3>Operators</h3>
-            <p>
-              Commentary on charger networks, uptime, deployment opportunity and
-              infrastructure risk.
-            </p>
-          </article>
-        </div>
-      </section>
-
       <section className="ti-cta">
         <div>
           <p className="ti-kicker">Request briefing access</p>
           <h2>Need EV intelligence interpreted for your organisation?</h2>
           <p>
-            Submit a briefing request and IQ4EV will follow up manually to
-            understand your intelligence needs, audience and subscription or
-            consultation pathway.
+            Subscribe for access to IQ4EV Enterprise Briefings and receive
+            strategic interpretation of EV infrastructure, market and operational
+            signals.
           </p>
         </div>
 
         <button type="button" onClick={() => setShowAccessModal(true)}>
-          Request briefing
+          Request briefing access
         </button>
       </section>
 
       <AccessModal
         open={showAccessModal}
         onClose={() => setShowAccessModal(false)}
-        defaultPlatform="Enterprise Briefings"
-        defaultRequestType="Request Enterprise Briefing Access"
+        mode="briefing"
       />
     </main>
   );
