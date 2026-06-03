@@ -187,11 +187,12 @@ export default function EVSS() {
       </section>
 
       <AccessModal
-        open={showAccessModal}
-        onClose={() => setShowAccessModal(false)}
-        defaultPlatform="EVSS"
-        defaultRequestType="Request EVSS Consultation"
-      />
+       open={showAccessModal}
+       onClose={() => setShowAccessModal(false)}
+       mode="evss"
+       defaultPlatform="EVSS"
+       defaultRequestType="Request EVSS Consultation"
+    />
     </main>
   );
 }

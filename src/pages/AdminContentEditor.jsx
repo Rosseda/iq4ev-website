@@ -25,6 +25,16 @@ const initialForm = {
   featured: false,
 };
 
+function shouldNotifySubscriber(profile, briefingSeries) {
+  const topics = profile?.topics_of_interest || [];
+
+  if (!briefingSeries) return true;
+  if (topics.includes("All briefings")) return true;
+  if (topics.includes(briefingSeries)) return true;
+
+  return false;
+}
+
 export default function AdminContentEditor() {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -33,12 +43,13 @@ export default function AdminContentEditor() {
   const isEditing = Boolean(id);
 
   const [form, setForm] = useState(initialForm);
+  const [originalItem, setOriginalItem] = useState(null);
   const [loadingItem, setLoadingItem] = useState(isEditing);
   const [saving, setSaving] = useState(false);
   const [message, setMessage] = useState("");
+  const [messageType, setMessageType] = useState("info");
 
   const pageTitle = isEditing ? "Edit content" : "New content";
-
   const isBriefing = form.content_type === "briefing";
 
   const suggestedAccessLevel = useMemo(() => {
@@ -59,8 +70,10 @@ export default function AdminContentEditor() {
         .single();
 
       if (error) {
-        setMessage(error.message);
+        showMessage(error.message, "error");
       } else if (data) {
+        setOriginalItem(data);
+
         setForm({
           title: data.title || "",
           slug: data.slug || "",
@@ -80,9 +93,22 @@ export default function AdminContentEditor() {
     }
 
     loadItem();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id, isAdmin, isEditing]);
 
+  function showMessage(text, type = "info") {
+    setMessage(text);
+    setMessageType(type);
+  }
+
+  function clearMessage() {
+    setMessage("");
+    setMessageType("info");
+  }
+
   function updateField(field, value) {
+    clearMessage();
+
     setForm((current) => ({
       ...current,
       [field]: value,
@@ -90,6 +116,8 @@ export default function AdminContentEditor() {
   }
 
   function handleTitleChange(value) {
+    clearMessage();
+
     setForm((current) => ({
       ...current,
       title: value,
@@ -98,6 +126,8 @@ export default function AdminContentEditor() {
   }
 
   function handleContentTypeChange(value) {
+    clearMessage();
+
     setForm((current) => ({
       ...current,
       content_type: value,
@@ -106,32 +136,102 @@ export default function AdminContentEditor() {
     }));
   }
 
+  async function createBriefingEmailEvents(savedContent) {
+    if (!supabase || !savedContent?.id) return { created: 0, error: null };
+
+    const wasAlreadyPublished =
+      isEditing && originalItem?.status === "published";
+
+    const isNewlyPublishedBriefing =
+      savedContent.content_type === "briefing" &&
+      savedContent.status === "published" &&
+      !wasAlreadyPublished;
+
+    if (!isNewlyPublishedBriefing) {
+      return { created: 0, error: null };
+    }
+
+    const { data: subscribers, error: subscriberError } = await supabase
+      .from("profiles")
+      .select("id, email, full_name, topics_of_interest, subscription_status")
+      .eq("role", "subscriber")
+      .eq("subscription_status", "active");
+
+    if (subscriberError) {
+      return { created: 0, error: subscriberError };
+    }
+
+    const matchedSubscribers = (subscribers || []).filter((profile) =>
+      shouldNotifySubscriber(profile, savedContent.series)
+    );
+
+    if (matchedSubscribers.length === 0) {
+      return { created: 0, error: null };
+    }
+
+    const briefingUrl = `${window.location.origin}/briefings/${savedContent.slug}`;
+
+    const emailEvents = matchedSubscribers.map((subscriber) => ({
+      event_type: "briefing_published",
+      recipient_email: subscriber.email,
+      recipient_name: subscriber.full_name || "",
+      subject: `New IQ4EV briefing: ${savedContent.title}`,
+      sender_email: "do-not-reply@iq4ev.co.za",
+      status: "pending",
+      related_profile_id: subscriber.id,
+      related_content_id: savedContent.id,
+      metadata: {
+        briefing_title: savedContent.title,
+        briefing_slug: savedContent.slug,
+        briefing_url: briefingUrl,
+        briefing_series: savedContent.series || "",
+        briefing_excerpt: savedContent.excerpt || "",
+        message_intent:
+          "We think this may spark your interest. Include the direct briefing link for easy accessibility.",
+        support_email: "info@iq4ev.co.za",
+      },
+    }));
+
+    const { error: eventError } = await supabase
+      .from("email_events")
+      .insert(emailEvents);
+
+    if (eventError) {
+      return { created: 0, error: eventError };
+    }
+
+    return { created: emailEvents.length, error: null };
+  }
+
   async function handleSubmit(event) {
     event.preventDefault();
 
     if (!supabase) {
-      setMessage("Supabase is not connected.");
+      showMessage("Supabase is not connected.", "error");
       return;
     }
 
     if (!isAdmin) {
-      setMessage("Admin access required.");
+      showMessage("Admin access required.", "error");
       return;
     }
 
     if (!form.title.trim() || !form.slug.trim()) {
-      setMessage("Title and slug are required.");
+      showMessage("Title and slug are required.", "error");
       return;
     }
 
     setSaving(true);
-    setMessage("");
+    clearMessage();
 
     const now = new Date().toISOString();
+    const cleanSlug = createSlug(form.slug);
+
+    const existingPublishedAt = originalItem?.published_at || null;
 
     const payload = {
       title: form.title.trim(),
-      slug: createSlug(form.slug),
+      slug: cleanSlug,
       excerpt: form.excerpt.trim(),
       body: form.body.trim(),
       content_type: form.content_type,
@@ -141,7 +241,8 @@ export default function AdminContentEditor() {
       series: form.series.trim(),
       read_time: form.read_time.trim(),
       featured: form.featured,
-      published_at: form.status === "published" ? now : null,
+      published_at:
+        form.status === "published" ? existingPublishedAt || now : null,
     };
 
     if (!isEditing) {
@@ -153,22 +254,58 @@ export default function AdminContentEditor() {
           .from("content_items")
           .update(payload)
           .eq("id", id)
-          .select("id")
+          .select("*")
           .single()
-      : await supabase
-          .from("content_items")
-          .insert(payload)
-          .select("id")
-          .single();
-
-    setSaving(false);
+      : await supabase.from("content_items").insert(payload).select("*").single();
 
     if (error) {
-      setMessage(error.message);
+      setSaving(false);
+      showMessage(error.message, "error");
       return;
     }
 
-    navigate(`/admin/content/${data.id}/edit`);
+    const emailResult = await createBriefingEmailEvents(data);
+
+    setSaving(false);
+    setOriginalItem(data);
+
+    if (emailResult.error) {
+      showMessage(
+        `Content saved, but briefing email events could not be prepared: ${emailResult.error.message}`,
+        "error"
+      );
+
+      if (!isEditing) {
+        navigate(`/admin/content/${data.id}/edit`);
+      }
+
+      return;
+    }
+
+    if (
+      data.content_type === "briefing" &&
+      data.status === "published" &&
+      emailResult.created > 0
+    ) {
+      showMessage(
+        `Briefing published. ${emailResult.created} pending briefing notification email event(s) were prepared.`,
+        "success"
+      );
+    } else if (
+      data.content_type === "briefing" &&
+      data.status === "published"
+    ) {
+      showMessage(
+        "Briefing published. No matching active subscribers were found for notification preparation.",
+        "success"
+      );
+    } else {
+      showMessage("Content saved successfully.", "success");
+    }
+
+    if (!isEditing) {
+      navigate(`/admin/content/${data.id}/edit`);
+    }
   }
 
   async function handleDelete() {
@@ -183,7 +320,7 @@ export default function AdminContentEditor() {
     const { error } = await supabase.from("content_items").delete().eq("id", id);
 
     if (error) {
-      setMessage(error.message);
+      showMessage(error.message, "error");
       return;
     }
 
@@ -375,7 +512,20 @@ export default function AdminContentEditor() {
             Mark as featured
           </label>
 
-          {message && <p className="admin-error-message">{message}</p>}
+          {isBriefing && form.status === "published" && (
+            <div className="admin-publish-note">
+              <strong>Briefing notification preparation</strong>
+              <p>
+                When this briefing is published for the first time, IQ4EV will
+                prepare pending email event records for matching active
+                subscribers. Emails are not sent from the frontend.
+              </p>
+            </div>
+          )}
+
+          {message && (
+            <p className={`admin-form-message ${messageType}`}>{message}</p>
+          )}
 
           <button type="submit" disabled={saving}>
             {saving ? "Saving..." : "Save content"}

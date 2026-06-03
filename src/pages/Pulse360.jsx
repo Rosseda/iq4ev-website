@@ -208,11 +208,12 @@ export default function Pulse360() {
       </section>
 
       <AccessModal
-        open={showAccessModal}
-        onClose={() => setShowAccessModal(false)}
-        defaultPlatform="Pulse360"
-        defaultRequestType="Request Pulse360 Consultation"
-      />
+       open={showAccessModal}
+       onClose={() => setShowAccessModal(false)}
+       mode="pulse360"
+       defaultPlatform="Pulse360"
+       defaultRequestType="Request Pulse360 Consultation"
+    />
     </main>
   );
 }

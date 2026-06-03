@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
-import { Plus, Pencil, Archive, FileText } from "lucide-react";
+import { Plus, Pencil, Archive, FileText, X } from "lucide-react";
 
 import { useAuth } from "../contexts/AuthContext.jsx";
 import { supabase } from "../lib/supabaseClient.js";
@@ -13,6 +13,9 @@ export default function AdminContent() {
   const [items, setItems] = useState([]);
   const [loadingItems, setLoadingItems] = useState(true);
   const [error, setError] = useState("");
+  const [notice, setNotice] = useState("");
+  const [archiveTarget, setArchiveTarget] = useState(null);
+  const [archivingId, setArchivingId] = useState("");
 
   const activeType = searchParams.get("type") || "all";
   const activeStatus = searchParams.get("status") || "all";
@@ -26,6 +29,7 @@ export default function AdminContent() {
 
       setLoadingItems(true);
       setError("");
+      setNotice("");
 
       const { data, error: contentError } = await supabase
         .from("content_items")
@@ -71,30 +75,46 @@ export default function AdminContent() {
     setSearchParams(next);
   }
 
-  async function archiveItem(item) {
-    const confirmArchive = window.confirm(
-      `Archive "${item.title}"? It will no longer appear as published content.`
-    );
+  function requestArchive(item) {
+    setError("");
+    setNotice("");
+    setArchiveTarget(item);
+  }
 
-    if (!confirmArchive) return;
+  function cancelArchive() {
+    setArchiveTarget(null);
+    setArchivingId("");
+  }
+
+  async function confirmArchive() {
+    if (!archiveTarget || !supabase) return;
+
+    setArchivingId(archiveTarget.id);
+    setError("");
+    setNotice("");
 
     const { error: archiveError } = await supabase
       .from("content_items")
       .update({ status: "archived" })
-      .eq("id", item.id);
+      .eq("id", archiveTarget.id);
+
+    setArchivingId("");
 
     if (archiveError) {
-      alert(archiveError.message);
+      setError(archiveError.message);
       return;
     }
 
     setItems((current) =>
       current.map((currentItem) =>
-        currentItem.id === item.id
+        currentItem.id === archiveTarget.id
           ? { ...currentItem, status: "archived" }
           : currentItem
       )
     );
+
+    setNotice(`"${archiveTarget.title}" has been archived.`);
+    setArchiveTarget(null);
   }
 
   if (loading || loadingItems) {
@@ -209,7 +229,42 @@ export default function AdminContent() {
         </div>
       </section>
 
+      {archiveTarget && (
+        <section className="admin-confirm-card">
+          <div>
+            <strong>Archive content item?</strong>
+            <p>
+              “{archiveTarget.title}” will no longer appear as published
+              content. You can still find it in the archived content list.
+            </p>
+          </div>
+
+          <div>
+            <button
+              type="button"
+              className="admin-confirm-secondary"
+              onClick={cancelArchive}
+              disabled={archivingId === archiveTarget.id}
+            >
+              <X size={15} />
+              Cancel
+            </button>
+
+            <button
+              type="button"
+              className="admin-confirm-danger"
+              onClick={confirmArchive}
+              disabled={archivingId === archiveTarget.id}
+            >
+              <Archive size={15} />
+              {archivingId === archiveTarget.id ? "Archiving..." : "Archive"}
+            </button>
+          </div>
+        </section>
+      )}
+
       {error && <p className="admin-error-message">{error}</p>}
+      {notice && <p className="admin-success-message">{notice}</p>}
 
       <section className="admin-content-list">
         {filteredItems.length === 0 ? (
@@ -254,7 +309,7 @@ export default function AdminContent() {
                 </Link>
 
                 {item.status !== "archived" && (
-                  <button type="button" onClick={() => archiveItem(item)}>
+                  <button type="button" onClick={() => requestArchive(item)}>
                     <Archive size={16} />
                     Archive
                   </button>

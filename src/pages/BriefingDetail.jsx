@@ -15,7 +15,7 @@ export default function BriefingDetail() {
   const [loadingBriefing, setLoadingBriefing] = useState(true);
   const [error, setError] = useState("");
   const [showAccessModal, setShowAccessModal] = useState(false);
-  const [copied, setCopied] = useState(false);
+  const [shareMessage, setShareMessage] = useState("");
 
   const canViewFullBriefing = isAdmin || isSubscriber;
 
@@ -57,14 +57,19 @@ export default function BriefingDetail() {
 
     try {
       await navigator.clipboard.writeText(url);
-      setCopied(true);
+      setShareMessage("Link copied.");
 
       setTimeout(() => {
-        setCopied(false);
+        setShareMessage("");
       }, 1800);
     } catch {
-      setCopied(false);
-      alert("Unable to copy link. Please copy it from the browser address bar.");
+      setShareMessage(
+        "Unable to copy automatically. Please copy the link from your browser address bar."
+      );
+
+      setTimeout(() => {
+        setShareMessage("");
+      }, 3200);
     }
   }
 
@@ -122,7 +127,7 @@ export default function BriefingDetail() {
         <div className="briefing-share-row">
           <button type="button" onClick={handleShare}>
             <Share2 size={16} />
-            {copied ? "Link copied" : "Share link"}
+            {shareMessage === "Link copied." ? "Link copied" : "Share link"}
           </button>
 
           {!canViewFullBriefing && (
@@ -132,6 +137,16 @@ export default function BriefingDetail() {
             </span>
           )}
         </div>
+
+        {shareMessage && (
+          <p
+            className={`briefing-share-message ${
+              shareMessage === "Link copied." ? "success" : "error"
+            }`}
+          >
+            {shareMessage}
+          </p>
+        )}
 
         {canViewFullBriefing ? (
           <div className="briefing-detail-body">

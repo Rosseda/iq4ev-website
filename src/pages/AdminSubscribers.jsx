@@ -1,6 +1,12 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
-import { RefreshCw, Search, ShieldCheck, UserRound } from "lucide-react";
+import {
+  AlertTriangle,
+  RefreshCw,
+  Search,
+  ShieldCheck,
+  UserRound,
+} from "lucide-react";
 
 import { useAuth } from "../contexts/AuthContext.jsx";
 import { supabase } from "../lib/supabaseClient.js";
@@ -8,6 +14,35 @@ import { formatContentDate } from "../lib/contentHelpers.js";
 
 const STATUS_OPTIONS = ["inactive", "active", "cancelled", "expired", "past_due"];
 const ROLE_OPTIONS = ["subscriber", "admin"];
+
+const STATUS_LABELS = {
+  inactive: "Inactive",
+  active: "Active",
+  cancelled: "Cancelled",
+  expired: "Expired",
+  past_due: "Payment pending",
+};
+
+function getStatusLabel(status) {
+  return STATUS_LABELS[status] || status || "Unknown";
+}
+
+function getStatusDescription(status) {
+  switch (status) {
+    case "active":
+      return "Subscriber has access to full briefing content.";
+    case "inactive":
+      return "Account exists, but briefing access is not active.";
+    case "cancelled":
+      return "Subscription has been cancelled. Access should remain blocked.";
+    case "expired":
+      return "Subscription has expired and requires renewal.";
+    case "past_due":
+      return "Payment has not been received. Access may be blocked pending payment.";
+    default:
+      return "No subscription status available.";
+  }
+}
 
 export default function AdminSubscribers() {
   const { loading, isAdmin } = useAuth();
@@ -18,6 +53,7 @@ export default function AdminSubscribers() {
   const [statusFilter, setStatusFilter] = useState("all");
   const [savingId, setSavingId] = useState("");
   const [error, setError] = useState("");
+  const [notice, setNotice] = useState("");
 
   async function loadProfiles() {
     if (!supabase || !isAdmin) {
@@ -27,6 +63,7 @@ export default function AdminSubscribers() {
 
     setLoadingProfiles(true);
     setError("");
+    setNotice("");
 
     const { data, error: profilesError } = await supabase
       .from("profiles")
@@ -68,11 +105,39 @@ export default function AdminSubscribers() {
     });
   }, [profiles, searchTerm, statusFilter]);
 
+  const summary = useMemo(
+    () => ({
+      total: profiles.length,
+      active: profiles.filter(
+        (profile) => profile.subscription_status === "active"
+      ).length,
+      inactive: profiles.filter(
+        (profile) => profile.subscription_status === "inactive"
+      ).length,
+      paymentPending: profiles.filter(
+        (profile) => profile.subscription_status === "past_due"
+      ).length,
+      cancelled: profiles.filter(
+        (profile) => profile.subscription_status === "cancelled"
+      ).length,
+      expired: profiles.filter(
+        (profile) => profile.subscription_status === "expired"
+      ).length,
+      admins: profiles.filter((profile) => profile.role === "admin").length,
+    }),
+    [profiles]
+  );
+
   async function updateProfile(profileId, updates) {
     if (!supabase) return;
 
+    const currentProfile = profiles.find((profile) => profile.id === profileId);
+    const previousStatus = currentProfile?.subscription_status;
+    const nextStatus = updates.subscription_status;
+
     setSavingId(profileId);
     setError("");
+    setNotice("");
 
     const { data, error: updateError } = await supabase
       .from("profiles")
@@ -93,6 +158,23 @@ export default function AdminSubscribers() {
     setProfiles((current) =>
       current.map((profile) => (profile.id === profileId ? data : profile))
     );
+
+    if (nextStatus && nextStatus !== previousStatus) {
+      const emailReminder =
+        nextStatus === "cancelled"
+          ? "A cancellation confirmation email should later be sent from do-not-reply@iq4ev.co.za."
+          : nextStatus === "past_due"
+            ? "A payment-not-received notice should later be sent from do-not-reply@iq4ev.co.za."
+            : nextStatus === "active"
+              ? "An activation or payment-confirmation notice can later be sent from do-not-reply@iq4ev.co.za."
+              : "Future automated subscription communication should be tracked through email_events.";
+
+      setNotice(
+        `${data.email} status changed to ${getStatusLabel(nextStatus)}. ${emailReminder}`
+      );
+    } else if (updates.role) {
+      setNotice(`${data.email} role updated to ${data.role}.`);
+    }
   }
 
   if (loading || loadingProfiles) {
@@ -133,7 +215,7 @@ export default function AdminSubscribers() {
           <p>
             Review briefing access accounts, subscription status and topic
             interests. Nedbank subscription events will update these records
-            automatically later.
+            automatically once payment integration is connected.
           </p>
         </div>
 
@@ -145,6 +227,19 @@ export default function AdminSubscribers() {
           <RefreshCw size={17} />
           Refresh
         </button>
+      </section>
+
+      <section className="admin-phase-note">
+        <AlertTriangle size={18} />
+        <div>
+          <strong>Manual subscription control is temporary</strong>
+          <p>
+            Until Nedbank integration is available, subscription status changes
+            are managed manually here. Later, payment success, payment failure,
+            cancellation and renewal notices should be recorded through the
+            email_events table and sent from do-not-reply@iq4ev.co.za.
+          </p>
+        </div>
       </section>
 
       <section className="subscriber-toolbar">
@@ -166,47 +261,49 @@ export default function AdminSubscribers() {
               className={statusFilter === status ? "active" : ""}
               onClick={() => setStatusFilter(status)}
             >
-              {status}
+              {status === "all" ? "All" : getStatusLabel(status)}
             </button>
           ))}
         </div>
       </section>
 
       {error && <p className="admin-error-message">{error}</p>}
+      {notice && <p className="admin-success-message">{notice}</p>}
 
       <section className="subscriber-summary-grid">
         <article>
           <span>Total records</span>
-          <strong>{profiles.length}</strong>
+          <strong>{summary.total}</strong>
         </article>
 
         <article>
           <span>Active</span>
-          <strong>
-            {
-              profiles.filter(
-                (profile) => profile.subscription_status === "active"
-              ).length
-            }
-          </strong>
+          <strong>{summary.active}</strong>
         </article>
 
         <article>
           <span>Inactive</span>
-          <strong>
-            {
-              profiles.filter(
-                (profile) => profile.subscription_status === "inactive"
-              ).length
-            }
-          </strong>
+          <strong>{summary.inactive}</strong>
+        </article>
+
+        <article>
+          <span>Payment pending</span>
+          <strong>{summary.paymentPending}</strong>
+        </article>
+
+        <article>
+          <span>Cancelled</span>
+          <strong>{summary.cancelled}</strong>
+        </article>
+
+        <article>
+          <span>Expired</span>
+          <strong>{summary.expired}</strong>
         </article>
 
         <article>
           <span>Admins</span>
-          <strong>
-            {profiles.filter((profile) => profile.role === "admin").length}
-          </strong>
+          <strong>{summary.admins}</strong>
         </article>
       </section>
 
@@ -232,7 +329,7 @@ export default function AdminSubscribers() {
                 <div>
                   <div className="subscriber-tags">
                     <span>{profile.role}</span>
-                    <span>{profile.subscription_status}</span>
+                    <span>{getStatusLabel(profile.subscription_status)}</span>
                   </div>
 
                   <h2>{profile.full_name || "Unnamed subscriber"}</h2>
@@ -260,11 +357,16 @@ export default function AdminSubscribers() {
                 )}
               </div>
 
+              <div className="subscriber-admin-note">
+                <strong>{getStatusLabel(profile.subscription_status)}</strong>
+                <p>{getStatusDescription(profile.subscription_status)}</p>
+              </div>
+
               <div className="subscriber-controls">
                 <label>
                   Subscription
                   <select
-                    value={profile.subscription_status}
+                    value={profile.subscription_status || "inactive"}
                     disabled={savingId === profile.id}
                     onChange={(event) =>
                       updateProfile(profile.id, {
@@ -274,7 +376,7 @@ export default function AdminSubscribers() {
                   >
                     {STATUS_OPTIONS.map((status) => (
                       <option key={status} value={status}>
-                        {status}
+                        {getStatusLabel(status)}
                       </option>
                     ))}
                   </select>
@@ -283,7 +385,7 @@ export default function AdminSubscribers() {
                 <label>
                   Role
                   <select
-                    value={profile.role}
+                    value={profile.role || "subscriber"}
                     disabled={savingId === profile.id}
                     onChange={(event) =>
                       updateProfile(profile.id, {

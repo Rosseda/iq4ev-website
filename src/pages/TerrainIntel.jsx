@@ -25,7 +25,7 @@ export default function TerrainIntel() {
 
           <div className="ti-actions">
             <button type="button" onClick={() => setShowAccessModal(true)}>
-              Request TerrainIntel briefing
+              Request TerrainIntel consultation
             </button>
 
             <Link to="/">Open public map</Link>
@@ -169,16 +169,17 @@ export default function TerrainIntel() {
         </div>
 
         <button type="button" onClick={() => setShowAccessModal(true)}>
-          Request briefing
+          Request consultation
         </button>
       </section>
 
       <AccessModal
-        open={showAccessModal}
-        onClose={() => setShowAccessModal(false)}
-        defaultPlatform="TerrainIntel"
-        defaultRequestType="Request TerrainIntel Briefing"
-      />
+     open={showAccessModal}
+     onClose={() => setShowAccessModal(false)}
+     mode="terrainintel"
+     defaultPlatform="TerrainIntel"
+     defaultRequestType="Request TerrainIntel Consultation"
+  />
     </main>
   );
 }

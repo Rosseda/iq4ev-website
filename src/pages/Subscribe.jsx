@@ -1,10 +1,25 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
-import { CreditCard, Lock, ShieldCheck } from "lucide-react";
+import {
+  CreditCard,
+  Lock,
+  ShieldCheck,
+  AlertCircle,
+  Mail,
+  CheckCircle2,
+} from "lucide-react";
 
 import { useAuth } from "../contexts/AuthContext.jsx";
 
 export default function Subscribe() {
   const { loading, user, profile, isSubscriber, isAdmin } = useAuth();
+  const [paymentNoticeVisible, setPaymentNoticeVisible] = useState(false);
+
+  const subscriptionStatus = isAdmin
+    ? "Admin access"
+    : isSubscriber
+      ? "Active subscriber"
+      : profile?.subscription_status || "Inactive";
 
   if (loading) {
     return (
@@ -61,20 +76,25 @@ export default function Subscribe() {
               </p>
             </div>
           </article>
+
+          <article>
+            <Mail size={18} />
+            <div>
+              <strong>Formal subscription communication</strong>
+              <p>
+                Subscription-related notices are sent from
+                do-not-reply@iq4ev.co.za. Further communication should be
+                directed to info@iq4ev.co.za.
+              </p>
+            </div>
+          </article>
         </div>
 
         {user ? (
           <div className="subscribe-status-box">
             <span>Current account</span>
             <strong>{user.email}</strong>
-            <p>
-              Status:{" "}
-              {isAdmin
-                ? "Admin access"
-                : isSubscriber
-                  ? "Active subscriber"
-                  : profile?.subscription_status || "Inactive"}
-            </p>
+            <p>Status: {subscriptionStatus}</p>
           </div>
         ) : (
           <div className="subscribe-status-box">
@@ -87,19 +107,47 @@ export default function Subscribe() {
           </div>
         )}
 
+        {paymentNoticeVisible && (
+          <div className="subscribe-notice">
+            <AlertCircle size={18} />
+            <div>
+              <strong>Nedbank payment integration pending</strong>
+              <p>
+                Secure subscription payment is not connected yet. For now,
+                briefing access must be activated manually from Admin →
+                Subscribers after the account has been created.
+              </p>
+              <p>
+                Once Nedbank integration is available, this button will continue
+                to the secure payment page and subscription status will update
+                after payment confirmation.
+              </p>
+            </div>
+          </div>
+        )}
+
         {isSubscriber || isAdmin ? (
-          <Link className="subscribe-primary-button" to="/briefings">
-            View enterprise briefings
-          </Link>
+          <>
+            <div className="subscribe-notice success">
+              <CheckCircle2 size={18} />
+              <div>
+                <strong>Briefing access available</strong>
+                <p>
+                  Your account can access subscriber briefing content. You may
+                  continue to the enterprise briefings library.
+                </p>
+              </div>
+            </div>
+
+            <Link className="subscribe-primary-button" to="/briefings">
+              View enterprise briefings
+            </Link>
+          </>
         ) : user ? (
           <button
             type="button"
             className="subscribe-primary-button"
-            onClick={() =>
-              alert(
-                "Nedbank payment gateway integration will connect here. For now, activate this subscriber manually from Admin → Subscribers."
-              )
-            }
+            onClick={() => setPaymentNoticeVisible(true)}
           >
             Continue to Nedbank payment
           </button>
@@ -110,8 +158,10 @@ export default function Subscribe() {
         )}
 
         <small>
-          Once Nedbank confirms payment, IQ4EV will update the subscription
-          status to active and unlock full briefing access.
+          Once payment confirmation is received, IQ4EV will update the
+          subscription status to active and unlock full briefing access. If a
+          payment is not received or renewal fails, access may be blocked pending
+          payment. For support, contact info@iq4ev.co.za.
         </small>
       </section>
     </main>

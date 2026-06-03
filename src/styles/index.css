@@ -2186,7 +2186,7 @@ a {
 
 .brief-document.two {
   right: 54px;
-  bottom: 58px;
+  bottom: 96px;
 }
 
 .brief-document span {
@@ -8114,5 +8114,742 @@ a {
 
   .settings-form small {
     font-size: 11px;
+  }
+}
+
+/* =========================================================
+   Access modal inline messages
+   ========================================================= */
+
+.access-message {
+  border: 1px solid rgba(20, 24, 36, 0.1);
+  border-radius: 18px;
+  padding: 14px 16px;
+  margin: 14px 0 18px;
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow: 0 14px 34px rgba(18, 22, 34, 0.08);
+}
+
+.access-message strong {
+  display: block;
+  font-size: 0.92rem;
+  line-height: 1.3;
+  color: #141824;
+  margin-bottom: 4px;
+}
+
+.access-message p {
+  margin: 0;
+  font-size: 0.82rem;
+  line-height: 1.55;
+  color: rgba(20, 24, 36, 0.72);
+}
+
+.access-message.success {
+  border-color: rgba(25, 135, 84, 0.22);
+  background: linear-gradient(
+    135deg,
+    rgba(245, 255, 250, 0.98),
+    rgba(255, 255, 255, 0.96)
+  );
+}
+
+.access-message.error {
+  border-color: rgba(220, 53, 69, 0.24);
+  background: linear-gradient(
+    135deg,
+    rgba(255, 246, 247, 0.98),
+    rgba(255, 255, 255, 0.96)
+  );
+}
+
+.access-inline-action {
+  margin-top: 12px;
+  border: none;
+  border-radius: 999px;
+  padding: 10px 14px;
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.01em;
+  color: white;
+  background: linear-gradient(135deg, #ff7a18, #ff3d81);
+  cursor: pointer;
+  box-shadow: 0 12px 26px rgba(255, 93, 80, 0.22);
+}
+
+.access-inline-action:hover {
+  transform: translateY(-1px);
+}
+
+@media (max-width: 640px) {
+  .access-message {
+    border-radius: 15px;
+    padding: 12px 13px;
+    margin: 12px 0 15px;
+  }
+
+  .access-message strong {
+    font-size: 0.84rem;
+  }
+
+  .access-message p {
+    font-size: 0.76rem;
+  }
+
+  .access-inline-action {
+    width: 100%;
+    padding: 9px 12px;
+    font-size: 0.74rem;
+  }
+}
+
+/* =========================================================
+   Subscribe page notices
+   ========================================================= */
+
+.subscribe-notice {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  width: 100%;
+  margin: 16px 0;
+  padding: 14px 15px;
+  border-radius: 18px;
+  border: 1px solid rgba(255, 122, 24, 0.2);
+  background: linear-gradient(
+    135deg,
+    rgba(255, 248, 240, 0.98),
+    rgba(255, 255, 255, 0.96)
+  );
+  box-shadow: 0 14px 34px rgba(18, 22, 34, 0.08);
+  text-align: left;
+}
+
+.subscribe-notice svg {
+  flex: 0 0 auto;
+  margin-top: 2px;
+  color: #ff7a18;
+}
+
+.subscribe-notice strong {
+  display: block;
+  font-size: 0.9rem;
+  line-height: 1.3;
+  color: #141824;
+  margin-bottom: 4px;
+}
+
+.subscribe-notice p {
+  margin: 0;
+  font-size: 0.8rem;
+  line-height: 1.55;
+  color: rgba(20, 24, 36, 0.72);
+}
+
+.subscribe-notice p + p {
+  margin-top: 7px;
+}
+
+.subscribe-notice.success {
+  border-color: rgba(25, 135, 84, 0.22);
+  background: linear-gradient(
+    135deg,
+    rgba(245, 255, 250, 0.98),
+    rgba(255, 255, 255, 0.96)
+  );
+}
+
+.subscribe-notice.success svg {
+  color: #198754;
+}
+
+@media (max-width: 640px) {
+  .subscribe-notice {
+    gap: 10px;
+    border-radius: 15px;
+    padding: 12px 13px;
+    margin: 14px 0;
+  }
+
+  .subscribe-notice strong {
+    font-size: 0.82rem;
+  }
+
+  .subscribe-notice p {
+    font-size: 0.74rem;
+  }
+}
+
+.auth-support-note {
+  margin: 18px 0 0;
+  font-size: 0.76rem;
+  line-height: 1.5;
+  color: rgba(20, 24, 36, 0.58);
+  text-align: center;
+}
+
+@media (max-width: 640px) {
+  .auth-support-note {
+    font-size: 0.72rem;
+  }
+}
+
+/* =========================================================
+   Account support card
+   ========================================================= */
+
+.account-support-card {
+  width: 100%;
+  margin: 14px 0 18px;
+  padding: 14px 15px;
+  border-radius: 18px;
+  border: 1px solid rgba(255, 122, 24, 0.18);
+  background: linear-gradient(
+    135deg,
+    rgba(255, 248, 240, 0.96),
+    rgba(255, 255, 255, 0.96)
+  );
+  text-align: left;
+  box-shadow: 0 14px 34px rgba(18, 22, 34, 0.07);
+}
+
+.account-support-card strong {
+  display: block;
+  font-size: 0.88rem;
+  line-height: 1.3;
+  color: #141824;
+  margin-bottom: 5px;
+}
+
+.account-support-card p {
+  margin: 0;
+  font-size: 0.78rem;
+  line-height: 1.55;
+  color: rgba(20, 24, 36, 0.68);
+}
+
+@media (max-width: 640px) {
+  .account-support-card {
+    border-radius: 15px;
+    padding: 12px 13px;
+  }
+
+  .account-support-card strong {
+    font-size: 0.82rem;
+  }
+
+  .account-support-card p {
+    font-size: 0.73rem;
+  }
+}
+
+/* =========================================================
+   Account management note
+   ========================================================= */
+
+.account-management-note {
+  width: 100%;
+  margin: 16px 0 18px;
+  padding: 14px 15px;
+  border-radius: 18px;
+  border: 1px solid rgba(20, 24, 36, 0.1);
+  background: linear-gradient(
+    135deg,
+    rgba(248, 250, 252, 0.98),
+    rgba(255, 255, 255, 0.96)
+  );
+  text-align: left;
+  box-shadow: 0 14px 34px rgba(18, 22, 34, 0.07);
+}
+
+.account-management-note strong {
+  display: block;
+  font-size: 0.88rem;
+  line-height: 1.3;
+  color: #141824;
+  margin-bottom: 5px;
+}
+
+.account-management-note p {
+  margin: 0;
+  font-size: 0.78rem;
+  line-height: 1.55;
+  color: rgba(20, 24, 36, 0.68);
+}
+
+.account-management-note p + p {
+  margin-top: 7px;
+}
+
+@media (max-width: 640px) {
+  .account-management-note {
+    border-radius: 15px;
+    padding: 12px 13px;
+  }
+
+  .account-management-note strong {
+    font-size: 0.82rem;
+  }
+
+  .account-management-note p {
+    font-size: 0.73rem;
+  }
+}
+
+/* =========================================================
+   Admin subscriber Phase 3 notes
+   ========================================================= */
+
+.admin-phase-note {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin: -14px auto 22px;
+  width: min(1120px, calc(100% - 32px));
+  padding: 15px 16px;
+  border-radius: 20px;
+  border: 1px solid rgba(255, 122, 24, 0.18);
+  background: linear-gradient(
+    135deg,
+    rgba(255, 248, 240, 0.98),
+    rgba(255, 255, 255, 0.96)
+  );
+  box-shadow: 0 18px 42px rgba(18, 22, 34, 0.08);
+}
+
+.admin-phase-note svg {
+  flex: 0 0 auto;
+  margin-top: 2px;
+  color: #ff7a18;
+}
+
+.admin-phase-note strong {
+  display: block;
+  font-size: 0.9rem;
+  color: #141824;
+  margin-bottom: 4px;
+}
+
+.admin-phase-note p {
+  margin: 0;
+  font-size: 0.8rem;
+  line-height: 1.55;
+  color: rgba(20, 24, 36, 0.68);
+}
+
+.admin-success-message {
+  width: min(1120px, calc(100% - 32px));
+  margin: 0 auto 18px;
+  padding: 12px 14px;
+  border-radius: 16px;
+  border: 1px solid rgba(25, 135, 84, 0.22);
+  background: rgba(245, 255, 250, 0.96);
+  color: #146c43;
+  font-size: 0.82rem;
+  line-height: 1.5;
+}
+
+.subscriber-admin-note {
+  border-radius: 16px;
+  border: 1px solid rgba(20, 24, 36, 0.08);
+  background: rgba(248, 250, 252, 0.86);
+  padding: 12px 13px;
+}
+
+.subscriber-admin-note strong {
+  display: block;
+  font-size: 0.82rem;
+  color: #141824;
+  margin-bottom: 4px;
+}
+
+.subscriber-admin-note p {
+  margin: 0;
+  font-size: 0.74rem;
+  line-height: 1.5;
+  color: rgba(20, 24, 36, 0.62);
+}
+
+@media (max-width: 700px) {
+  .admin-phase-note {
+    width: calc(100% - 24px);
+    margin: -8px auto 18px;
+    border-radius: 16px;
+    padding: 12px 13px;
+  }
+
+  .admin-phase-note strong {
+    font-size: 0.82rem;
+  }
+
+  .admin-phase-note p {
+    font-size: 0.73rem;
+  }
+
+  .admin-success-message {
+    width: calc(100% - 24px);
+    font-size: 0.74rem;
+  }
+
+  .subscriber-admin-note {
+    border-radius: 14px;
+    padding: 10px 11px;
+  }
+}
+
+/* =========================================================
+   Phase 3 admin request/email cards
+   ========================================================= */
+
+.compact-toolbar {
+  margin-top: -12px;
+}
+
+.request-card,
+.email-event-card {
+  gap: 16px;
+}
+
+.request-message {
+  display: flex;
+  gap: 9px;
+  align-items: flex-start;
+  border-radius: 16px;
+  border: 1px solid rgba(20, 24, 36, 0.08);
+  background: rgba(255, 255, 255, 0.86);
+  padding: 12px 13px;
+}
+
+.request-message svg {
+  flex: 0 0 auto;
+  margin-top: 2px;
+  color: #ff7a18;
+}
+
+.request-message p {
+  margin: 0;
+  font-size: 0.78rem;
+  line-height: 1.55;
+  color: rgba(20, 24, 36, 0.68);
+}
+
+@media (max-width: 700px) {
+  .compact-toolbar {
+    margin-top: -8px;
+  }
+
+  .request-message {
+    border-radius: 14px;
+    padding: 10px 11px;
+  }
+
+  .request-message p {
+    font-size: 0.73rem;
+  }
+}
+
+/* =========================================================
+   Admin editor Phase 3 publish/email notes
+   ========================================================= */
+
+.admin-publish-note {
+  border-radius: 16px;
+  border: 1px solid rgba(255, 122, 24, 0.18);
+  background: linear-gradient(
+    135deg,
+    rgba(255, 248, 240, 0.98),
+    rgba(255, 255, 255, 0.96)
+  );
+  padding: 12px 13px;
+}
+
+.admin-publish-note strong {
+  display: block;
+  font-size: 0.82rem;
+  line-height: 1.3;
+  color: #141824;
+  margin-bottom: 4px;
+}
+
+.admin-publish-note p {
+  margin: 0;
+  font-size: 0.74rem;
+  line-height: 1.5;
+  color: rgba(20, 24, 36, 0.64);
+}
+
+.admin-form-message {
+  margin: 0;
+  padding: 11px 12px;
+  border-radius: 14px;
+  font-size: 0.78rem;
+  line-height: 1.5;
+}
+
+.admin-form-message.info {
+  border: 1px solid rgba(20, 24, 36, 0.1);
+  background: rgba(248, 250, 252, 0.94);
+  color: rgba(20, 24, 36, 0.72);
+}
+
+.admin-form-message.success {
+  border: 1px solid rgba(25, 135, 84, 0.22);
+  background: rgba(245, 255, 250, 0.96);
+  color: #146c43;
+}
+
+.admin-form-message.error {
+  border: 1px solid rgba(220, 53, 69, 0.22);
+  background: rgba(255, 246, 247, 0.96);
+  color: #b42335;
+}
+
+@media (max-width: 640px) {
+  .admin-publish-note {
+    border-radius: 14px;
+    padding: 10px 11px;
+  }
+
+  .admin-publish-note strong {
+    font-size: 0.78rem;
+  }
+
+  .admin-publish-note p,
+  .admin-form-message {
+    font-size: 0.72rem;
+  }
+}
+
+/* =========================================================
+   Admin archive confirmation + briefing share messages
+   ========================================================= */
+
+.admin-confirm-card {
+  width: min(1120px, calc(100% - 32px));
+  margin: 0 auto 18px;
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  align-items: center;
+  padding: 15px 16px;
+  border-radius: 20px;
+  border: 1px solid rgba(255, 122, 24, 0.22);
+  background: linear-gradient(
+    135deg,
+    rgba(255, 248, 240, 0.98),
+    rgba(255, 255, 255, 0.96)
+  );
+  box-shadow: 0 18px 42px rgba(18, 22, 34, 0.08);
+}
+
+.admin-confirm-card strong {
+  display: block;
+  font-size: 0.9rem;
+  color: #141824;
+  margin-bottom: 4px;
+}
+
+.admin-confirm-card p {
+  margin: 0;
+  font-size: 0.8rem;
+  line-height: 1.55;
+  color: rgba(20, 24, 36, 0.68);
+}
+
+.admin-confirm-card > div:last-child {
+  display: flex;
+  gap: 9px;
+  flex: 0 0 auto;
+}
+
+.admin-confirm-card button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  border-radius: 999px;
+  padding: 9px 13px;
+  font-size: 0.78rem;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.admin-confirm-secondary {
+  border: 1px solid rgba(20, 24, 36, 0.12);
+  background: rgba(255, 255, 255, 0.9);
+  color: rgba(20, 24, 36, 0.72);
+}
+
+.admin-confirm-danger {
+  border: none;
+  background: linear-gradient(135deg, #ff7a18, #ff3d81);
+  color: #fff;
+  box-shadow: 0 12px 26px rgba(255, 93, 80, 0.22);
+}
+
+.admin-confirm-card button:disabled {
+  cursor: not-allowed;
+  opacity: 0.65;
+}
+
+.briefing-share-message {
+  width: fit-content;
+  margin: 10px 0 0;
+  padding: 9px 12px;
+  border-radius: 999px;
+  font-size: 0.76rem;
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+.briefing-share-message.success {
+  border: 1px solid rgba(25, 135, 84, 0.2);
+  background: rgba(245, 255, 250, 0.96);
+  color: #146c43;
+}
+
+.briefing-share-message.error {
+  border: 1px solid rgba(220, 53, 69, 0.22);
+  background: rgba(255, 246, 247, 0.96);
+  color: #b42335;
+}
+
+@media (max-width: 700px) {
+  .admin-confirm-card {
+    width: calc(100% - 24px);
+    flex-direction: column;
+    align-items: stretch;
+    border-radius: 16px;
+    padding: 12px 13px;
+  }
+
+  .admin-confirm-card strong {
+    font-size: 0.82rem;
+  }
+
+  .admin-confirm-card p {
+    font-size: 0.73rem;
+  }
+
+  .admin-confirm-card > div:last-child {
+    width: 100%;
+  }
+
+  .admin-confirm-card button {
+    flex: 1;
+    padding: 9px 11px;
+    font-size: 0.73rem;
+  }
+
+  .briefing-share-message {
+    width: 100%;
+    border-radius: 14px;
+    font-size: 0.72rem;
+  }
+}
+
+/* =========================================================
+   Email event template preview
+   ========================================================= */
+
+.email-template-summary {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.email-template-summary div {
+  border-radius: 15px;
+  border: 1px solid rgba(20, 24, 36, 0.08);
+  background: rgba(248, 250, 252, 0.88);
+  padding: 11px 12px;
+}
+
+.email-template-summary span {
+  display: block;
+  font-size: 0.68rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: rgba(20, 24, 36, 0.44);
+  margin-bottom: 4px;
+}
+
+.email-template-summary strong {
+  display: block;
+  font-size: 0.78rem;
+  line-height: 1.35;
+  color: #141824;
+}
+
+.email-template-preview {
+  border-radius: 18px;
+  border: 1px solid rgba(20, 24, 36, 0.1);
+  background: rgba(255, 255, 255, 0.92);
+  padding: 14px;
+}
+
+.email-template-preview span {
+  display: block;
+  font-size: 0.7rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: rgba(20, 24, 36, 0.48);
+  margin-bottom: 8px;
+}
+
+.email-template-preview pre {
+  white-space: pre-wrap;
+  word-break: break-word;
+  margin: 0;
+  font-family: inherit;
+  font-size: 0.76rem;
+  line-height: 1.55;
+  color: rgba(20, 24, 36, 0.72);
+}
+
+.email-preview-button {
+  border: 1px solid rgba(20, 24, 36, 0.12);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.9);
+  color: rgba(20, 24, 36, 0.74);
+  padding: 9px 13px;
+  font-size: 0.76rem;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.email-preview-button:hover {
+  border-color: rgba(255, 122, 24, 0.28);
+  color: #ff6a2a;
+}
+
+@media (max-width: 700px) {
+  .email-template-summary {
+    grid-template-columns: 1fr;
+  }
+
+  .email-template-summary div {
+    border-radius: 13px;
+    padding: 10px 11px;
+  }
+
+  .email-template-summary strong {
+    font-size: 0.73rem;
+  }
+
+  .email-template-preview {
+    border-radius: 14px;
+    padding: 12px;
+  }
+
+  .email-template-preview pre {
+    font-size: 0.71rem;
+  }
+
+  .email-preview-button {
+    width: 100%;
+    font-size: 0.72rem;
   }
 }

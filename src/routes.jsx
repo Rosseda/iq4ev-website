@@ -8,20 +8,24 @@ import TerrainIntel from "./pages/TerrainIntel";
 import Pulse360 from "./pages/Pulse360";
 import EVSS from "./pages/EVSS";
 import Briefings from "./pages/Briefings";
+import BriefingDetail from "./pages/BriefingDetail";
 import Consulting from "./pages/Consulting";
 import Insights from "./pages/Insights";
 import InsightDetail from "./pages/InsightDetail";
 import Contact from "./pages/Contact";
 import NotFound from "./pages/NotFound";
+
 import Login from "./pages/Login";
 import Account from "./pages/Account";
+import AccountSettings from "./pages/AccountSettings";
+import Subscribe from "./pages/Subscribe";
+
 import Admin from "./pages/Admin";
 import AdminContent from "./pages/AdminContent";
 import AdminContentEditor from "./pages/AdminContentEditor";
-import BriefingDetail from "./pages/BriefingDetail";
 import AdminSubscribers from "./pages/AdminSubscribers";
-import Subscribe from "./pages/Subscribe";
-import AccountSettings from "./pages/AccountSettings";
+import AdminAccessRequests from "./pages/AdminAccessRequests";
+import AdminEmailEvents from "./pages/AdminEmailEvents";
 
 const router = createBrowserRouter([
   {
@@ -62,6 +66,10 @@ const router = createBrowserRouter([
         element: <Briefings />,
       },
       {
+        path: "briefings/:slug",
+        element: <BriefingDetail />,
+      },
+      {
         path: "consulting",
         element: <Consulting />,
       },
@@ -82,6 +90,10 @@ const router = createBrowserRouter([
         element: <AccountSettings />,
       },
       {
+        path: "subscribe",
+        element: <Subscribe />,
+      },
+      {
         path: "admin",
         element: <Admin />,
       },
@@ -90,11 +102,11 @@ const router = createBrowserRouter([
         element: <AdminContent />,
       },
       {
-        path: "admin/content/edit/:id",
+        path: "admin/content/new",
         element: <AdminContentEditor />,
       },
       {
-        path: "admin/content/new",
+        path: "admin/content/edit/:id",
         element: <AdminContentEditor />,
       },
       {
@@ -106,16 +118,12 @@ const router = createBrowserRouter([
         element: <AdminSubscribers />,
       },
       {
-       path: "subscribe",
-       element: <Subscribe />,
+        path: "admin/access-requests",
+        element: <AdminAccessRequests />,
       },
       {
-       path: "briefings",
-       element: <Briefings />,
-      },
-      {
-        path: "briefings/:slug",
-        element: <BriefingDetail />,
+        path: "admin/email-events",
+        element: <AdminEmailEvents />,
       },
     ],
   },

@@ -183,11 +183,12 @@ export default function Consulting() {
       </section>
 
       <AccessModal
-        open={showAccessModal}
-        onClose={() => setShowAccessModal(false)}
-        defaultPlatform="Strategic Consulting"
-        defaultRequestType="Request IQ4EV Consulting"
-      />
+       open={showAccessModal}
+       onClose={() => setShowAccessModal(false)}
+       mode="consulting"
+       defaultPlatform="Strategic Consulting"
+       defaultRequestType="Request IQ4EV Consulting"
+    />
     </main>
   );
 }

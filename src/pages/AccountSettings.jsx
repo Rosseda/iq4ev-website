@@ -4,6 +4,47 @@ import { Link } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext.jsx";
 import { supabase } from "../lib/supabaseClient.js";
 
+function getStatusLabel({ isAdmin, isSubscriber, profile }) {
+  if (isAdmin) return "Admin access";
+  if (isSubscriber) return "Active subscriber";
+
+  switch (profile?.subscription_status) {
+    case "cancelled":
+      return "Subscription cancelled";
+    case "expired":
+      return "Subscription expired";
+    case "past_due":
+      return "Payment pending";
+    case "inactive":
+      return "Subscription inactive";
+    default:
+      return "Access pending";
+  }
+}
+
+function getStatusMessage({ isAdmin, isSubscriber, profile }) {
+  if (isAdmin) {
+    return "Administrative access is active for this account.";
+  }
+
+  if (isSubscriber) {
+    return "This account currently has access to IQ4EV Enterprise Briefings.";
+  }
+
+  switch (profile?.subscription_status) {
+    case "cancelled":
+      return "This briefing subscription has been cancelled. Access to subscriber-only briefings is no longer active.";
+    case "expired":
+      return "This briefing subscription has expired. Renewal is required to restore subscriber-only briefing access.";
+    case "past_due":
+      return "Payment has not been received. Briefing access may be blocked pending payment.";
+    case "inactive":
+      return "This account exists, but briefing access has not been activated yet.";
+    default:
+      return "This account is recognised, but briefing access has not been activated yet.";
+  }
+}
+
 export default function AccountSettings() {
   const { loading, user, profile, isSubscriber, isAdmin } = useAuth();
 
@@ -16,15 +57,29 @@ export default function AccountSettings() {
   const [message, setMessage] = useState("");
   const [messageType, setMessageType] = useState("info");
 
+  const statusLabel = getStatusLabel({ isAdmin, isSubscriber, profile });
+  const statusMessage = getStatusMessage({ isAdmin, isSubscriber, profile });
+
   function showMessage(text, type = "info") {
     setMessage(text);
     setMessageType(type);
   }
 
+  function clearMessage() {
+    setMessage("");
+    setMessageType("info");
+  }
+
   async function updateEmail(event) {
     event.preventDefault();
 
-    if (!supabase || !user) return;
+    if (!supabase || !user) {
+      showMessage(
+        "Account service is not available. Please try again later or contact info@iq4ev.co.za.",
+        "error"
+      );
+      return;
+    }
 
     const cleanEmail = email.trim().toLowerCase();
 
@@ -34,7 +89,7 @@ export default function AccountSettings() {
     }
 
     setSavingEmail(true);
-    setMessage("");
+    clearMessage();
 
     const { error } = await supabase.auth.updateUser({
       email: cleanEmail,
@@ -48,7 +103,7 @@ export default function AccountSettings() {
     }
 
     showMessage(
-      "Email update requested. Please check the new email address for confirmation.",
+      "Email update requested. Please check the new email address for confirmation instructions.",
       "success"
     );
   }
@@ -56,7 +111,13 @@ export default function AccountSettings() {
   async function updatePassword(event) {
     event.preventDefault();
 
-    if (!supabase || !user) return;
+    if (!supabase || !user) {
+      showMessage(
+        "Account service is not available. Please try again later or contact info@iq4ev.co.za.",
+        "error"
+      );
+      return;
+    }
 
     if (password.length < 8) {
       showMessage("Password must be at least 8 characters.", "error");
@@ -69,7 +130,7 @@ export default function AccountSettings() {
     }
 
     setSavingPassword(true);
-    setMessage("");
+    clearMessage();
 
     const { error } = await supabase.auth.updateUser({
       password,
@@ -128,20 +189,8 @@ export default function AccountSettings() {
 
         <div className="account-status-card">
           <span>Status</span>
-
-          <strong>
-            {isAdmin
-              ? "Admin access"
-              : isSubscriber
-                ? "Active subscriber"
-                : "Subscription inactive"}
-          </strong>
-
-          <p>
-            {profile?.company
-              ? `${profile.company} · ${profile.position || "No role listed"}`
-              : "Your subscription access is linked to this account."}
-          </p>
+          <strong>{statusLabel}</strong>
+          <p>{statusMessage}</p>
         </div>
 
         {message && <p className={`auth-message ${messageType}`}>{message}</p>}
@@ -154,7 +203,10 @@ export default function AccountSettings() {
             <input
               type="email"
               value={email}
-              onChange={(event) => setEmail(event.target.value)}
+              onChange={(event) => {
+                setEmail(event.target.value);
+                clearMessage();
+              }}
               placeholder="name@company.co.za"
               required
             />
@@ -166,6 +218,8 @@ export default function AccountSettings() {
 
           <small>
             Email changes may require confirmation before they become active.
+            Subscription-related communication is sent from
+            do-not-reply@iq4ev.co.za.
           </small>
         </form>
 
@@ -177,7 +231,10 @@ export default function AccountSettings() {
             <input
               type="password"
               value={password}
-              onChange={(event) => setPassword(event.target.value)}
+              onChange={(event) => {
+                setPassword(event.target.value);
+                clearMessage();
+              }}
               placeholder="New secure password"
               minLength={8}
               required
@@ -189,7 +246,10 @@ export default function AccountSettings() {
             <input
               type="password"
               value={confirmPassword}
-              onChange={(event) => setConfirmPassword(event.target.value)}
+              onChange={(event) => {
+                setConfirmPassword(event.target.value);
+                clearMessage();
+              }}
               placeholder="Repeat new password"
               minLength={8}
               required
@@ -201,9 +261,26 @@ export default function AccountSettings() {
           </button>
         </form>
 
+        <div className="account-management-note">
+          <strong>Subscription management</strong>
+          <p>
+            Automated cancellation, renewal and payment-status handling will be
+            connected once the Nedbank payment integration is available. Until
+            then, subscription changes are managed manually by IQ4EV.
+          </p>
+          <p>
+            If you wish to cancel, renew, query payment status, or raise a
+            privacy/account concern, contact info@iq4ev.co.za.
+          </p>
+        </div>
+
         <div className="account-actions">
           <Link to="/account">Back to account</Link>
           <Link to="/briefings">View briefings</Link>
+
+          {!isSubscriber && !isAdmin && (
+            <Link to="/subscribe">Renew or activate subscription</Link>
+          )}
         </div>
       </section>
     </main>

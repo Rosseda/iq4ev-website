@@ -13,85 +13,107 @@ export default function Login() {
   const [message, setMessage] = useState("");
   const [messageType, setMessageType] = useState("info");
 
+  function resetMessage() {
+    setMessage("");
+    setMessageType("info");
+  }
+
+  function showMessage(type, text) {
+    setMessage(text);
+    setMessageType(type);
+  }
+
   async function handleSubmit(event) {
-  event.preventDefault();
+    event.preventDefault();
+    resetMessage();
 
-  setMessage("");
-  setMessageType("info");
+    if (!supabase) {
+      showMessage(
+        "error",
+        "Supabase is not connected. Please check your .env.local file and restart the development server."
+      );
+      return;
+    }
 
-  if (!supabase) {
-    setMessage(
-      "Supabase is not connected. Check your .env.local file and restart the dev server."
-    );
-    setMessageType("error");
-    return;
-  }
+    const cleanEmail = email.trim().toLowerCase();
 
-  const cleanEmail = email.trim().toLowerCase();
+    if (!cleanEmail) {
+      showMessage("error", "Please enter your email address.");
+      return;
+    }
 
-  if (!cleanEmail) {
-    setMessage("Please enter your email address.");
-    setMessageType("error");
-    return;
-  }
+    if (mode === "login" && !password) {
+      showMessage("error", "Please enter your password.");
+      return;
+    }
 
-  if (mode === "login" && !password) {
-    setMessage("Please enter your password.");
-    setMessageType("error");
-    return;
-  }
+    setSubmitting(true);
 
-  setSubmitting(true);
+    try {
+      if (mode === "login") {
+        const loginPromise = supabase.auth.signInWithPassword({
+          email: cleanEmail,
+          password,
+        });
 
-  try {
-    if (mode === "login") {
-      const loginPromise = supabase.auth.signInWithPassword({
-        email: cleanEmail,
-        password,
+        const timeoutPromise = new Promise((_, reject) =>
+          setTimeout(
+            () =>
+              reject(
+                new Error(
+                  "Login timed out. Please refresh the page and try again."
+                )
+              ),
+            12000
+          )
+        );
+
+        const { error } = await Promise.race([loginPromise, timeoutPromise]);
+
+        if (error) {
+          showMessage("error", error.message);
+          setSubmitting(false);
+          return;
+        }
+
+        showMessage("success", "Login successful. Opening your account…");
+
+        setTimeout(() => {
+          navigate("/account");
+        }, 500);
+
+        return;
+      }
+
+      const { error } = await supabase.auth.resetPasswordForEmail(cleanEmail, {
+        redirectTo: `${window.location.origin}/account`,
       });
 
-      const timeoutPromise = new Promise((_, reject) =>
-        setTimeout(
-          () => reject(new Error("Login timed out. Please refresh and try again.")),
-          12000
-        )
-      );
-
-      const { error } = await Promise.race([loginPromise, timeoutPromise]);
-
       if (error) {
-        setMessage(error.message);
-        setMessageType("error");
+        showMessage("error", error.message);
         setSubmitting(false);
         return;
       }
 
-      setMessage("Login successful. Redirecting...");
-      setMessageType("success");
-
-      window.location.href = "/account";
-      return;
-    }
-
-    const { error } = await supabase.auth.resetPasswordForEmail(cleanEmail, {
-      redirectTo: `${window.location.origin}/account`,
-    });
-
-    if (error) {
-      setMessage(error.message);
-      setMessageType("error");
+      showMessage(
+        "success",
+        "Password reset instructions have been sent. Please check the inbox linked to your IQ4EV briefing access account."
+      );
       setSubmitting(false);
-      return;
+    } catch (error) {
+      showMessage(
+        "error",
+        error.message ||
+          "The request could not be completed. Please try again or contact info@iq4ev.co.za."
+      );
+      setSubmitting(false);
     }
-
-    setMessage("Password reset email sent. Please check your inbox.");
-    setMessageType("success");
-    setSubmitting(false);
-  } catch (error) {
-    setMessage(error.message || "Something went wrong. Please try again.");
-    setMessageType("error");
-    setSubmitting(false);
   }
+
+  function switchMode(nextMode) {
+    setMode(nextMode);
+    setPassword("");
+    resetMessage();
   }
 
   return (
@@ -113,7 +135,10 @@ export default function Login() {
               type="email"
               placeholder="name@company.co.za"
               value={email}
-              onChange={(event) => setEmail(event.target.value)}
+              onChange={(event) => {
+                setEmail(event.target.value);
+                resetMessage();
+              }}
               autoComplete="email"
               required
             />
@@ -126,7 +151,10 @@ export default function Login() {
                 type="password"
                 placeholder="Enter your password"
                 value={password}
-                onChange={(event) => setPassword(event.target.value)}
+                onChange={(event) => {
+                  setPassword(event.target.value);
+                  resetMessage();
+                }}
                 autoComplete="current-password"
                 required
               />
@@ -141,38 +169,31 @@ export default function Login() {
             {submitting
               ? mode === "login"
                 ? "Logging in..."
-                : "Sending reset email..."
+                : "Sending reset instructions..."
               : mode === "login"
                 ? "Log in"
-                : "Send reset email"}
+                : "Send reset instructions"}
           </button>
         </form>
 
         <div className="auth-switch">
           {mode === "login" ? (
-            <button
-              type="button"
-              onClick={() => {
-                setMode("reset");
-                setMessage("");
-              }}
-            >
+            <button type="button" onClick={() => switchMode("reset")}>
               Forgot password?
             </button>
           ) : (
-            <button
-              type="button"
-              onClick={() => {
-                setMode("login");
-                setMessage("");
-              }}
-            >
+            <button type="button" onClick={() => switchMode("login")}>
               Back to login
             </button>
           )}
 
           <Link to="/briefings">Subscribe to briefings</Link>
         </div>
+
+        <p className="auth-support-note">
+          For subscription, account or access support, contact
+          info@iq4ev.co.za.
+        </p>
       </section>
     </main>
   );
