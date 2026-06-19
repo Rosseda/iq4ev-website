@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 
+import SEO from "../components/SEO.jsx";
+import seoConfig from "../data/seoConfig.js";
 import { useAuth } from "../contexts/AuthContext.jsx";
 import { supabase } from "../lib/supabaseClient.js";
 
@@ -150,17 +152,22 @@ export default function AccountSettings() {
 
   if (loading) {
     return (
+        <>
+        <SEO {...seoConfig.accountsettings} />
       <main className="auth-page">
         <section className="auth-card">
           <p className="auth-kicker">IQ4EV Account</p>
           <h1>Loading settings…</h1>
         </section>
       </main>
+      </>
     );
   }
 
   if (!user) {
     return (
+        <>
+        <SEO {...seoConfig.accountsettings} />
       <main className="auth-page">
         <section className="auth-card">
           <p className="auth-kicker">Access required</p>
@@ -173,10 +180,13 @@ export default function AccountSettings() {
           </Link>
         </section>
       </main>
+      </>
     );
   }
 
   return (
+    <>
+    <SEO {...seoConfig.accountsettings} />
     <main className="auth-page account-settings-page">
       <section className="auth-card account-settings-card">
         <p className="auth-kicker">IQ4EV Account</p>
@@ -284,5 +294,6 @@ export default function AccountSettings() {
         </div>
       </section>
     </main>
+    </>
   );
 }

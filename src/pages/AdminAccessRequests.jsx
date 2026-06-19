@@ -11,6 +11,8 @@ import {
 import { useAuth } from "../contexts/AuthContext.jsx";
 import { supabase } from "../lib/supabaseClient.js";
 import { formatContentDate } from "../lib/contentHelpers.js";
+import SEO from "../components/SEO.jsx";
+import seoConfig from "../data/seoConfig.js";
 
 const STATUS_OPTIONS = ["new", "reviewed", "contacted", "closed"];
 
@@ -137,17 +139,22 @@ export default function AdminAccessRequests() {
 
   if (loading || loadingRequests) {
     return (
+        <>
+        <SEO {...seoConfig.adminaccessrequests} />
       <main className="admin-page">
         <section className="admin-hero">
           <p className="auth-kicker">IQ4EV Admin</p>
           <h1>Loading access requests…</h1>
         </section>
       </main>
+      </>
     );
   }
 
   if (!isAdmin) {
     return (
+        <>
+        <SEO {...seoConfig.adminaccessrequests} />
       <main className="auth-page">
         <section className="auth-card">
           <p className="auth-kicker">Restricted</p>
@@ -161,10 +168,13 @@ export default function AdminAccessRequests() {
           </Link>
         </section>
       </main>
+      </>
     );
   }
 
   return (
+    <>
+    <SEO {...seoConfig.adminaccessrequests} />
     <main className="admin-page admin-subscribers-page">
       <section className="admin-hero admin-content-hero">
         <div>
@@ -354,5 +364,6 @@ export default function AdminAccessRequests() {
         )}
       </section>
     </main>
+    </>
   );
 }

@@ -6,6 +6,8 @@ import AccessModal from "../components/AccessModal.jsx";
 import { useAuth } from "../contexts/AuthContext.jsx";
 import { supabase } from "../lib/supabaseClient.js";
 import { formatContentDate } from "../lib/contentHelpers.js";
+import SEO from "../components/SEO.jsx";
+import seoConfig from "../data/seoConfig.js";
 
 export default function BriefingDetail() {
   const { slug } = useParams();
@@ -75,17 +77,69 @@ export default function BriefingDetail() {
 
   if (loading || loadingBriefing) {
     return (
+        <>
+          <SEO {...seoConfig.briefingDetail} />
       <main className="briefing-detail-page">
         <section className="briefing-detail-card">
           <p className="ti-kicker">Enterprise Briefing</p>
           <h1>Loading briefing…</h1>
         </section>
       </main>
+      </>
     );
   }
 
   if (error || !briefing) {
     return (
+        <>
+        <SEO
+          {...seoConfig.briefingDetail}
+          title={briefing.title}
+          description={
+            briefing.excerpt ||
+            "Read an IQ4EV enterprise briefing on South Africa's EV transition, charging infrastructure, fleet transition, and operational intelligence."
+          }
+          path={`/briefings/${briefing.slug}`}
+          type="article"
+          keywords={[
+            "IQ4EV briefing",
+            "South Africa EV analysis",
+            "EV infrastructure briefing",
+            "EV sector intelligence",
+            "EV market analysis",
+            "EV Charging reliability",
+            "EV fleet transition",
+            "EV operational intelligence",
+          ]}
+          schema={[
+            {
+              "@context": "https://schema.org",
+              "@type": "Article",
+              headline: briefing.title,
+              description:
+                briefing.excerpt ||
+                "IQ4EV enterprise briefing on South Africa’s EV transition and infrastructure strategy.",
+              datePublished: briefing.published_at,
+              datemodified: briefing.published_at,
+              author: {
+                "@type": "Organization",
+                name: "IQ4EV",
+              },
+              publisher: {
+                "@type": "Organization",
+                name: "IQ4EV",
+                logo: {
+                  "@type": "ImageObject",
+                  url: "https://iq4ev.co.za/logo.png",
+                },
+              },
+              mainEntityOfPage: {
+                "@type": "WebPage",
+                "@id": `https://iq4ev.co.za/briefings/${briefing.slug}`,
+              },
+            },
+          ]}
+        />
       <main className="briefing-detail-page">
         <section className="briefing-detail-card">
           <p className="ti-kicker">Briefing not found</p>
@@ -101,10 +155,60 @@ export default function BriefingDetail() {
           </Link>
         </section>
       </main>
+      </>
     );
   }
 
   return (
+    <>
+    <SEO
+     {...seoConfig.briefingDetail}
+     title={briefing.title}
+     description={
+       briefing.excerpt ||
+       "Read an IQ4EV enterprise briefing on South Africa's EV transition, charging infrastructure, fleet transition, and operational intelligence."
+     }
+     path={`/briefings/${briefing.slug}`}
+     type="article"
+     keywords={[
+       "IQ4EV briefing",
+       "South Africa EV analysis",
+       "EV infrastructure briefing",
+       "EV sector intelligence",
+       "EV market analysis",
+       "EV Charging reliability",
+       "EV fleet transition",
+       "EV operational intelligence",
+     ]}
+     schema={[
+       {
+         "@context": "https://schema.org",
+         "@type": "Article",
+         headline: briefing.title,
+         description:
+           briefing.excerpt ||
+           "IQ4EV enterprise briefing on South Africa’s EV transition and infrastructure strategy.",
+         datePublished: briefing.published_at,
+         datemodified: briefing.published_at,
+         author: {
+           "@type": "Organization",
+           name: "IQ4EV",
+         },
+         publisher: {
+           "@type": "Organization",
+           name: "IQ4EV",
+           logo: {
+             "@type": "ImageObject",
+             url: "https://iq4ev.co.za/logo.png",
+           },
+         },
+         mainEntityOfPage: {
+           "@type": "WebPage",
+           "@id": `https://iq4ev.co.za/briefings/${briefing.slug}`,
+         },
+       },
+     ]}
+   />
     <main className="briefing-detail-page">
       <article className="briefing-detail-article">
         <Link to="/briefings" className="briefing-back-link">
@@ -183,5 +287,6 @@ export default function BriefingDetail() {
         mode="briefing"
       />
     </main>
+    </>
   );
 }

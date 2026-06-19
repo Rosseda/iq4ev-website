@@ -1,6 +1,9 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import SEO from "../components/SEO.jsx";
+import seoConfig from "../data/seoConfig.js";
 import { supabase } from "../lib/supabaseClient.js";
+
 
 export default function Login() {
   const navigate = useNavigate();
@@ -117,6 +120,8 @@ export default function Login() {
   }
 
   return (
+    <>
+    <SEO {...seoConfig.login} />
     <main className="auth-page">
       <section className="auth-card">
         <p className="auth-kicker">IQ4EV Access</p>
@@ -196,5 +201,6 @@ export default function Login() {
         </p>
       </section>
     </main>
+    </>
   );
 }

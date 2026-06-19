@@ -1,9 +1,14 @@
 import Button from "../components/Button.jsx";
 import PageHeader from "../components/PageHeader.jsx";
+import SEO from "../components/SEO.jsx";
+import seoConfig from "../data/seoConfig.js";
 
 export default function Contact() {
   return (
-    <div>
+    <>
+      <SEO {...seoConfig.contact} />
+
+      <div>
       <PageHeader
         eyebrow="Contact"
         title="Request a briefing or discussion."
@@ -83,6 +88,7 @@ export default function Contact() {
           </div>
         </div>
       </section>
-    </div>
-  );
+       </div>
+  </>
+);
 }

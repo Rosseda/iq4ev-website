@@ -8,23 +8,30 @@ import {
 } from "lucide-react";
 
 import { useAuth } from "../contexts/AuthContext.jsx";
+import SEO from "../components/SEO.jsx";
+import seoConfig from "../data/seoConfig.js";
 
 export default function Admin() {
   const { loading, isAdmin } = useAuth();
 
   if (loading) {
     return (
+      <>
+      <SEO {...seoConfig.admin} />
       <main className="auth-page">
         <section className="auth-card">
           <p className="auth-kicker">IQ4EV Admin</p>
           <h1>Checking admin access…</h1>
         </section>
       </main>
+      </>
     );
   }
 
   if (!isAdmin) {
     return (
+      <>
+      <SEO {...seoConfig.admin} />
       <main className="auth-page">
         <section className="auth-card">
           <p className="auth-kicker">Restricted</p>
@@ -37,10 +44,13 @@ export default function Admin() {
           </Link>
         </section>
       </main>
+      </>
     );
   }
 
   return (
+    <>
+    <SEO {...seoConfig.admin} />
     <main className="admin-page">
       <section className="admin-hero">
         <p className="auth-kicker">IQ4EV Admin</p>
@@ -109,5 +119,6 @@ export default function Admin() {
         </article>
       </section>
     </main>
+    </>
   );
 }

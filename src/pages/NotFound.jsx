@@ -1,5 +1,6 @@
 import Button from "../components/Button.jsx";
 
+
 export default function NotFound() {
   return (
     <section className="flex min-h-[80vh] items-center justify-center bg-white px-6">
@@ -22,5 +23,6 @@ export default function NotFound() {
         </div>
       </div>
     </section>
+  
   );
 }

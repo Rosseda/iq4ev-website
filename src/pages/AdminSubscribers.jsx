@@ -11,6 +11,8 @@ import {
 import { useAuth } from "../contexts/AuthContext.jsx";
 import { supabase } from "../lib/supabaseClient.js";
 import { formatContentDate } from "../lib/contentHelpers.js";
+import SEO from "../components/SEO.jsx";
+import seoConfig from "../data/seoConfig.js";
 
 const STATUS_OPTIONS = ["inactive", "active", "cancelled", "expired", "past_due"];
 const ROLE_OPTIONS = ["subscriber", "admin"];
@@ -179,17 +181,22 @@ export default function AdminSubscribers() {
 
   if (loading || loadingProfiles) {
     return (
+        <>
+        <SEO {...seoConfig.adminsubscribers} />
       <main className="admin-page">
         <section className="admin-hero">
           <p className="auth-kicker">IQ4EV Admin</p>
           <h1>Loading subscribers…</h1>
         </section>
       </main>
+      </>
     );
   }
 
   if (!isAdmin) {
     return (
+        <>
+        <SEO {...seoConfig.adminsubscribers} />
       <main className="auth-page">
         <section className="auth-card">
           <p className="auth-kicker">Restricted</p>
@@ -203,10 +210,13 @@ export default function AdminSubscribers() {
           </Link>
         </section>
       </main>
+      </>
     );
   }
 
   return (
+    <>
+        <SEO {...seoConfig.adminsubscribers} />
     <main className="admin-page admin-subscribers-page">
       <section className="admin-hero admin-content-hero">
         <div>
@@ -415,5 +425,6 @@ export default function AdminSubscribers() {
         )}
       </section>
     </main>
+    </>
   );
 }

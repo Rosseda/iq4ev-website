@@ -1,10 +1,14 @@
 import { useState } from "react";
 import AccessModal from "../components/AccessModal.jsx";
+import SEO from "../components/SEO.jsx";
+import seoConfig from "../data/seoConfig.js";
 
 export default function Consulting() {
   const [showAccessModal, setShowAccessModal] = useState(false);
 
   return (
+    <>
+      <SEO {...seoConfig.consulting} />
     <main className="ti-page consulting-page">
       <section className="consult-hero">
         <div className="consult-copy">
@@ -190,5 +194,6 @@ export default function Consulting() {
        defaultRequestType="Request IQ4EV Consulting"
     />
     </main>
+    </>
   );
 }

@@ -1,4 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
+import SEO from "../components/SEO.jsx";
+import seoConfig from "../data/seoConfig.js";
 import { useAuth } from "../contexts/AuthContext.jsx";
 import { supabase } from "../lib/supabaseClient.js";
 
@@ -59,17 +61,22 @@ export default function Account() {
 
   if (loading) {
     return (
+      <>
+      <SEO {...seoConfig.account} />
       <main className="auth-page">
         <section className="auth-card">
           <p className="auth-kicker">IQ4EV Access</p>
           <h1>Checking access…</h1>
         </section>
       </main>
+      </>
     );
   }
 
   if (!user) {
     return (
+      <>
+      <SEO {...seoConfig.account} />
       <main className="auth-page">
         <section className="auth-card">
           <p className="auth-kicker">Access required</p>
@@ -82,10 +89,13 @@ export default function Account() {
           </Link>
         </section>
       </main>
+      </>
     );
   }
 
   return (
+    <>
+    <SEO {...seoConfig.account} />
     <main className="auth-page">
       <section className="auth-card">
         <p className="auth-kicker">IQ4EV Account</p>
@@ -162,5 +172,6 @@ export default function Account() {
         </p>
       </section>
     </main>
+    </>
   );
 }

@@ -12,6 +12,9 @@ import Button from "../components/Button.jsx";
 import CTASection from "../components/CTASection.jsx";
 import InsightCard from "../components/InsightCard.jsx";
 import { supabase } from "../lib/supabaseClient.js";
+import SEO from "../components/SEO.jsx";
+import seoConfig from "../data/seoConfig.js";
+
 
 const insightAreas = [
   {
@@ -120,6 +123,8 @@ export default function Insights() {
   );
 
   return (
+    <>
+      <SEO {...seoConfig.insights} />
     <main className="insights-page">
       <section className="insights-hero">
         <div className="insights-copy">
@@ -307,5 +312,6 @@ export default function Insights() {
         buttonTo="/briefings"
       />
     </main>
+    </>
   );
 }

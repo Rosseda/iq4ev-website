@@ -10,6 +10,8 @@ import {
 } from "lucide-react";
 
 import { useAuth } from "../contexts/AuthContext.jsx";
+import SEO from "../components/SEO.jsx";
+import seoConfig from "../data/seoConfig.js";
 
 export default function Subscribe() {
   const { loading, user, profile, isSubscriber, isAdmin } = useAuth();
@@ -23,21 +25,26 @@ export default function Subscribe() {
 
   if (loading) {
     return (
+        <>
+        <SEO {...seoConfig.subscribe} />
       <main className="subscribe-page">
         <section className="subscribe-card">
           <p className="auth-kicker">IQ4EV Enterprise Briefings</p>
           <h1>Checking access…</h1>
         </section>
       </main>
+      </>
     );
   }
 
   return (
-    <main className="subscribe-page">
-      <section className="subscribe-card">
-        <div className="subscribe-icon">
-          <CreditCard size={24} />
-        </div>
+    <>
+     <SEO {...seoConfig.subscribe} />
+      <main className="subscribe-page">
+        <section className="subscribe-card">
+          <div className="subscribe-icon">
+            <CreditCard size={24} />
+          </div>
 
         <p className="auth-kicker">IQ4EV Enterprise Briefings</p>
 
@@ -165,5 +172,6 @@ export default function Subscribe() {
         </small>
       </section>
     </main>
+    </>
   );
 }

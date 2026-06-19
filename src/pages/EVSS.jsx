@@ -1,10 +1,18 @@
 import { useState } from "react";
 import AccessModal from "../components/AccessModal.jsx";
+import SEO from "../components/SEO.jsx";
+import seoConfig from "../data/seoConfig.js";
+import { evssFaqSchema } from "../data/structuredData.js";
 
 export default function EVSS() {
-  const [showAccessModal, setShowAccessModal] = useState(false);
+  const [showForm, setShowForm] = useState(false);
 
   return (
+    <>
+      <SEO
+        {...seoConfig.evss}
+        schema={[evssFaqSchema]}
+      />
     <main className="ti-page evss-page">
       <section className="evss-hero">
         <div className="evss-copy">
@@ -22,7 +30,7 @@ export default function EVSS() {
           </p>
 
           <div className="pulse-actions">
-            <button type="button" onClick={() => setShowAccessModal(true)}>
+            <button type="button" onClick={() => setShowForm(true)}>
               Request EVSS consultation
             </button>
             <a href="#evss-capabilities">Explore simulation areas</a>
@@ -181,18 +189,71 @@ export default function EVSS() {
           </p>
         </div>
 
-        <button type="button" onClick={() => setShowAccessModal(true)}>
+        <button type="button" onClick={() => setShowForm(true)}>
           Request EVSS consultation
         </button>
       </section>
 
-      <AccessModal
-       open={showAccessModal}
-       onClose={() => setShowAccessModal(false)}
-       mode="evss"
-       defaultPlatform="EVSS"
-       defaultRequestType="Request EVSS Consultation"
-    />
+      {showForm && (
+        <div className="ti-modal-backdrop">
+          <form className="ti-modal">
+            <button
+              type="button"
+              className="ti-close"
+              onClick={() => setShowForm(false)}
+            >
+              ×
+            </button>
+
+            <p className="ti-kicker">EVSS request</p>
+            <h2>Request EVSS simulation support</h2>
+
+            <label>
+              Name
+              <input type="text" placeholder="Your name" />
+            </label>
+
+            <label>
+              Organisation
+              <input type="text" placeholder="Company / municipality / fleet operator" />
+            </label>
+
+            <label>
+              Email
+              <input type="email" placeholder="name@company.co.za" />
+            </label>
+
+            <label>
+              Fleet or project type
+              <select defaultValue="">
+                <option value="" disabled>
+                  Select project type
+                </option>
+                <option>Municipal fleet</option>
+                <option>Logistics fleet</option>
+                <option>Corporate fleet</option>
+                <option>OEM customer readiness</option>
+                <option>Public transport</option>
+                <option>Consulting / research</option>
+                <option>Other</option>
+              </select>
+            </label>
+
+            <label>
+              What do you want to simulate?
+              <textarea placeholder="Example: 20 vehicles, depot charging, Gauteng routes, N3 logistics corridor, weather stress..." />
+            </label>
+
+            <button type="submit">Submit request</button>
+
+            <small>
+              Submissions trigger manual IQ4EV follow-up. No instant platform
+              access is provided.
+            </small>
+          </form>
+        </div>
+      )}
     </main>
+    </>
   );
 }

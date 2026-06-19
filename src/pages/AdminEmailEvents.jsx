@@ -6,6 +6,8 @@ import { useAuth } from "../contexts/AuthContext.jsx";
 import { supabase } from "../lib/supabaseClient.js";
 import { formatContentDate } from "../lib/contentHelpers.js";
 import { getEmailBodyText, getEmailTemplate } from "../lib/emailTemplates.js";
+import SEO from "../components/SEO.jsx";
+import seoConfig from "../data/seoConfig.js";
 
 const STATUS_OPTIONS = ["pending", "sent", "failed", "cancelled"];
 
@@ -104,17 +106,22 @@ export default function AdminEmailEvents() {
 
   if (loading || loadingEvents) {
     return (
+        <>
+        <SEO {...seoConfig.adminemailevents} />
       <main className="admin-page">
         <section className="admin-hero">
           <p className="auth-kicker">IQ4EV Admin</p>
           <h1>Loading email events…</h1>
         </section>
       </main>
+      </>
     );
   }
 
   if (!isAdmin) {
     return (
+        <>
+        <SEO {...seoConfig.adminemailevents} />
       <main className="auth-page">
         <section className="auth-card">
           <p className="auth-kicker">Restricted</p>
@@ -128,10 +135,13 @@ export default function AdminEmailEvents() {
           </Link>
         </section>
       </main>
+      </>
     );
   }
 
   return (
+    <>
+        <SEO {...seoConfig.adminemailevents} />
     <main className="admin-page admin-subscribers-page">
       <section className="admin-hero admin-content-hero">
         <div>
@@ -328,5 +338,6 @@ export default function AdminEmailEvents() {
         )}
       </section>
     </main>
+    </>
   );
 }

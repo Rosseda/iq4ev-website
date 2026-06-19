@@ -1,7 +1,15 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import AccessModal from "../components/AccessModal.jsx";
+import SEO from "../components/SEO.jsx";
 import MapView from "../data/components/MapView.jsx";
+import seoConfig from "../data/seoConfig.js";
+import {
+  organizationSchema,
+  websiteSchema,
+  professionalServiceSchema,
+  homeFaqSchema,
+} from "../data/structuredData.js";
 
 const HOME_NAV_LINKS = [
   { to: "/about", label: "About" },
@@ -165,10 +173,21 @@ export default function Home() {
   }
 
   return (
-    <main className="iq4ev-intel-home">
-      <header className="iq4ev-command-nav">
-        <Link
-          to="/"
+    <>
+      <SEO
+        {...seoConfig.home}
+        schema={[
+          organizationSchema,
+          websiteSchema,
+          professionalServiceSchema,
+          homeFaqSchema,
+        ]}
+      />
+
+      <main className="iq4ev-intel-home">
+        <header className="iq4ev-command-nav">
+          <Link
+            to="/"
           className="iq4ev-command-logo"
           aria-label="IQ4EV home"
           onClick={() => setMobileMenuOpen(false)}
@@ -302,5 +321,6 @@ export default function Home() {
         defaultRequestType="Request IQ4EV Access"
       />
     </main>
+  </>
   );
 }

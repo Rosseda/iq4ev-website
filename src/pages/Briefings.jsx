@@ -6,6 +6,9 @@ import AccessModal from "../components/AccessModal.jsx";
 import { useAuth } from "../contexts/AuthContext.jsx";
 import { supabase } from "../lib/supabaseClient.js";
 import { formatContentDate } from "../lib/contentHelpers.js";
+import SEO from "../components/SEO.jsx";
+import seoConfig from "../data/seoConfig.js";
+import { briefingsFaqSchema } from "../data/structuredData.js";
 
 export default function Briefings() {
   const { isSubscriber, isAdmin } = useAuth();
@@ -53,6 +56,12 @@ export default function Briefings() {
   const remainingBriefings = useMemo(() => briefings.slice(1), [briefings]);
 
   return (
+    <>
+      <SEO 
+        {...seoConfig.briefings}
+        schema={[briefingsFaqSchema]}
+      />
+  
     <main className="ti-page briefings-page">
       <section className="brief-hero">
         <div className="brief-copy">
@@ -292,5 +301,6 @@ export default function Briefings() {
         mode="briefing"
       />
     </main>
+    </>
   );
 }

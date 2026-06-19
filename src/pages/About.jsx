@@ -1,10 +1,15 @@
 import { useState } from "react";
 import AccessModal from "../components/AccessModal.jsx";
+import SEO from "../components/SEO.jsx";
+import seoConfig from "../data/seoConfig.js";
 
 export default function About() {
   const [showAccessModal, setShowAccessModal] = useState(false);
 
   return (
+  <>
+    <SEO {...seoConfig.about} />
+
     <main className="ti-page about-page">
       <section className="about-hero">
         <div className="about-copy">
@@ -178,6 +183,7 @@ export default function About() {
         onClose={() => setShowAccessModal(false)}
         defaultRequestType="Request IQ4EV Consultation"
       />
-    </main>
-  );
+     </main>
+  </>
+);
 }

@@ -10,6 +10,8 @@ import {
   CONTENT_TYPES,
   createSlug,
 } from "../lib/contentHelpers.js";
+import SEO from "../components/SEO.jsx";
+import seoConfig from "../data/seoConfig.js";
 
 const initialForm = {
   title: "",
@@ -329,17 +331,22 @@ export default function AdminContentEditor() {
 
   if (loading || loadingItem) {
     return (
+        <>
+        <SEO {...seoConfig.admincontenteditor} />
       <main className="admin-page">
         <section className="admin-hero">
           <p className="auth-kicker">IQ4EV Admin</p>
           <h1>Loading editor…</h1>
         </section>
       </main>
+      </>
     );
   }
 
   if (!isAdmin) {
     return (
+        <>
+        <SEO {...seoConfig.admincontenteditor} />
       <main className="auth-page">
         <section className="auth-card">
           <p className="auth-kicker">Restricted</p>
@@ -352,10 +359,13 @@ export default function AdminContentEditor() {
           </Link>
         </section>
       </main>
+      </>
     );
   }
 
   return (
+    <>
+      <SEO {...seoConfig.admincontenteditor} />
     <main className="admin-page admin-editor-page">
       <section className="admin-hero admin-editor-hero">
         <div>
@@ -543,5 +553,6 @@ export default function AdminContentEditor() {
         </aside>
       </form>
     </main>
+    </>
   );
 }

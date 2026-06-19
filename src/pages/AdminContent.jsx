@@ -5,6 +5,8 @@ import { Plus, Pencil, Archive, FileText, X } from "lucide-react";
 import { useAuth } from "../contexts/AuthContext.jsx";
 import { supabase } from "../lib/supabaseClient.js";
 import { formatContentDate } from "../lib/contentHelpers.js";
+import SEO from "../components/SEO.jsx";
+import seoConfig from "../data/seoConfig.js";
 
 export default function AdminContent() {
   const { loading, isAdmin } = useAuth();
@@ -119,17 +121,22 @@ export default function AdminContent() {
 
   if (loading || loadingItems) {
     return (
+        <>
+        <SEO {...seoConfig.admincontent} />
       <main className="admin-page">
         <section className="admin-hero">
           <p className="auth-kicker">IQ4EV Admin</p>
           <h1>Loading content…</h1>
         </section>
       </main>
+      </>
     );
   }
 
   if (!isAdmin) {
     return (
+        <>
+        <SEO {...seoConfig.admincontent} />
       <main className="auth-page">
         <section className="auth-card">
           <p className="auth-kicker">Restricted</p>
@@ -143,10 +150,13 @@ export default function AdminContent() {
           </Link>
         </section>
       </main>
+      </>
     );
   }
 
   return (
+    <>
+    <SEO {...seoConfig.admincontent} />
     <main className="admin-page admin-content-page">
       <section className="admin-hero admin-content-hero">
         <div>
@@ -320,5 +330,6 @@ export default function AdminContent() {
         )}
       </section>
     </main>
+    </>
   );
 }

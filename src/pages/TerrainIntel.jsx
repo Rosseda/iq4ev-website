@@ -1,11 +1,19 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import AccessModal from "../components/AccessModal.jsx";
+import SEO from "../components/SEO.jsx";
+import seoConfig from "../data/seoConfig.js";
+import { terrainIntelFaqSchema } from "../data/structuredData.js";
 
 export default function TerrainIntel() {
   const [showAccessModal, setShowAccessModal] = useState(false);
 
   return (
+    <>
+      <SEO 
+      {...seoConfig.terrainIntel}
+      schema={[terrainIntelFaqSchema]}
+      />            
     <main className="ti-page">
       <section className="ti-hero">
         <div className="ti-hero-copy">
@@ -181,5 +189,6 @@ export default function TerrainIntel() {
      defaultRequestType="Request TerrainIntel Consultation"
   />
     </main>
+    </>
   );
 }

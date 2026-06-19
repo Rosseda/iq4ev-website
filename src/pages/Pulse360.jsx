@@ -1,10 +1,18 @@
 import { useState } from "react";
 import AccessModal from "../components/AccessModal.jsx";
+import SEO from "../components/SEO.jsx";
+import seoConfig from "../data/seoConfig.js";
+import { pulse360FaqSchema } from "../data/structuredData.js";
 
 export default function Pulse360() {
   const [showAccessModal, setShowAccessModal] = useState(false);
 
   return (
+    <>
+      <SEO 
+        {...seoConfig.pulse360}
+        schema={[pulse360FaqSchema]}
+      />
     <main className="ti-page">
       <section className="pulse-hero">
         <div className="pulse-copy">
@@ -215,5 +223,6 @@ export default function Pulse360() {
        defaultRequestType="Request Pulse360 Consultation"
     />
     </main>
+    </>
   );
 }
