@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
+import { RichTextEditor } from "../components/RichTextEditor.jsx";
 
 import { useAuth } from "../contexts/AuthContext.jsx";
 import { supabase } from "../lib/supabaseClient.js";
@@ -332,7 +333,7 @@ export default function AdminContentEditor() {
   if (loading || loadingItem) {
     return (
         <>
-        <SEO {...seoConfig.admincontenteditor} />
+        <SEO {...seoConfig.adminContentEditor} />
       <main className="admin-page">
         <section className="admin-hero">
           <p className="auth-kicker">IQ4EV Admin</p>
@@ -346,7 +347,7 @@ export default function AdminContentEditor() {
   if (!isAdmin) {
     return (
         <>
-        <SEO {...seoConfig.admincontenteditor} />
+        <SEO {...seoConfig.adminContentEditor} />
       <main className="auth-page">
         <section className="auth-card">
           <p className="auth-kicker">Restricted</p>
@@ -365,7 +366,7 @@ export default function AdminContentEditor() {
 
   return (
     <>
-      <SEO {...seoConfig.admincontenteditor} />
+      <SEO {...seoConfig.adminContentEditor} />
     <main className="admin-page admin-editor-page">
       <section className="admin-hero admin-editor-hero">
         <div>
@@ -450,15 +451,14 @@ export default function AdminContentEditor() {
             />
           </label>
 
-          <label>
-            Body
-            <textarea
-              value={form.body}
-              onChange={(event) => updateField("body", event.target.value)}
-              placeholder="Write the full insight or briefing content here..."
-              rows={14}
-            />
-          </label>
+          <label className="admin-rich-text-field">
+           Body
+            <RichTextEditor
+           value={form.body}
+           onChange={(value) => updateField("body", value)}
+            placeholder="Write the full insight or briefing content here..."
+           />
+         </label>
         </section>
 
         <aside className="admin-editor-panel admin-editor-side">

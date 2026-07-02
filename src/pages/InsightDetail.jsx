@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { ArrowLeft, Share2 } from "lucide-react";
+import {RichTextBody} from "../components/RichTextBody.jsx";
 
 import CTASection from "../components/CTASection.jsx";
 import { supabase } from "../lib/supabaseClient.js";
@@ -136,7 +137,7 @@ export default function InsightDetail() {
               insight.excerpt ||
               "IQ4EV public insight on South Africa’s EV transition and infrastructure strategy.",
             datePublished: insight.published_at,
-            datemodified: insight.published_at,
+            dateModified: insight.published_at,
             author: {
               "@type": "Organization",
               name: "IQ4EV",
@@ -182,16 +183,10 @@ export default function InsightDetail() {
             </button>
           </div>
 
-          <div className="insight-detail-body">
-            {insight.body
-              ?.split("\n")
-              .filter((paragraph) => paragraph.trim())
-              .map((paragraph, index) => (
-                <section key={`${insight.id}-${index}`}>
-                  <p>{paragraph}</p>
-                </section>
-              ))}
-          </div>
+          <RichTextBody
+           html={insight.body}
+           className="insight-detail-body"
+         />
         </article>
 
         <CTASection

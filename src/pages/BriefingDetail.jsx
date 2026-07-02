@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { ArrowLeft, Lock, Share2 } from "lucide-react";
+import {RichTextBody} from "../components/RichTextBody.jsx";
 
 import AccessModal from "../components/AccessModal.jsx";
 import { useAuth } from "../contexts/AuthContext.jsx";
@@ -94,12 +95,9 @@ export default function BriefingDetail() {
         <>
         <SEO
           {...seoConfig.briefingDetail}
-          title={briefing.title}
-          description={
-            briefing.excerpt ||
-            "Read an IQ4EV enterprise briefing on South Africa's EV transition, charging infrastructure, fleet transition, and operational intelligence."
-          }
-          path={`/briefings/${briefing.slug}`}
+          title="Briefing not found"
+          description="This briefing is not available. It may still be in draft, archived, or restricted by subscriber access."
+          path="/briefings"
           type="article"
           keywords={[
             "IQ4EV briefing",
@@ -115,12 +113,11 @@ export default function BriefingDetail() {
             {
               "@context": "https://schema.org",
               "@type": "Article",
-              headline: briefing.title,
+              headline: "Briefing not found",
               description:
-                briefing.excerpt ||
-                "IQ4EV enterprise briefing on South Africa’s EV transition and infrastructure strategy.",
-              datePublished: briefing.published_at,
-              datemodified: briefing.published_at,
+                "This briefing is not available. It may still be in draft, archived, or restricted by subscriber access.",
+              datePublished: new Date().toISOString(),
+              dateModified: new Date().toISOString(),
               author: {
                 "@type": "Organization",
                 name: "IQ4EV",
@@ -135,7 +132,7 @@ export default function BriefingDetail() {
               },
               mainEntityOfPage: {
                 "@type": "WebPage",
-                "@id": `https://iq4ev.co.za/briefings/${briefing.slug}`,
+                "@id": "https://iq4ev.co.za/briefings",
               },
             },
           ]}
@@ -189,7 +186,7 @@ export default function BriefingDetail() {
            briefing.excerpt ||
            "IQ4EV enterprise briefing on South Africa’s EV transition and infrastructure strategy.",
          datePublished: briefing.published_at,
-         datemodified: briefing.published_at,
+         dateModified: briefing.published_at,
          author: {
            "@type": "Organization",
            name: "IQ4EV",
@@ -253,15 +250,11 @@ export default function BriefingDetail() {
         )}
 
         {canViewFullBriefing ? (
-          <div className="briefing-detail-body">
-            {briefing.body
-              ?.split("\n")
-              .filter((paragraph) => paragraph.trim())
-              .map((paragraph, index) => (
-                <p key={`${briefing.id}-${index}`}>{paragraph}</p>
-              ))}
-          </div>
-        ) : (
+         <RichTextBody
+          html={briefing.body}
+          className="briefing-detail-body"
+        />
+         ) : (
           <section className="briefing-gate-card">
             <div>
               <p className="ti-kicker">Subscriber briefing</p>
