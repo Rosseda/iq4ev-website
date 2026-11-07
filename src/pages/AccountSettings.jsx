@@ -153,7 +153,7 @@ export default function AccountSettings() {
   if (loading) {
     return (
         <>
-        <SEO {...seoConfig.accountsettings} />
+        <SEO {...seoConfig.accountSettings} />
       <main className="auth-page">
         <section className="auth-card">
           <p className="auth-kicker">IQ4EV Account</p>
@@ -167,7 +167,7 @@ export default function AccountSettings() {
   if (!user) {
     return (
         <>
-        <SEO {...seoConfig.accountsettings} />
+        <SEO {...seoConfig.accountSettings} />
       <main className="auth-page">
         <section className="auth-card">
           <p className="auth-kicker">Access required</p>
@@ -186,7 +186,7 @@ export default function AccountSettings() {
 
   return (
     <>
-    <SEO {...seoConfig.accountsettings} />
+    <SEO {...seoConfig.accountSettings} />
     <main className="auth-page account-settings-page">
       <section className="auth-card account-settings-card">
         <p className="auth-kicker">IQ4EV Account</p>

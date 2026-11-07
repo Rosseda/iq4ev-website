@@ -97,45 +97,7 @@ export default function BriefingDetail() {
           {...seoConfig.briefingDetail}
           title="Briefing not found"
           description="This briefing is not available. It may still be in draft, archived, or restricted by subscriber access."
-          path="/briefings"
-          type="article"
-          keywords={[
-            "IQ4EV briefing",
-            "South Africa EV analysis",
-            "EV infrastructure briefing",
-            "EV sector intelligence",
-            "EV market analysis",
-            "EV Charging reliability",
-            "EV fleet transition",
-            "EV operational intelligence",
-          ]}
-          schema={[
-            {
-              "@context": "https://schema.org",
-              "@type": "Article",
-              headline: "Briefing not found",
-              description:
-                "This briefing is not available. It may still be in draft, archived, or restricted by subscriber access.",
-              datePublished: new Date().toISOString(),
-              dateModified: new Date().toISOString(),
-              author: {
-                "@type": "Organization",
-                name: "IQ4EV",
-              },
-              publisher: {
-                "@type": "Organization",
-                name: "IQ4EV",
-                logo: {
-                  "@type": "ImageObject",
-                  url: "https://iq4ev.co.za/logo.png",
-                },
-              },
-              mainEntityOfPage: {
-                "@type": "WebPage",
-                "@id": "https://iq4ev.co.za/briefings",
-              },
-            },
-          ]}
+          noIndex
         />
       <main className="briefing-detail-page">
         <section className="briefing-detail-card">
@@ -196,12 +158,12 @@ export default function BriefingDetail() {
            name: "IQ4EV",
            logo: {
              "@type": "ImageObject",
-             url: "https://iq4ev.co.za/logo.png",
+             url: "https://www.iq4ev.co.za/iq4ev-logo.png",
            },
          },
          mainEntityOfPage: {
            "@type": "WebPage",
-           "@id": `https://iq4ev.co.za/briefings/${briefing.slug}`,
+           "@id": `https://www.iq4ev.co.za/briefings/${briefing.slug}`,
          },
        },
      ]}

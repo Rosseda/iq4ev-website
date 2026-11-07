@@ -140,7 +140,7 @@ export default function AdminAccessRequests() {
   if (loading || loadingRequests) {
     return (
         <>
-        <SEO {...seoConfig.adminaccessrequests} />
+        <SEO {...seoConfig.adminAccessRequests} />
       <main className="admin-page">
         <section className="admin-hero">
           <p className="auth-kicker">IQ4EV Admin</p>
@@ -154,7 +154,7 @@ export default function AdminAccessRequests() {
   if (!isAdmin) {
     return (
         <>
-        <SEO {...seoConfig.adminaccessrequests} />
+        <SEO {...seoConfig.adminAccessRequests} />
       <main className="auth-page">
         <section className="auth-card">
           <p className="auth-kicker">Restricted</p>
@@ -174,7 +174,7 @@ export default function AdminAccessRequests() {
 
   return (
     <>
-    <SEO {...seoConfig.adminaccessrequests} />
+    <SEO {...seoConfig.adminAccessRequests} />
     <main className="admin-page admin-subscribers-page">
       <section className="admin-hero admin-content-hero">
         <div>

@@ -122,7 +122,7 @@ export default function AdminContent() {
   if (loading || loadingItems) {
     return (
         <>
-        <SEO {...seoConfig.admincontent} />
+        <SEO {...seoConfig.adminContent} />
       <main className="admin-page">
         <section className="admin-hero">
           <p className="auth-kicker">IQ4EV Admin</p>
@@ -136,7 +136,7 @@ export default function AdminContent() {
   if (!isAdmin) {
     return (
         <>
-        <SEO {...seoConfig.admincontent} />
+        <SEO {...seoConfig.adminContent} />
       <main className="auth-page">
         <section className="auth-card">
           <p className="auth-kicker">Restricted</p>
@@ -156,7 +156,7 @@ export default function AdminContent() {
 
   return (
     <>
-    <SEO {...seoConfig.admincontent} />
+    <SEO {...seoConfig.adminContent} />
     <main className="admin-page admin-content-page">
       <section className="admin-hero admin-content-hero">
         <div>

@@ -107,7 +107,7 @@ export default function AdminEmailEvents() {
   if (loading || loadingEvents) {
     return (
         <>
-        <SEO {...seoConfig.adminemailevents} />
+        <SEO {...seoConfig.adminEmailEvents} />
       <main className="admin-page">
         <section className="admin-hero">
           <p className="auth-kicker">IQ4EV Admin</p>
@@ -121,7 +121,7 @@ export default function AdminEmailEvents() {
   if (!isAdmin) {
     return (
         <>
-        <SEO {...seoConfig.adminemailevents} />
+        <SEO {...seoConfig.adminEmailEvents} />
       <main className="auth-page">
         <section className="auth-card">
           <p className="auth-kicker">Restricted</p>
@@ -141,7 +141,7 @@ export default function AdminEmailEvents() {
 
   return (
     <>
-        <SEO {...seoConfig.adminemailevents} />
+        <SEO {...seoConfig.adminEmailEvents} />
     <main className="admin-page admin-subscribers-page">
       <section className="admin-hero admin-content-hero">
         <div>

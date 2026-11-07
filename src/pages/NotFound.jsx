@@ -1,9 +1,12 @@
 import Button from "../components/Button.jsx";
+import SEO from "../components/SEO.jsx";
+import seoConfig from "../data/seoConfig.js";
 
 
 export default function NotFound() {
   return (
     <section className="flex min-h-[80vh] items-center justify-center bg-white px-6">
+      <SEO {...seoConfig.notFound} />
       <div className="max-w-2xl text-center">
         <p className="text-sm font-black uppercase tracking-[0.25em] text-orange-600">
           404

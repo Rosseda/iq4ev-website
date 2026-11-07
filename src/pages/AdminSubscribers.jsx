@@ -182,7 +182,7 @@ export default function AdminSubscribers() {
   if (loading || loadingProfiles) {
     return (
         <>
-        <SEO {...seoConfig.adminsubscribers} />
+        <SEO {...seoConfig.adminSubscribers} />
       <main className="admin-page">
         <section className="admin-hero">
           <p className="auth-kicker">IQ4EV Admin</p>
@@ -196,7 +196,7 @@ export default function AdminSubscribers() {
   if (!isAdmin) {
     return (
         <>
-        <SEO {...seoConfig.adminsubscribers} />
+        <SEO {...seoConfig.adminSubscribers} />
       <main className="auth-page">
         <section className="auth-card">
           <p className="auth-kicker">Restricted</p>
@@ -216,7 +216,7 @@ export default function AdminSubscribers() {
 
   return (
     <>
-        <SEO {...seoConfig.adminsubscribers} />
+        <SEO {...seoConfig.adminSubscribers} />
     <main className="admin-page admin-subscribers-page">
       <section className="admin-hero admin-content-hero">
         <div>

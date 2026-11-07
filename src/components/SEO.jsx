@@ -1,10 +1,10 @@
 import { Helmet } from "react-helmet-async";
 
 const SITE_URL = "https://www.iq4ev.co.za";
-const DEFAULT_IMAGE = `${SITE_URL}/iq4ev-og-image.png`;
+const DEFAULT_IMAGE = `${SITE_URL}/iq4ev-logo.png`;
 
 export default function SEO({
-  title,
+  title = "IQ4EV",
   description,
   path = "/",
   image = DEFAULT_IMAGE,
@@ -30,7 +30,7 @@ export default function SEO({
         <meta name="keywords" content={keywords.join(", ")} />
       )}
 
-      <link rel="canonical" href={canonicalUrl} />
+      {!noIndex && <link rel="canonical" href={canonicalUrl} />}
 
       <meta
         name="robots"
@@ -49,7 +49,7 @@ export default function SEO({
       <meta property="og:site_name" content="IQ4EV" />
       <meta property="og:locale" content="en_ZA" />
 
-      <meta name="twitter:card" content="summary_large_image" />
+      <meta name="twitter:card" content={image === DEFAULT_IMAGE ? "summary" : "summary_large_image"} />
       <meta name="twitter:title" content={fullTitle} />
       <meta name="twitter:description" content={description} />
       <meta name="twitter:image" content={image} />

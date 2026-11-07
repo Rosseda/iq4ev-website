@@ -84,6 +84,7 @@ export default function InsightDetail() {
         <SEO
           {...seoConfig.insightDetail}
           title="Insight not found"
+          noIndex
           description="The insight you are looking for does not exist or is not publicly accessible."
         />
       <main className="insight-detail-page">
@@ -147,12 +148,12 @@ export default function InsightDetail() {
               name: "IQ4EV",
               logo: {
                 "@type": "ImageObject",
-                url: "https://iq4ev.co.za/logo.png",
+                url: "https://www.iq4ev.co.za/iq4ev-logo.png",
               },
             },
             mainEntityOfPage: {
               "@type": "WebPage",
-              "@id": `https://iq4ev.co.za/insights/${insight.slug}`,
+              "@id": `https://www.iq4ev.co.za/insights/${insight.slug}`,
             },
           },
         ]}

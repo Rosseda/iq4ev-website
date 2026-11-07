@@ -6,7 +6,7 @@ export const organizationSchema = {
   name: "IQ4EV",
   legalName: "IQ4EV (Pty) Ltd",
   url: SITE_URL,
-  logo: `${SITE_URL}/logo.png`,
+  logo: `${SITE_URL}/iq4ev-logo.png`,
   email: "info@iq4ev.co.za",
   description:
     "IQ4EV is a South African EV intelligence and infrastructure strategy company providing charger reliability analysis, EV infrastructure intelligence, fleet transition modelling, strategic briefings, and consulting.",
@@ -59,8 +59,7 @@ export const professionalServiceSchema = {
   "@type": "ProfessionalService",
   name: "IQ4EV",
   url: SITE_URL,
-  image: `${SITE_URL}/iq4ev-og-image.png`,
-  logo: `${SITE_URL}/logo.png`,
+  logo: `${SITE_URL}/iq4ev-logo.png`,
   email: "info@iq4ev.co.za",
   description:
     "IQ4EV provides EV infrastructure strategy, charging reliability intelligence, fleet transition analysis, EV data consulting, spatial deployment intelligence, and strategic EV sector briefings in South Africa.",
