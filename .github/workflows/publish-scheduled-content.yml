@@ -1,0 +1,37 @@
+name: Publish scheduled IQ4EV content
+
+on:
+  schedule:
+    - cron: '17 * * * *'
+  workflow_dispatch:
+    inputs:
+      audit_only:
+        description: Check existing draft timestamps without publishing
+        type: boolean
+        default: true
+
+permissions:
+  contents: read
+
+concurrency:
+  group: iq4ev-scheduled-publishing
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    if: ${{ github.ref == 'refs/heads/main' && (inputs.audit_only == true || vars.IQ4EV_PUBLISHING_ENABLED == 'true') }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - name: Check or release publications
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_PUBLISHING_KEY: ${{ secrets.SUPABASE_PUBLISHING_KEY }}
+          AUDIT_ONLY: ${{ inputs.audit_only }}
+        run: node scripts/publish-scheduled-content.mjs

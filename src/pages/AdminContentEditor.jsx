@@ -10,6 +10,9 @@ import {
   CONTENT_STATUSES,
   CONTENT_TYPES,
   createSlug,
+  getSastDate,
+  getScheduledDate,
+  toScheduledTimestamp,
 } from "../lib/contentHelpers.js";
 import SEO from "../components/SEO.jsx";
 import seoConfig from "../data/seoConfig.js";
@@ -22,6 +25,7 @@ const initialForm = {
   content_type: "insight",
   access_level: "public",
   status: "draft",
+  scheduledDate: "",
   category: "",
   series: "",
   read_time: "",
@@ -76,6 +80,7 @@ export default function AdminContentEditor() {
         showMessage(error.message, "error");
       } else if (data) {
         setOriginalItem(data);
+        const scheduledDate = getScheduledDate(data);
 
         setForm({
           title: data.title || "",
@@ -84,7 +89,8 @@ export default function AdminContentEditor() {
           body: data.body || "",
           content_type: data.content_type || "insight",
           access_level: data.access_level || "public",
-          status: data.status || "draft",
+          status: scheduledDate ? "scheduled" : data.status || "draft",
+          scheduledDate,
           category: data.category || "",
           series: data.series || "",
           read_time: data.read_time || "",
@@ -224,13 +230,29 @@ export default function AdminContentEditor() {
       return;
     }
 
+    const scheduling = form.status === "scheduled";
+    const scheduledAt = scheduling ? toScheduledTimestamp(form.scheduledDate) : null;
+
+    if (scheduling && (!scheduledAt || form.scheduledDate <= getSastDate(new Date()))) {
+      showMessage("Choose a future South African publishing date.", "error");
+      return;
+    }
+
+    if (isEditing && !originalItem) {
+      showMessage("Reload this publication before saving.", "error");
+      return;
+    }
+
     setSaving(true);
     clearMessage();
 
     const now = new Date().toISOString();
     const cleanSlug = createSlug(form.slug);
 
-    const existingPublishedAt = originalItem?.published_at || null;
+    const existingPublishedAt =
+      originalItem?.status === "published" || originalItem?.status === "archived"
+        ? originalItem.published_at
+        : null;
 
     const payload = {
       title: form.title.trim(),
@@ -239,31 +261,37 @@ export default function AdminContentEditor() {
       body: form.body.trim(),
       content_type: form.content_type,
       access_level: form.access_level,
-      status: form.status,
+      status: scheduling ? "draft" : form.status,
       category: form.category.trim(),
       series: form.series.trim(),
       read_time: form.read_time.trim(),
       featured: form.featured,
       published_at:
-        form.status === "published" ? existingPublishedAt || now : null,
+        form.status === "published" ? existingPublishedAt || now : scheduledAt,
     };
 
     if (!isEditing) {
       payload.created_by = user?.id ?? null;
     }
 
-    const { data, error } = isEditing
-      ? await supabase
-          .from("content_items")
-          .update(payload)
-          .eq("id", id)
-          .select("*")
-          .single()
-      : await supabase.from("content_items").insert(payload).select("*").single();
+    let saveQuery = supabase.from("content_items");
+    if (isEditing) {
+      saveQuery = saveQuery.update(payload).eq("id", id);
+      saveQuery = originalItem.status == null
+        ? saveQuery.is("status", null)
+        : saveQuery.eq("status", originalItem.status);
+      saveQuery = originalItem.published_at
+        ? saveQuery.eq("published_at", originalItem.published_at)
+        : saveQuery.is("published_at", null);
+    } else {
+      saveQuery = saveQuery.insert(payload);
+    }
 
-    if (error) {
+    const { data, error } = await saveQuery.select("*").maybeSingle();
+
+    if (error || !data) {
       setSaving(false);
-      showMessage(error.message, "error");
+      showMessage(error?.message || "This publication changed. Reload it and try again.", "error");
       return;
     }
 
@@ -303,7 +331,10 @@ export default function AdminContentEditor() {
         "success"
       );
     } else {
-      showMessage("Content saved successfully.", "success");
+      showMessage(
+        scheduling ? `Scheduled for ${form.scheduledDate} (SAST).` : "Content saved successfully.",
+        "success"
+      );
     }
 
     if (!isEditing) {
@@ -468,13 +499,28 @@ export default function AdminContentEditor() {
               value={form.status}
               onChange={(event) => updateField("status", event.target.value)}
             >
-              {CONTENT_STATUSES.map((status) => (
+              {(originalItem?.status === "published"
+                ? CONTENT_STATUSES
+                : [...CONTENT_STATUSES, { value: "scheduled", label: "Scheduled" }]
+              ).map((status) => (
                 <option key={status.value} value={status.value}>
                   {status.label}
                 </option>
               ))}
             </select>
           </label>
+
+          {form.status === "scheduled" && (
+            <label>
+              Publishing date (SAST)
+              <input
+                type="date"
+                required
+                value={form.scheduledDate}
+                onChange={(event) => updateField("scheduledDate", event.target.value)}
+              />
+            </label>
+          )}
 
           <label>
             Category

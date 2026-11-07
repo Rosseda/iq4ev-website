@@ -4,7 +4,7 @@ import { Plus, Pencil, Archive, FileText, X } from "lucide-react";
 
 import { useAuth } from "../contexts/AuthContext.jsx";
 import { supabase } from "../lib/supabaseClient.js";
-import { formatContentDate } from "../lib/contentHelpers.js";
+import { formatContentDate, getScheduledDate } from "../lib/contentHelpers.js";
 import SEO from "../components/SEO.jsx";
 import seoConfig from "../data/seoConfig.js";
 
@@ -54,15 +54,22 @@ export default function AdminContent() {
   }, [isAdmin]);
 
   const filteredItems = useMemo(() => {
-    return items.filter((item) => {
+    const matches = items.filter((item) => {
       const typeMatches =
         activeType === "all" || item.content_type === activeType;
 
       const statusMatches =
-        activeStatus === "all" || item.status === activeStatus;
+        activeStatus === "all" ||
+        (getScheduledDate(item) ? "scheduled" : item.status) === activeStatus;
 
       return typeMatches && statusMatches;
     });
+
+    if (activeStatus === "scheduled") {
+      matches.sort((a, b) => getScheduledDate(a).localeCompare(getScheduledDate(b)));
+    }
+
+    return matches;
   }, [items, activeType, activeStatus]);
 
   function updateFilter(key, value) {
@@ -95,22 +102,31 @@ export default function AdminContent() {
     setError("");
     setNotice("");
 
-    const { error: archiveError } = await supabase
-      .from("content_items")
-      .update({ status: "archived" })
+    const archiveUpdate = getScheduledDate(archiveTarget)
+      ? { status: "archived", published_at: null }
+      : { status: "archived" };
+    let archiveQuery = supabase.from("content_items").update(archiveUpdate)
       .eq("id", archiveTarget.id);
+    archiveQuery = archiveTarget.status == null
+      ? archiveQuery.is("status", null)
+      : archiveQuery.eq("status", archiveTarget.status);
+    archiveQuery = archiveTarget.published_at
+      ? archiveQuery.eq("published_at", archiveTarget.published_at)
+      : archiveQuery.is("published_at", null);
+    const { data: archivedItem, error: archiveError } = await archiveQuery
+      .select("id, status, published_at").maybeSingle();
 
     setArchivingId("");
 
-    if (archiveError) {
-      setError(archiveError.message);
+    if (archiveError || !archivedItem) {
+      setError(archiveError?.message || "This publication changed. Reload the list and try again.");
       return;
     }
 
     setItems((current) =>
       current.map((currentItem) =>
         currentItem.id === archiveTarget.id
-          ? { ...currentItem, status: "archived" }
+          ? { ...currentItem, ...archivedItem }
           : currentItem
       )
     );
@@ -223,6 +239,13 @@ export default function AdminContent() {
             </button>
             <button
               type="button"
+              className={activeStatus === "scheduled" ? "active" : ""}
+              onClick={() => updateFilter("status", "scheduled")}
+            >
+              Scheduled
+            </button>
+            <button
+              type="button"
               className={activeStatus === "published" ? "active" : ""}
               onClick={() => updateFilter("status", "published")}
             >
@@ -298,7 +321,7 @@ export default function AdminContent() {
                 <div className="admin-content-tags">
                   <span>{item.content_type}</span>
                   <span>{item.access_level}</span>
-                  <span>{item.status}</span>
+                  <span>{getScheduledDate(item) ? "scheduled" : item.status}</span>
                   {item.featured && <span>featured</span>}
                 </div>
 
@@ -308,7 +331,9 @@ export default function AdminContent() {
 
                 <small>
                   {item.category || item.series || "Uncategorised"} ·{" "}
-                  {formatContentDate(item.published_at)}
+                  {getScheduledDate(item)
+                    ? `Publishes ${getScheduledDate(item)} (SAST)`
+                    : formatContentDate(item.published_at)}
                 </small>
               </div>
 
